@@ -1,0 +1,49 @@
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+#include "core.h"
+#include "weather_reporter.h"
+#include "weather_getter.h"
+#include "comparison.h"
+
+#include "_current_weather_response.h"
+#include "_forecast_weather_response.h"
+
+class MockWeatherGetter : public WeatherGetter
+{
+public:
+	MOCK_METHOD1(get_weather_data, std::string(QueryParameters& q));
+};
+
+
+using namespace testing;
+using ::testing::Return;
+using ::testing::AtLeast;
+using ::testing::_;
+
+
+TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherReport)
+{
+	// ARRANGE
+	MockWeatherGetter getter;
+
+	EXPECT_CALL(getter, get_weather_data(_))
+	.Times(AtLeast(1))
+	.WillRepeatedly(Return(current_weather_response));
+
+	Report expected_current_weather;
+	expected_current_weather.date = "28.10.2019";
+	expected_current_weather.temperature = 4.78; // round to 2 decimal places
+	expected_current_weather.pressure = 1009;
+	expected_current_weather.humidity = 79;
+
+	// ACT
+	Forecast result = get_forecast("Tallinn", getter);
+
+	// ASSERT
+	ASSERT_EQ(result.city, "Tallinn");
+	ASSERT_EQ(result.coordinate, "59.44,24.75");
+	ASSERT_EQ(result.temperature_unit, "Celsius");
+
+	ASSERT_EQ(result.current_weather, expected_current_weather);
+}
