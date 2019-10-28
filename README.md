@@ -19,7 +19,6 @@ Run the following commands:
 git clone https://gitlab.cs.ttu.ee/risood/icd0004_project
 cd icd0004_project
 mkdir build && cd build
-conan install .. --build missing -s compiler.libcxx=libstdc++11
 cmake ..
 make
 ```
