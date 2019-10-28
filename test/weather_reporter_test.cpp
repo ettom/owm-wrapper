@@ -18,7 +18,6 @@ public:
 
 using namespace testing;
 using ::testing::Return;
-using ::testing::AtLeast;
 using ::testing::_;
 
 
@@ -28,8 +27,8 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 	MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	.Times(AtLeast(1))
-	.WillRepeatedly(Return(current_weather_response));
+	.WillOnce(Return(current_weather_response))
+	.WillOnce(Return(forecast_weather_response));
 
 	Report expected_current_weather;
 	expected_current_weather.date = "28.10.2019";
@@ -54,8 +53,8 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	.Times(AtLeast(1))
-	.WillRepeatedly(Return(forecast_weather_response));
+	.WillOnce(Return(current_weather_response))
+	.WillOnce(Return(forecast_weather_response));
 
 	Report expected_next_day_report;
 	expected_next_day_report.date = "29.10.2019";
