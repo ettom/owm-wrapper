@@ -6,8 +6,8 @@
 #include "weather_getter.h"
 #include "comparison.h"
 
-#include "_current_weather_response.h"
-#include "_forecast_weather_response.h"
+#include "api_responses/_current_weather_response.h"
+#include "api_responses/_forecast_weather_response.h"
 
 class MockWeatherGetter : public WeatherGetter
 {
