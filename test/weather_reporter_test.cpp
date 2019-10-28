@@ -17,6 +17,7 @@ public:
 
 
 using namespace testing;
+using ::testing::AtLeast;
 using ::testing::Return;
 using ::testing::_;
 
@@ -27,6 +28,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 	MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
+	.Times(2)
 	.WillOnce(Return(current_weather_response))
 	.WillOnce(Return(forecast_weather_response));
 
@@ -53,6 +55,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
+	.Times(2)
 	.WillOnce(Return(current_weather_response))
 	.WillOnce(Return(forecast_weather_response));
 
