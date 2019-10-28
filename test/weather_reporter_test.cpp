@@ -47,3 +47,29 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 
 	ASSERT_EQ(result.current_weather, expected_current_weather);
 }
+
+TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
+{
+	// ARRANGE
+	MockWeatherGetter getter;
+
+	EXPECT_CALL(getter, get_weather_data(_))
+	.Times(AtLeast(1))
+	.WillRepeatedly(Return(forecast_weather_response));
+
+	Report expected_next_day_report;
+	expected_next_day_report.date = "29.10.2019";
+	expected_next_day_report.temperature = 1.94;
+	expected_next_day_report.pressure = 1015.88;
+	expected_next_day_report.humidity = 68.88;
+
+	// ACT
+	Forecast result = get_forecast("Tallinn", getter);
+
+	// ASSERT
+	ASSERT_EQ(result.city, "Tallinn");
+	ASSERT_EQ(result.coordinate, "59.44,24.75");
+	ASSERT_EQ(result.temperature_unit, "Celsius");
+
+	ASSERT_EQ(result.forecasts.at(0), expected_next_day_report);
+}
