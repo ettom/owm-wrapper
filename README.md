@@ -1,6 +1,10 @@
 ## Dependencies:
-A compiler with C++17 support ([clang-5+](http://llvm.org/releases/download.html),
-[gcc-7+](https://gcc.gnu.org/releases.html)), [cmake 3.6+](https://cmake.org/download/), [git](https://git-scm.com/downloads)
+
+- A compiler with C++17 support ([clang-5+](http://llvm.org/releases/download.html), [gcc-7+](https://gcc.gnu.org/releases.html))
+- [cmake 3.6+](https://cmake.org/download/)
+- [git](https://git-scm.com/downloads)
+- [python3](https://www.python.org/downloads/)
+- [pip3](https://pypi.org/project/pip/)
 
 [conan](https://github.com/conan-io/conan) is used for dependency management.
 
@@ -8,8 +12,8 @@ A compiler with C++17 support ([clang-5+](http://llvm.org/releases/download.html
 Run the following commands:
 
 ```
-sudo apt install git g++ cmake
-pip install conan
+sudo apt install git g++ cmake python3-pip
+sudo pip3 install conan
 ```
 
 ## Building
