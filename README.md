@@ -30,4 +30,4 @@ To run the program:
 
 To run the tests:
 
-`make test`
+`make run_tests`

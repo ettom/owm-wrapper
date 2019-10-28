@@ -31,7 +31,7 @@ add_subdirectory(core)
 add_subdirectory(test)
 
 add_custom_target(
-        test
+        run_tests
         COMMAND icd0004_projectTest || (exit 0)
         DEPENDS icd0004_projectTest
         WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
