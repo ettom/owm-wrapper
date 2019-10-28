@@ -29,3 +29,15 @@ conan_cmake_run(
 add_subdirectory(app)
 add_subdirectory(core)
 add_subdirectory(test)
+
+add_custom_target(
+        test
+        COMMAND icd0004_projectTest || (exit 0)
+        DEPENDS icd0004_projectTest
+        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
+
+add_custom_target(
+        run
+        COMMAND icd0004_project
+        DEPENDS icd0004_project
+        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
