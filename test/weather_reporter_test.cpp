@@ -5,9 +5,11 @@
 #include "weather_reporter.h"
 #include "weather_getter.h"
 #include "comparison.h"
+#include "exceptions.h"
 
 #include "api_responses/_current_weather_response.h"
 #include "api_responses/_forecast_weather_response.h"
+#include "api_responses/_invalid_city_response.h"
 
 class MockWeatherGetter : public WeatherGetter
 {
@@ -34,7 +36,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 
 	Report expected_current_weather;
 	expected_current_weather.date = "28.10.2019";
-	expected_current_weather.temperature = 4.78; // round to 2 decimal places
+	expected_current_weather.temperature = 4.78;
 	expected_current_weather.pressure = 1009;
 	expected_current_weather.humidity = 79;
 
@@ -74,4 +76,17 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	ASSERT_EQ(result.temperature_unit, "Celsius");
 
 	ASSERT_EQ(result.forecasts.at(0), expected_next_day_report);
+}
+
+TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityException)
+{
+	// ARRANGE
+	MockWeatherGetter getter;
+
+	EXPECT_CALL(getter, get_weather_data(_))
+	.Times(2)
+	.WillRepeatedly(Return(invalid_city_response));
+
+	// ASSERT
+	ASSERT_THROW(get_forecast("tln", getter), InvalidCityException);
 }
