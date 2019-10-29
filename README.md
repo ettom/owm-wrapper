@@ -20,7 +20,7 @@ sudo pip3 install conan
 Run the following commands:
 
 ```
-git clone https://gitlab.cs.ttu.ee/risood/icd0004_project
+git clone https://gitlab.cs.ttu.ee/risood/icd0004_project.git
 cd icd0004_project
 mkdir build && cd build
 cmake ..
