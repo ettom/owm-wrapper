@@ -11,8 +11,8 @@ void check_if_invalid_city(const std::string& city, json& response)
 std::string get_coordinates(json response)
 {
 	std::string result;
-	json coordinates = (response["coord"].is_string()) ? response["coord"] : response["city"]["coord"];
-	result = coordinates["lat"].get<std::string>() + coordinates["lon"].get<std::string>();
+	json coordinates = (response["coord"].is_null()) ? response["city"]["coord"] : response["coord"];
+	result = coordinates["lat"].dump() + "," + coordinates["lon"].dump();
 	return result;
 }
 
