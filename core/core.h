@@ -40,4 +40,10 @@ struct Forecast {
 struct WeatherData {
 	json current_weather_data;
 	json forecast_data;
+
+	friend void PrintTo(const WeatherData& wd, std::ostream* os)
+	{
+		*os << "  current_weather_data = " << wd.current_weather_data.dump(4) << std::endl
+		    << "\t\tforecast_data = " << wd.forecast_data.dump(4) << std::endl;
+	}
 };
