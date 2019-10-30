@@ -8,9 +8,12 @@ void check_if_invalid_city(const std::string& city, json& response)
 	}
 }
 
-Forecast get_forecast(const std::string& city, WeatherGetter& getter)
+Forecast get_main_data(const WeatherData& wd)
 {
 	Forecast f;
+	f.coordinate = get_coordinates(wd.current_weather_data);
+	return f;
+}
 
 WeatherData get_weather_data(const std::string& city, WeatherGetter& getter)
 {
@@ -27,9 +30,11 @@ WeatherData get_weather_data(const std::string& city, WeatherGetter& getter)
 	return wd;
 }
 
+
 Forecast get_forecast(const std::string& city, WeatherGetter& getter)
 {
 	const WeatherData wd = get_weather_data(city, getter);
+	Forecast f = get_main_data(wd);
 
 	f.current_weather = get_current_weather(wd);
 	f.forecasts = get_three_day_forecast(wd);
