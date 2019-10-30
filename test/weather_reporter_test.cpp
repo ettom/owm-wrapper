@@ -113,7 +113,7 @@ TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityEx
 	MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	.Times(2)
+	.Times(1)
 	.WillRepeatedly(Return(invalid_city_response));
 
 	// ASSERT
