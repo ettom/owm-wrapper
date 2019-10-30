@@ -24,6 +24,24 @@ using ::testing::Return;
 using ::testing::_;
 
 
+TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
+{
+	// ARRANGE
+	MockWeatherGetter getter;
+
+	EXPECT_CALL(getter, get_weather_data(_))
+	.Times(2)
+	.WillOnce(Return(current_weather_response))
+	.WillOnce(Return(forecast_weather_response));
+
+	// ACT
+	Forecast result = get_forecast("Tallinn", getter);
+
+	// ASSERT
+	ASSERT_EQ(result.city, "Tallinn");
+	ASSERT_EQ(result.coordinate, "59.44,24.75");
+	ASSERT_EQ(result.temperature_unit, "Celsius");
+}
 TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherReport)
 {
 	// ARRANGE
@@ -44,10 +62,6 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 	Forecast result = get_forecast("Tallinn", getter);
 
 	// ASSERT
-	ASSERT_EQ(result.city, "Tallinn");
-	ASSERT_EQ(result.coordinate, "59.44,24.75");
-	ASSERT_EQ(result.temperature_unit, "Celsius");
-
 	ASSERT_EQ(result.current_weather, expected_current_weather);
 }
 
@@ -71,10 +85,6 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	Forecast result = get_forecast("Tallinn", getter);
 
 	// ASSERT
-	ASSERT_EQ(result.city, "Tallinn");
-	ASSERT_EQ(result.coordinate, "59.44,24.75");
-	ASSERT_EQ(result.temperature_unit, "Celsius");
-
 	ASSERT_EQ(result.forecasts.at(0), expected_next_day_report);
 }
 
