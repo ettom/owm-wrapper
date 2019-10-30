@@ -3,6 +3,9 @@
 #include <string>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 struct QueryParameters {
 	std::string city;
 	std::string url;
@@ -32,4 +35,9 @@ struct Forecast {
 	std::string temperature_unit;
 	Report current_weather;
 	std::vector<Report> forecasts;
+};
+
+struct WeatherData {
+	json current_weather_data;
+	json forecast_data;
 };
