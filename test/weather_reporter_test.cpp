@@ -42,6 +42,25 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 	ASSERT_EQ(result.coordinate, "59.44,24.75");
 	ASSERT_EQ(result.temperature_unit, "Celsius");
 }
+
+TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThreeDays) {
+	// ARRANGE
+	MockWeatherGetter getter;
+
+	EXPECT_CALL(getter, get_weather_data(_))
+	.Times(2)
+	.WillOnce(Return(current_weather_response))
+	.WillOnce(Return(forecast_weather_response));
+
+	// ACT
+	Forecast result = get_forecast("Tallinn", getter);
+
+	// ASSERT
+	ASSERT_EQ(result.forecasts.at(0).date, "29.10.2019");
+	ASSERT_EQ(result.forecasts.at(1).date, "30.10.2019");
+	ASSERT_EQ(result.forecasts.at(2).date, "31.10.2019");
+}
+
 TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherReport)
 {
 	// ARRANGE
