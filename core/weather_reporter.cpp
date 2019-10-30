@@ -30,11 +30,11 @@ WeatherData get_weather_data(const std::string& city, WeatherGetter& getter)
 
 	// q.url = current weather url;
 	wd.current_weather_data = to_json(getter.get_weather_data(q));
+	check_if_invalid_city(city, wd.current_weather_data);
 	// q.url = forecast url;
 	wd.forecast_data = to_json(getter.get_weather_data(q));
-
-	check_if_invalid_city(city, wd.current_weather_data);
 	check_if_invalid_city(city, wd.forecast_data);
+
 	return wd;
 }
 
