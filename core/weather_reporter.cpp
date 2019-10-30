@@ -19,7 +19,7 @@ std::string get_coordinates(json response)
 Forecast get_main_data(const WeatherData& wd)
 {
 	Forecast f;
-	f.coordinate = get_coordinates(wd.current_weather_data);
+	f.coordinates = get_coordinates(wd.current_weather_data);
 	return f;
 }
 
@@ -48,7 +48,6 @@ Forecast get_forecast(const std::string& city, WeatherGetter& getter)
 	f.forecasts = get_three_day_forecast(wd);
 
 	f.city = city;
-
 
 	return f;
 }

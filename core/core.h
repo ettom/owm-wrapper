@@ -31,7 +31,7 @@ struct Report {
 
 struct Forecast {
 	std::string city;
-	std::string coordinate;
+	std::string coordinates;
 	std::string temperature_unit;
 	Report current_weather;
 	std::vector<Report> forecasts;
