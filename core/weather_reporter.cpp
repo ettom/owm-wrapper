@@ -1,6 +1,6 @@
 #include "weather_reporter.h"
 
-Forecast get_forecast(std::string city, WeatherGetter& getter)
+Forecast get_forecast(const std::string& city, WeatherGetter& getter)
 {
 	Forecast f;
 	f.current_weather = get_current_weather(city, getter);
@@ -8,7 +8,7 @@ Forecast get_forecast(std::string city, WeatherGetter& getter)
 	return f;
 }
 
-Report get_current_weather(std::string city, WeatherGetter& getter)
+Report get_current_weather(const std::string& city, WeatherGetter& getter)
 {
 	QueryParameters q;
 	q.city = city;
@@ -18,7 +18,7 @@ Report get_current_weather(std::string city, WeatherGetter& getter)
 	return result;
 }
 
-std::vector<Report> get_three_day_forecast(std::string city, WeatherGetter& getter)
+std::vector<Report> get_three_day_forecast(const std::string& city, WeatherGetter& getter)
 {
 	QueryParameters q;
 	q.city = city;
