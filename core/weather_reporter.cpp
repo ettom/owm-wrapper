@@ -31,17 +31,14 @@ Report get_current_weather(const json& response)
 std::vector<Report> get_reports(const json& response, int days)
 {
 	std::vector<Report> result;
-	Forecasts_data forecasts = parse_forecast_data(response);
+	Forecasts_by_day reports_by_day = group_by_date(parse_forecast_data(response));
+	reports_by_day = remove_partial_days(reports_by_day);
 
-	int count = 0;
-	for (auto [key,value] : forecasts) {
-		if (count++ == days) {
-			break;
-		}
-		result.push_back(make_day_report(forecasts, key));
+	for (int i = 0; i <= days; i++) {
+		result.push_back(make_day_report(reports_by_day.at(i)));
+
 	}
 
-	std::reverse(result.begin(), result.end());
 	return result;
 }
 

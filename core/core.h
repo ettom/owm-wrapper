@@ -2,10 +2,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 #include <nlohmann/json.hpp>
+
 using json = nlohmann::json;
-using Forecasts_data = std::map<uint32_t, std::vector<json>>;
 
 struct QueryParameters {
 	int days = 3;
@@ -25,14 +26,31 @@ struct Report {
 	double humidity;
 	double pressure;
 
+	double at(const std::string& key) const
+	{
+		if (key == "temperature") {
+			return this->temperature;
+		} else if (key == "humidity") {
+			return this->humidity;
+		} else if (key == "pressure") {
+			return this->pressure;
+		}
+
+		throw std::runtime_error("No such member in Report struct!");
+	}
+
 	friend void PrintTo(const Report& report, std::ostream* os)
 	{
-		*os << "  date = " << report.datetime << std::endl
-			<< "\t\ttemperature = " << report.temperature << std::endl
-			<< "\t\thumidity = " << report.humidity << std::endl
-			<< "\t\tpressure = " << report.pressure << std::endl;
+		*os << "  datetime = " << report.datetime << std::endl
+		    << "\t\tdate = " << report.date << std::endl
+		    << "\t\ttemperature = " << report.temperature << std::endl
+		    << "\t\thumidity = " << report.humidity << std::endl
+		    << "\t\tpressure = " << report.pressure << std::endl;
 	}
 };
+
+
+using Forecasts_by_day = std::vector<std::vector<Report>>;
 
 struct Forecast {
 	std::string city;
@@ -49,6 +67,6 @@ struct WeatherData {
 	friend void PrintTo(const WeatherData& wd, std::ostream* os)
 	{
 		*os << "  current_weather_data = " << wd.current_weather_data.dump(4) << std::endl
-			<< "\t\tforecast_data = " << wd.forecast_data.dump(4) << std::endl;
+		    << "\t\tforecast_data = " << wd.forecast_data.dump(4) << std::endl;
 	}
 };
