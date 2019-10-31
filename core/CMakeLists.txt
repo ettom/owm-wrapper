@@ -4,7 +4,7 @@ add_library(${SUBPROJECT_NAME} ${SRC_LIST})
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
-add_definitions("-std=c++20")
+add_definitions("-std=c++17")
 
 target_include_directories(${SUBPROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
                                                      ${CONAN_LIBS})
