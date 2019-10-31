@@ -77,11 +77,12 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 
 	QueryParameters q { .city = "Tallinn" };
 
-	Report expected_current_weather;
-	expected_current_weather.date = "28.10.2019";
-	expected_current_weather.temperature = 4.49;
-	expected_current_weather.pressure = 1009;
-	expected_current_weather.humidity = 79;
+	Report expected_current_weather {
+		.date = "28.10.2019",
+		.temperature = 4.49,
+		.pressure = 1009,
+		.humidity = 79,
+	};
 
 	// ACT
 	Forecast result = get_forecast(q, getter);
@@ -102,11 +103,12 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 
 	QueryParameters q { .city = "Tallinn" };
 
-	Report expected_next_day_report;
-	expected_next_day_report.date = "29.10.2019";
-	expected_next_day_report.temperature = 1.94;
-	expected_next_day_report.pressure = 1015.88;
-	expected_next_day_report.humidity = 68.88;
+	Report expected_next_day_report {
+		.date = "29.10.2019",
+		.temperature = 1.94,
+		.pressure = 1015.88,
+		.humidity = 68.88,
+	};
 
 	// ACT
 	Forecast result = get_forecast(q, getter);
