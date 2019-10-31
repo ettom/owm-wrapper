@@ -1,4 +1,6 @@
 #include "weather_reporter.h"
+#include "core.h"
+#include "reporter_helpers.h"
 
 
 WeatherData get_weather_data(const QueryParameters& q, WeatherGetter& getter)
@@ -25,12 +27,20 @@ Report get_current_weather(const json& response)
 	return result;
 }
 
-std::vector<Report> get_three_day_forecast(const json& response)
+std::vector<Report> get_reports(const json& response, int days)
 {
 	std::vector<Report> result;
-	Forecasts_by_day forecasts = parse_forecast_data(response);
-	for (int i = 0; i < 4; i++) {
-	     result.push_back(make_day_report(forecasts, i));
+	Forecasts_data forecasts = parse_forecast_data(response);
+	// for (int i = 0; i < 4; i++) {
+	//      result.push_back(make_day_report(forecasts, i));
+	// }
+
+	int count = 0;
+	for (auto [key,value] : forecasts) {
+		if (count++ == 3) {
+			break;
+		}
+		result.push_back(make_day_report(forecasts, key));
 	}
 
 	return result;
@@ -44,7 +54,7 @@ Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
 	f.temperature_unit = q.temperature_unit;
 
 	f.current_weather = get_current_weather(wd.current_weather_data);
-	f.forecasts = get_three_day_forecast(wd.forecast_data);
+	f.reports = get_reports(wd.forecast_data, 3);
 
 	return f;
 }

@@ -15,5 +15,5 @@ bool operator==(const Forecast& forecast1, const Forecast& forecast2)
 		forecast1.coordinates == forecast2.coordinates &&
 		forecast1.temperature_unit == forecast2.temperature_unit &&
 		forecast1.current_weather == forecast2.current_weather &&
-		forecast1.forecasts == forecast2.forecasts;
+		forecast1.reports == forecast2.reports;
 }

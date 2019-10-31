@@ -42,7 +42,7 @@ Forecast get_main_data(const WeatherData& wd)
 	return f;
 }
 
-void remove_partial_days(Forecasts_by_day& input)
+void remove_partial_days(Forecasts_data& input)
 {
 	for (auto it = input.cbegin(); it != input.cend();) {
 		if (it->second.size() != 8) { // every day must have 8 entries
@@ -53,9 +53,9 @@ void remove_partial_days(Forecasts_by_day& input)
 	}
 }
 
-Forecasts_by_day parse_forecast_data(const json& response)
+Forecasts_data parse_forecast_data(const json& response)
 {
-	Forecasts_by_day result;
+	Forecasts_data result;
 
 	for (auto& el : response["list"].items()) {
 		std::string dt = el.value()["dt_txt"];
@@ -72,7 +72,7 @@ Forecasts_by_day parse_forecast_data(const json& response)
 }
 
 
-Report make_day_report(Forecasts_by_day forecasts, int day_number)
+Report make_day_report(Forecasts_data forecasts, std::string day)
 {
 	Report result;
 	return result;

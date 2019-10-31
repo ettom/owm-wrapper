@@ -60,9 +60,9 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThre
 	Forecast result = get_forecast(q, getter);
 
 	// ASSERT
-	ASSERT_EQ(result.forecasts.at(0).date, "29.10.2019");
-	ASSERT_EQ(result.forecasts.at(1).date, "30.10.2019");
-	ASSERT_EQ(result.forecasts.at(2).date, "31.10.2019");
+	ASSERT_EQ(result.reports.at(0).date, "29.10.2019");
+	ASSERT_EQ(result.reports.at(1).date, "30.10.2019");
+	ASSERT_EQ(result.reports.at(2).date, "31.10.2019");
 }
 
 TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherReport)
@@ -112,7 +112,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	Forecast result = get_forecast(q, getter);
 
 	// ASSERT
-	ASSERT_EQ(result.forecasts.at(0), expected_next_day_report);
+	ASSERT_EQ(result.reports.at(0), expected_next_day_report);
 }
 
 TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityException)

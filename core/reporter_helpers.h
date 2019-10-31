@@ -16,5 +16,5 @@ std::string get_city(const json& response);
 std::string get_coordinates(const json& response);
 Forecast get_main_data(const WeatherData& wd);
 
-Forecasts_by_day parse_forecast_data(const json& response);
-Report make_day_report(Forecasts_by_day forecasts, int day_number);
+Forecasts_data parse_forecast_data(const json& response);
+Report make_day_report(Forecasts_data forecasts, std::string day);

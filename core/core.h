@@ -5,7 +5,7 @@
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
-using Forecasts_by_day = std::map<std::string, std::vector<json>>;
+using Forecasts_data = std::map<std::string, std::vector<json>>;
 
 struct QueryParameters {
 	std::string city;
@@ -35,7 +35,7 @@ struct Forecast {
 	std::string coordinates;
 	std::string temperature_unit;
 	Report current_weather;
-	std::vector<Report> forecasts;
+	std::vector<Report> reports;
 };
 
 struct WeatherData {
