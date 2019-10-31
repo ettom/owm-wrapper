@@ -47,6 +47,7 @@ Forecast get_forecast(QueryParameters& q, WeatherGetter& getter)
 {
 	const WeatherData wd = get_weather_data(q, getter);
 	Forecast f = get_main_data(wd);
+	f.temperature_unit = q.temperature_unit;
 
 	f.current_weather = get_current_weather(wd);
 	f.forecasts = get_three_day_forecast(wd);

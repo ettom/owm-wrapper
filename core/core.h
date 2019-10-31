@@ -11,7 +11,7 @@ struct QueryParameters {
 	std::string url;
 	std::string api_key = "68f5814e37a11ad9d5f9c3b98680c2df";
 	std::string lang = "en";
-	std::string unit = "metric";
+	std::string temperature_unit = "Celsius";
 };
 
 struct Report {
