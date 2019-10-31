@@ -1,17 +1,14 @@
 #include "weather_reporter.h"
-#include "core.h"
-#include "reporter_helpers.h"
-
 
 WeatherData get_weather_data(const QueryParameters& q, WeatherGetter& getter)
 {
 	WeatherData wd;
 	// q.url = current weather url;
-	wd.current_weather_data = to_json(getter.get_weather_data(q));
+	wd.current_weather_data = json::parse(getter.get_weather_data(q));
 	check_if_invalid_city(q.city, wd.current_weather_data);
 	// create new q?
 	// q.url = forecast url;
-	wd.forecast_data = to_json(getter.get_weather_data(q));
+	wd.forecast_data = json::parse(getter.get_weather_data(q));
 	check_if_invalid_city(q.city, wd.forecast_data);
 
 	return wd;
@@ -30,16 +27,15 @@ Report get_current_weather(const json& response)
 
 std::vector<Report> get_reports(const json& response, int days)
 {
-	std::vector<Report> result;
-	Forecasts_by_day reports_by_day = group_by_date(parse_forecast_data(response));
-	reports_by_day = remove_partial_days(reports_by_day);
+	std::vector<Report> day_reports;
+	Reports_by_day reports = group_by_date(parse_forecast_data(response));
+	reports = remove_partial_days(reports);
 
 	for (int i = 0; i <= days; i++) {
-		result.push_back(make_day_report(reports_by_day.at(i)));
-
+		day_reports.push_back(make_day_report(reports.at(i)));
 	}
 
-	return result;
+	return day_reports;
 }
 
 

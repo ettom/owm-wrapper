@@ -1,7 +1,8 @@
-#include "reporter_helpers.h"
-#include "core.h"
 #include <cstdint>
 #include <iterator>
+
+#include "reporter_helpers.h"
+#include "core.h"
 
 std::string get_city(const json& response)
 {
@@ -45,7 +46,7 @@ Forecast get_main_data(const WeatherData& wd)
 	return f;
 }
 
-int find_report_by_date(const Forecasts_by_day& reports, const std::string& date)
+int find_report_by_date(const Reports_by_day& reports, const std::string& date)
 {
 	for (int i = 0; i < reports.size(); i++) {
 		for (auto r : reports.at(i)) {
@@ -58,9 +59,9 @@ int find_report_by_date(const Forecasts_by_day& reports, const std::string& date
 	return -1;
 }
 
-Forecasts_by_day remove_partial_days(const Forecasts_by_day& input)
+Reports_by_day remove_partial_days(const Reports_by_day& input)
 {
-	Forecasts_by_day result;
+	Reports_by_day result;
 	auto pred = [](auto & x) {
 		return x.size() == 8;
 	};
@@ -69,9 +70,9 @@ Forecasts_by_day remove_partial_days(const Forecasts_by_day& input)
 	return result;
 }
 
-Forecasts_by_day group_by_date(const std::vector<Report>& reports)
+Reports_by_day group_by_date(const std::vector<Report>& reports)
 {
-	Forecasts_by_day result;
+	Reports_by_day result;
 	for (auto r : reports) {
 		int to_insert = find_report_by_date(result, r.date);
 		if (to_insert == -1) {

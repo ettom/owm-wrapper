@@ -8,5 +8,3 @@ add_definitions("-std=c++17")
 
 add_executable(${SUBPRROJECT_NAME} ${SRC_LIST})
 target_link_libraries(${SUBPRROJECT_NAME} ${PROJECT_NAME}Core ${CONAN_LIBS})
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
