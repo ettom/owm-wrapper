@@ -16,22 +16,22 @@ WeatherData get_weather_data(const QueryParameters& q, WeatherGetter& getter)
 
 Report get_current_weather(const json& response)
 {
-	Report result;
-	result.temperature = response["main"]["temp"].get<double>();
-	result.humidity = response["main"]["humidity"].get<double>();
-	result.pressure = response["main"]["pressure"].get<double>();
-	result.datetime = response["dt"].get<uint32_t>();
-	result.date = unix_time_to_string(result.datetime, result.date_format);
-	return result;
+	Report r {};
+	r.temperature = response["main"]["temp"].get<double>();
+	r.humidity = response["main"]["humidity"].get<double>();
+	r.pressure = response["main"]["pressure"].get<double>();
+	r.datetime = response["dt"].get<uint32_t>();
+	r.date = unix_time_to_string(r.datetime, r.date_format);
+	return r;
 }
 
-std::vector<Report> get_reports(const json& response, int days)
+std::vector<Report> get_reports(const json& response, size_t days)
 {
 	std::vector<Report> day_reports;
 	Reports_by_day reports = group_by_date(parse_forecast_data(response));
 	reports = remove_partial_days(reports);
 
-	for (int i = 0; i <= days; i++) {
+	for (size_t i = 0; i <= days; i++) {
 		day_reports.push_back(make_day_report(reports.at(i)));
 	}
 
@@ -43,8 +43,8 @@ Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
 {
 	const WeatherData wd = get_weather_data(q, getter);
 	Forecast f = get_main_data(wd);
-	f.temperature_unit = q.temperature_unit;
 
+	f.temperature_unit = q.temperature_unit;
 	f.current_weather = get_current_weather(wd.current_weather_data);
 	f.reports = get_reports(wd.forecast_data, q.days);
 

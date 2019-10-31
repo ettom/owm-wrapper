@@ -40,15 +40,15 @@ std::string get_coordinates(const json& response)
 
 Forecast get_main_data(const WeatherData& wd)
 {
-	Forecast f;
+	Forecast f {};
 	f.coordinates = get_coordinates(wd.current_weather_data);
 	f.city = get_city(wd.current_weather_data);
 	return f;
 }
 
-int find_report_by_date(const Reports_by_day& reports, const std::string& date)
+size_t find_report_by_date(const Reports_by_day& reports, const std::string& date)
 {
-	for (int i = 0; i < reports.size(); i++) {
+	for (size_t i = 0; i < reports.size(); i++) {
 		for (auto r : reports.at(i)) {
 			if (r.date == date) {
 				return i;
@@ -56,7 +56,7 @@ int find_report_by_date(const Reports_by_day& reports, const std::string& date)
 		}
 	}
 
-	return -1;
+	return std::string::npos;
 }
 
 Reports_by_day remove_partial_days(const Reports_by_day& input)
@@ -74,8 +74,8 @@ Reports_by_day group_by_date(const std::vector<Report>& reports)
 {
 	Reports_by_day result;
 	for (auto r : reports) {
-		int to_insert = find_report_by_date(result, r.date);
-		if (to_insert == -1) {
+		size_t to_insert = find_report_by_date(result, r.date);
+		if (to_insert == std::string::npos) {
 			result.push_back(std::vector<Report> {r});
 		} else {
 			result.at(to_insert).push_back(r);
@@ -90,12 +90,12 @@ std::vector<Report> parse_forecast_data(const json& response)
 	std::vector<Report> result;
 
 	for (auto& [key, value] : response["list"].items()) {
-		Report r { .datetime = value["dt"].get<uint32_t>(),
-			   .date = unix_time_to_string(r.datetime, r.date_format),
-			   .temperature = value["main"]["temp"],
-			   .humidity = value["main"]["humidity"],
-			   .pressure = value["main"]["pressure"],
-			 };
+		Report r {};
+		r.datetime = value["dt"].get<uint32_t>();
+		r.date = unix_time_to_string(r.datetime, r.date_format);
+		r.temperature = value["main"]["temp"];
+		r.humidity = value["main"]["humidity"];
+		r.pressure = value["main"]["pressure"];
 		result.push_back(r);
 	}
 
@@ -142,20 +142,29 @@ Report make_day_report(const std::vector<Report>& reports)
 	auto pressure_entries = get_entries_by_id(reports, "pressure");
 
 	average_accumulate_t res_temperature =
-		std::accumulate(temperature_entries.begin(), temperature_entries.end(), average_accumulate_t({0, 0}), func_accumulate_average);
+		std::accumulate(temperature_entries.begin(),
+				temperature_entries.end(),
+				average_accumulate_t({0, 0}),
+				func_accumulate_average);
 
 	average_accumulate_t res_humidity =
-		std::accumulate(humidity_entries.begin(), humidity_entries.end(), average_accumulate_t({0, 0}), func_accumulate_average);
+		std::accumulate(humidity_entries.begin(),
+				humidity_entries.end(),
+				average_accumulate_t({0, 0}),
+				func_accumulate_average);
 
 	average_accumulate_t res_pressure =
-		std::accumulate(pressure_entries.begin(), pressure_entries.end(), average_accumulate_t({0, 0}), func_accumulate_average);
+		std::accumulate(pressure_entries.begin(),
+				pressure_entries.end(),
+				average_accumulate_t({0, 0}),
+				func_accumulate_average);
 
-	Report result { .datetime = reports.at(0).datetime,
-			.date = reports.at(0).date,
-			.humidity = res_humidity.get_average(),
-			.temperature = res_temperature.get_average(),
-			.pressure = res_pressure.get_average(),
-		      };
+	Report r {};
+	r.datetime = reports.at(0).datetime;
+	r.date = reports.at(0).date;
+	r.humidity = res_humidity.get_average();
+	r.temperature = res_temperature.get_average();
+	r.pressure = res_pressure.get_average();
 
-	return result;
+	return r;
 }

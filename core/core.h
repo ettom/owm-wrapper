@@ -9,7 +9,7 @@
 using json = nlohmann::json;
 
 struct QueryParameters {
-	int days = 3;
+	size_t days = 3;
 	std::string city;
 	std::string url;
 	std::string api_key = "68f5814e37a11ad9d5f9c3b98680c2df";
