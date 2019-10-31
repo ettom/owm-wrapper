@@ -1,9 +1,13 @@
 #include "weather_reporter.h"
 
+std::string get_city(json response)
+{
+	return get_string_value((response["name"].is_null()) ? response["city"]["name"] : response["name"]);
+}
+
 void check_if_invalid_city(const std::string& city, json& response)
 {
-	if (get_string_value(response["name"]) != city
-			&& get_string_value(response["city"]["name"]) != city) {
+	if (get_city(response) != city) {
 		throw InvalidCityException();
 	}
 }
@@ -20,13 +24,13 @@ Forecast get_main_data(const WeatherData& wd)
 {
 	Forecast f;
 	f.coordinates = get_coordinates(wd.current_weather_data);
+	f.city = get_city(wd.current_weather_data);
 	return f;
 }
 
 WeatherData get_weather_data(QueryParameters& q, WeatherGetter& getter)
 {
 	WeatherData wd;
-
 	// q.url = current weather url;
 	wd.current_weather_data = to_json(getter.get_weather_data(q));
 	check_if_invalid_city(q.city, wd.current_weather_data);
@@ -47,10 +51,9 @@ Forecast get_forecast(QueryParameters& q, WeatherGetter& getter)
 	f.current_weather = get_current_weather(wd);
 	f.forecasts = get_three_day_forecast(wd);
 
-
-	f.city = q.city;
 	return f;
 }
+
 
 Report get_current_weather(const WeatherData& wd)
 {
