@@ -42,8 +42,7 @@ Forecast get_main_data(const WeatherData& wd)
 	return f;
 }
 
-
-void remove_partial_days(std::map<std::string, std::vector<json>>& input)
+void remove_partial_days(Forecasts_by_day& input)
 {
 	for (auto it = input.cbegin(); it != input.cend();) {
 		if (it->second.size() != 8) { // every day must have 8 entries
@@ -54,9 +53,9 @@ void remove_partial_days(std::map<std::string, std::vector<json>>& input)
 	}
 }
 
-std::map<std::string, std::vector<json>> parse_forecast_data(const json& response)
+Forecasts_by_day parse_forecast_data(const json& response)
 {
-	std::map<std::string, std::vector<json>> result; // key=date, value=weather data entries
+	Forecasts_by_day result;
 
 	for (auto& el : response["list"].items()) {
 		std::string dt = el.value()["dt_txt"];
@@ -73,7 +72,7 @@ std::map<std::string, std::vector<json>> parse_forecast_data(const json& respons
 }
 
 
-Report get_single_day_forecast(const json& response, int day_number)
+Report make_day_report(const json& response, int day_number)
 {
 	Report result;
 	return result;
