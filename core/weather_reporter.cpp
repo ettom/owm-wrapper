@@ -31,13 +31,10 @@ std::vector<Report> get_reports(const json& response, int days)
 {
 	std::vector<Report> result;
 	Forecasts_data forecasts = parse_forecast_data(response);
-	// for (int i = 0; i < 4; i++) {
-	//      result.push_back(make_day_report(forecasts, i));
-	// }
 
 	int count = 0;
 	for (auto [key,value] : forecasts) {
-		if (count++ == 3) {
+		if (count++ == days) {
 			break;
 		}
 		result.push_back(make_day_report(forecasts, key));
@@ -54,7 +51,7 @@ Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
 	f.temperature_unit = q.temperature_unit;
 
 	f.current_weather = get_current_weather(wd.current_weather_data);
-	f.reports = get_reports(wd.forecast_data, 3);
+	f.reports = get_reports(wd.forecast_data, q.days);
 
 	return f;
 }
