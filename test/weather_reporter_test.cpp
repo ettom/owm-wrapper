@@ -79,6 +79,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 
 	Report expected_current_weather {
 		.date = "28.10.2019",
+		.datetime = 1572262026,
 		.temperature = 4.49,
 		.pressure = 1009,
 		.humidity = 79,
@@ -105,6 +106,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 
 	Report expected_next_day_report {
 		.date = "29.10.2019",
+		.datetime = 1572307200,
 		.temperature = 1.94,
 		.pressure = 1015.88,
 		.humidity = 68.88,
