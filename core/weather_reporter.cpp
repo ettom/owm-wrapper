@@ -28,8 +28,14 @@ Report get_current_weather(const json& response)
 std::vector<Report> get_three_day_forecast(const json& response)
 {
 	std::vector<Report> result;
+	Forecasts_by_day forecasts = parse_forecast_data(response);
+	for (int i = 0; i < 4; i++) {
+	     result.push_back(make_day_report(forecasts, i));
+	}
+
 	return result;
 }
+
 
 Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
 {
@@ -42,4 +48,3 @@ Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
 
 	return f;
 }
-
