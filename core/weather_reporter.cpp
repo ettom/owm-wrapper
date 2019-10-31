@@ -40,6 +40,7 @@ std::vector<Report> get_reports(const json& response, int days)
 		result.push_back(make_day_report(forecasts, key));
 	}
 
+	std::reverse(result.begin(), result.end());
 	return result;
 }
 

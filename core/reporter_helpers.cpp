@@ -58,8 +58,8 @@ Forecasts_data parse_forecast_data(const json& response)
 	Forecasts_data result;
 
 	for (auto& el : response["list"].items()) {
-		std::string dt = el.value()["dt_txt"];
-		std::string date = dt.substr(0, dt.find(' '));
+		std::string date = unix_time_to_string(el.value()["dt"], "%d.%m.%Y");
+
 		if (! result.count(date)) {
 			result.insert(std::pair<std::string, std::vector<json>>(date, std::vector<json>()));
 		}
