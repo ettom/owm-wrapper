@@ -4,6 +4,8 @@
 bool operator==(const Report& report1, const Report& report2)
 {
 	return report1.date == report2.date &&
+		report1.datetime == report2.datetime &&
+		report1.date_format == report2.date_format &&
 		report1.temperature == report2.temperature &&
 		report1.humidity == report2.humidity &&
 		report1.pressure == report2.pressure;

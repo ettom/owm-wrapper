@@ -17,12 +17,12 @@ void check_if_invalid_city(const std::string& city, const json& response)
 	}
 }
 
-std::string unix_time_to_string(uint32_t time_date_stamp, const std::string& format)
+std::string unix_time_to_string(uint32_t datetime, const char* format)
 {
-	std::time_t tmp = time_date_stamp;
+	std::time_t tmp = datetime;
 	std::tm* t = std::gmtime(&tmp);
 	std::stringstream ss;
-	ss << std::put_time(t, format.c_str());
+	ss << std::put_time(t, format);
 	return ss.str();
 }
 
@@ -58,13 +58,12 @@ Forecasts_data parse_forecast_data(const json& response)
 	Forecasts_data result;
 
 	for (auto& el : response["list"].items()) {
-		std::string date = unix_time_to_string(el.value()["dt"], "%d.%m.%Y");
-
-		if (! result.count(date)) {
-			result.insert(std::pair<std::string, std::vector<json>>(date, std::vector<json>()));
+		uint32_t datetime = el.value()["dt"];
+		if (! result.count(datetime)) {
+			result.insert(std::pair<uint32_t, std::vector<json>>(datetime, std::vector<json>()));
 		}
 
-		result.at(date).push_back(el.value()["main"]);
+		result.at(datetime).push_back(el.value()["main"]);
 	}
 
 	remove_partial_days(result);
@@ -72,8 +71,8 @@ Forecasts_data parse_forecast_data(const json& response)
 }
 
 
-Report make_day_report(Forecasts_data forecasts, std::string day)
+Report make_day_report(Forecasts_data forecasts, uint32_t datetime)
 {
-	Report result;
+	Report result { .datetime = datetime, .date = unix_time_to_string(datetime, result.date_format) };
 	return result;
 }

@@ -5,7 +5,7 @@
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
-using Forecasts_data = std::map<std::string, std::vector<json>>;
+using Forecasts_data = std::map<uint32_t, std::vector<json>>;
 
 struct QueryParameters {
 	int days = 3;
@@ -17,14 +17,17 @@ struct QueryParameters {
 };
 
 struct Report {
+	const char* date_format = "%d.%m.%Y";
+	uint32_t datetime;
 	std::string date;
+
 	double temperature;
 	double humidity;
 	double pressure;
 
 	friend void PrintTo(const Report& report, std::ostream* os)
 	{
-		*os << "  date = " << report.date << std::endl
+		*os << "  date = " << report.datetime << std::endl
 			<< "\t\ttemperature = " << report.temperature << std::endl
 			<< "\t\thumidity = " << report.humidity << std::endl
 			<< "\t\tpressure = " << report.pressure << std::endl;

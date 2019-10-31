@@ -23,7 +23,8 @@ Report get_current_weather(const json& response)
 	result.temperature = response["main"]["temp"].get<double>();
 	result.humidity = response["main"]["humidity"].get<double>();
 	result.pressure = response["main"]["pressure"].get<double>();
-	result.date = unix_time_to_string(response["dt"].get<uint32_t>(), "%d.%m.%Y");
+	result.datetime = response["dt"].get<uint32_t>();
+	result.date = unix_time_to_string(result.datetime, result.date_format);
 	return result;
 }
 
