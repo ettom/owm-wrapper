@@ -41,3 +41,40 @@ Forecast get_main_data(const WeatherData& wd)
 	f.city = get_city(wd.current_weather_data);
 	return f;
 }
+
+
+void remove_partial_days(std::map<std::string, std::vector<json>>& input)
+{
+	for (auto it = input.cbegin(); it != input.cend();) {
+		if (it->second.size() != 8) { // every day must have 8 entries
+			input.erase(it++);
+		} else {
+			++it;
+		}
+	}
+}
+
+std::map<std::string, std::vector<json>> parse_forecast_data(const json& response)
+{
+	std::map<std::string, std::vector<json>> result; // key=date, value=weather data entries
+
+	for (auto& el : response["list"].items()) {
+		std::string dt = el.value()["dt_txt"];
+		std::string date = dt.substr(0, dt.find(' '));
+		if (! result.count(date)) {
+			result.insert(std::pair<std::string, std::vector<json>>(date, std::vector<json>()));
+		}
+
+		result.at(date).push_back(el.value()["main"]);
+	}
+
+	remove_partial_days(result);
+	return result;
+}
+
+
+Report get_single_day_forecast(const json& response, int day_number)
+{
+	Report result;
+	return result;
+}
