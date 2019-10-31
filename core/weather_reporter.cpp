@@ -23,32 +23,32 @@ Forecast get_main_data(const WeatherData& wd)
 	return f;
 }
 
-WeatherData get_weather_data(const std::string& city, WeatherGetter& getter)
+WeatherData get_weather_data(QueryParameters& q, WeatherGetter& getter)
 {
-	QueryParameters q {city};
 	WeatherData wd;
 
 	// q.url = current weather url;
 	wd.current_weather_data = to_json(getter.get_weather_data(q));
-	check_if_invalid_city(city, wd.current_weather_data);
+	check_if_invalid_city(q.city, wd.current_weather_data);
+	// create new q?
 	// q.url = forecast url;
 	wd.forecast_data = to_json(getter.get_weather_data(q));
-	check_if_invalid_city(city, wd.forecast_data);
+	check_if_invalid_city(q.city, wd.forecast_data);
 
 	return wd;
 }
 
 
-Forecast get_forecast(const std::string& city, WeatherGetter& getter)
+Forecast get_forecast(QueryParameters& q, WeatherGetter& getter)
 {
-	const WeatherData wd = get_weather_data(city, getter);
+	const WeatherData wd = get_weather_data(q, getter);
 	Forecast f = get_main_data(wd);
 
 	f.current_weather = get_current_weather(wd);
 	f.forecasts = get_three_day_forecast(wd);
 
-	f.city = city;
 
+	f.city = q.city;
 	return f;
 }
 

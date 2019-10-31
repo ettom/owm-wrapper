@@ -34,8 +34,10 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 	.WillOnce(Return(current_weather_response))
 	.WillOnce(Return(forecast_weather_response));
 
+	QueryParameters q { .city = "Tallinn" };
+
 	// ACT
-	Forecast result = get_forecast("Tallinn", getter);
+	Forecast result = get_forecast(q, getter);
 
 	// ASSERT
 	ASSERT_EQ(result.city, "Tallinn");
@@ -43,7 +45,8 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 	ASSERT_EQ(result.temperature_unit, "Celsius");
 }
 
-TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThreeDays) {
+TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThreeDays)
+{
 	// ARRANGE
 	MockWeatherGetter getter;
 
@@ -52,8 +55,9 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThre
 	.WillOnce(Return(current_weather_response))
 	.WillOnce(Return(forecast_weather_response));
 
+	QueryParameters q { .city = "Tallinn" };
 	// ACT
-	Forecast result = get_forecast("Tallinn", getter);
+	Forecast result = get_forecast(q, getter);
 
 	// ASSERT
 	ASSERT_EQ(result.forecasts.at(0).date, "29.10.2019");
@@ -71,6 +75,8 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 	.WillOnce(Return(current_weather_response))
 	.WillOnce(Return(forecast_weather_response));
 
+	QueryParameters q { .city = "Tallinn" };
+
 	Report expected_current_weather;
 	expected_current_weather.date = "28.10.2019";
 	expected_current_weather.temperature = 4.78;
@@ -78,7 +84,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 	expected_current_weather.humidity = 79;
 
 	// ACT
-	Forecast result = get_forecast("Tallinn", getter);
+	Forecast result = get_forecast(q, getter);
 
 	// ASSERT
 	ASSERT_EQ(result.current_weather, expected_current_weather);
@@ -94,6 +100,8 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	.WillOnce(Return(current_weather_response))
 	.WillOnce(Return(forecast_weather_response));
 
+	QueryParameters q { .city = "Tallinn" };
+
 	Report expected_next_day_report;
 	expected_next_day_report.date = "29.10.2019";
 	expected_next_day_report.temperature = 1.94;
@@ -101,7 +109,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	expected_next_day_report.humidity = 68.88;
 
 	// ACT
-	Forecast result = get_forecast("Tallinn", getter);
+	Forecast result = get_forecast(q, getter);
 
 	// ASSERT
 	ASSERT_EQ(result.forecasts.at(0), expected_next_day_report);
@@ -116,6 +124,8 @@ TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityEx
 	.Times(1)
 	.WillRepeatedly(Return(invalid_city_response));
 
+	QueryParameters q { .city = "tln" };
+
 	// ASSERT
-	ASSERT_THROW(get_forecast("tln", getter), InvalidCityException);
+	ASSERT_THROW(get_forecast(q, getter), InvalidCityException);
 }
