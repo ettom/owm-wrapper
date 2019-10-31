@@ -51,17 +51,17 @@ std::string unix_time_to_string(uint32_t time_date_stamp, const std::string& for
 	return ss.str();
 }
 
-Report get_current_weather(const WeatherData& wd)
+Report get_current_weather(json response)
 {
 	Report result;
-	result.temperature = wd.current_weather_data["main"]["temp"].get<double>();
-	result.humidity = wd.current_weather_data["main"]["humidity"].get<double>();
-	result.pressure = wd.current_weather_data["main"]["pressure"].get<double>();
-	result.date = unix_time_to_string(wd.current_weather_data["dt"].get<uint32_t>(), "%d.%m.%Y");
+	result.temperature = response["main"]["temp"].get<double>();
+	result.humidity = response["main"]["humidity"].get<double>();
+	result.pressure = response["main"]["pressure"].get<double>();
+	result.date = unix_time_to_string(response["dt"].get<uint32_t>(), "%d.%m.%Y");
 	return result;
 }
 
-std::vector<Report> get_three_day_forecast(const WeatherData& wd)
+std::vector<Report> get_three_day_forecast(json response)
 {
 	std::vector<Report> result;
 	return result;
@@ -73,8 +73,8 @@ Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
 	Forecast f = get_main_data(wd);
 	f.temperature_unit = q.temperature_unit;
 
-	f.current_weather = get_current_weather(wd);
-	f.forecasts = get_three_day_forecast(wd);
+	f.current_weather = get_current_weather(wd.current_weather_data);
+	f.forecasts = get_three_day_forecast(wd.forecast_data);
 
 	return f;
 }
