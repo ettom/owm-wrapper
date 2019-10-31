@@ -1,18 +1,23 @@
 #include "weather_reporter.h"
 
-std::string get_city(json response)
+std::string get_city(const json& response)
 {
-	return get_string_value((response["name"].is_null()) ? response["city"]["name"] : response["name"]);
+	if (response.count("name")) {
+		return response["name"].get<std::string>();
+	} else if (response.count("city")) {
+		return response["city"]["name"].get<std::string>();
+	}
+	return "";
 }
 
-void check_if_invalid_city(const std::string& city, json response)
+void check_if_invalid_city(const std::string& city, const json& response)
 {
 	if (get_city(response) != city) {
 		throw InvalidCityException();
 	}
 }
 
-std::string get_coordinates(json response)
+std::string get_coordinates(const json& response)
 {
 	std::string result;
 	json coordinates = (response["coord"].is_null()) ? response["city"]["coord"] : response["coord"];
@@ -51,7 +56,7 @@ std::string unix_time_to_string(uint32_t time_date_stamp, const std::string& for
 	return ss.str();
 }
 
-Report get_current_weather(json response)
+Report get_current_weather(const json& response)
 {
 	Report result;
 	result.temperature = response["main"]["temp"].get<double>();
@@ -61,7 +66,7 @@ Report get_current_weather(json response)
 	return result;
 }
 
-std::vector<Report> get_three_day_forecast(json response)
+std::vector<Report> get_three_day_forecast(const json& response)
 {
 	std::vector<Report> result;
 	return result;
