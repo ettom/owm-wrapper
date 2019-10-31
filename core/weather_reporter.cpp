@@ -42,6 +42,15 @@ WeatherData get_weather_data(const QueryParameters& q, WeatherGetter& getter)
 	return wd;
 }
 
+std::string unix_time_to_string(uint32_t time_date_stamp, const std::string& format)
+{
+	std::time_t tmp = time_date_stamp;
+	std::tm* t = std::gmtime(&tmp);
+	std::stringstream ss;
+	ss << std::put_time(t, format.c_str());
+	return ss.str();
+}
+
 Report get_current_weather(const WeatherData& wd)
 {
 	Report result;

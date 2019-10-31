@@ -1,4 +1,7 @@
 #pragma once
+#include <iomanip>
+#include <cstdint>
+
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
