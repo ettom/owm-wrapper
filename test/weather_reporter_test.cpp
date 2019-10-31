@@ -79,7 +79,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 
 	Report expected_current_weather;
 	expected_current_weather.date = "28.10.2019";
-	expected_current_weather.temperature = 4.78;
+	expected_current_weather.temperature = 4.49;
 	expected_current_weather.pressure = 1009;
 	expected_current_weather.humidity = 79;
 
