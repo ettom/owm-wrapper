@@ -136,12 +136,25 @@ std::vector<double> get_entries_by_id(const std::vector<Report>& input, const st
 
 Report make_day_report(const std::vector<Report>& reports)
 {
-	Report result { .datetime = reports.at(0).datetime,
-			.date = reports.at(0).date };
+	auto temperature_entries = get_entries_by_id(reports, "temperature");
+	auto humidity_entries = get_entries_by_id(reports, "humidity");
+	auto pressure_entries = get_entries_by_id(reports, "pressure");
 
-	auto temps = get_entries_by_id(reports, "temperature");
-	average_accumulate_t res =
-		std::accumulate(temps.begin(), temps.end(), average_accumulate_t({0, 0}), func_accumulate_average);
-	result.temperature = res.get_average();
+	average_accumulate_t res_temperature =
+		std::accumulate(temperature_entries.begin(), temperature_entries.end(), average_accumulate_t({0, 0}), func_accumulate_average);
+
+	average_accumulate_t res_humidity =
+		std::accumulate(humidity_entries.begin(), humidity_entries.end(), average_accumulate_t({0, 0}), func_accumulate_average);
+
+	average_accumulate_t res_pressure =
+		std::accumulate(pressure_entries.begin(), pressure_entries.end(), average_accumulate_t({0, 0}), func_accumulate_average);
+
+	Report result { .datetime = reports.at(0).datetime,
+			.date = reports.at(0).date,
+			.humidity = res_humidity.get_average(),
+			.temperature = res_temperature.get_average(),
+			.pressure = res_pressure.get_average(),
+		      };
+
 	return result;
 }
