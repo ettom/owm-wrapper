@@ -101,12 +101,17 @@ std::vector<Report> parse_forecast_data(const json& response)
 	return result;
 }
 
+double round_to_two_decimal_points(double d)
+{
+	return std::ceil(d * 100) / 100;
+}
+
 struct average_accumulate_t {
 	double sum;
 	size_t n;
 	double get_average() const
 	{
-		return sum / n;
+		return round_to_two_decimal_points(sum / n);
 	}
 };
 
