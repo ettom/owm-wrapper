@@ -54,6 +54,10 @@ std::string unix_time_to_string(uint32_t time_date_stamp, const std::string& for
 Report get_current_weather(const WeatherData& wd)
 {
 	Report result;
+	result.temperature = wd.current_weather_data["main"]["temp"].get<double>();
+	result.humidity = wd.current_weather_data["main"]["humidity"].get<double>();
+	result.pressure = wd.current_weather_data["main"]["pressure"].get<double>();
+	result.date = unix_time_to_string(wd.current_weather_data["dt"].get<uint32_t>(), "%d.%m.%Y");
 	return result;
 }
 
@@ -74,5 +78,4 @@ Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
 
 	return f;
 }
-
 
