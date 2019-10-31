@@ -5,7 +5,7 @@ std::string get_city(json response)
 	return get_string_value((response["name"].is_null()) ? response["city"]["name"] : response["name"]);
 }
 
-void check_if_invalid_city(const std::string& city, json& response)
+void check_if_invalid_city(const std::string& city, json response)
 {
 	if (get_city(response) != city) {
 		throw InvalidCityException();
@@ -28,7 +28,7 @@ Forecast get_main_data(const WeatherData& wd)
 	return f;
 }
 
-WeatherData get_weather_data(QueryParameters& q, WeatherGetter& getter)
+WeatherData get_weather_data(const QueryParameters& q, WeatherGetter& getter)
 {
 	WeatherData wd;
 	// q.url = current weather url;
@@ -42,8 +42,19 @@ WeatherData get_weather_data(QueryParameters& q, WeatherGetter& getter)
 	return wd;
 }
 
+Report get_current_weather(const WeatherData& wd)
+{
+	Report result;
+	return result;
+}
 
-Forecast get_forecast(QueryParameters& q, WeatherGetter& getter)
+std::vector<Report> get_three_day_forecast(const WeatherData& wd)
+{
+	std::vector<Report> result;
+	return result;
+}
+
+Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
 {
 	const WeatherData wd = get_weather_data(q, getter);
 	Forecast f = get_main_data(wd);
@@ -56,14 +67,3 @@ Forecast get_forecast(QueryParameters& q, WeatherGetter& getter)
 }
 
 
-Report get_current_weather(const WeatherData& wd)
-{
-	Report result;
-	return result;
-}
-
-std::vector<Report> get_three_day_forecast(const WeatherData& wd)
-{
-	std::vector<Report> result;
-	return result;
-}

@@ -14,7 +14,7 @@
 class MockWeatherGetter : public WeatherGetter
 {
 public:
-	MOCK_METHOD1(get_weather_data, std::string(QueryParameters& q));
+	MOCK_CONST_METHOD1(get_weather_data, std::string(const QueryParameters& q));
 };
 
 
