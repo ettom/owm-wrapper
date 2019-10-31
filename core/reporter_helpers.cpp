@@ -72,7 +72,7 @@ Forecasts_by_day parse_forecast_data(const json& response)
 }
 
 
-Report make_day_report(const json& response, int day_number)
+Report make_day_report(Forecasts_by_day forecasts, int day_number)
 {
 	Report result;
 	return result;
