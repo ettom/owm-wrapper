@@ -5,6 +5,7 @@
 - [git](https://git-scm.com/downloads)
 - [python3](https://www.python.org/downloads/)
 - [pip3](https://pypi.org/project/pip/)
+- [libcurl](https://curl.haxx.se/libcurl/)
 
 [conan](https://github.com/conan-io/conan) is used for dependency management.
 
@@ -13,7 +14,7 @@ Get the latest version of [cmake](https://apt.kitware.com/).<br>
 Run the following commands:
 
 ```
-sudo apt install git g++-8 cmake python3-pip
+sudo apt install git g++-8 cmake python3-pip libcurl4-gnutls-dev
 sudo pip3 install conan
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 60
 ```
