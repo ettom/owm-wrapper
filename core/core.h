@@ -39,6 +39,21 @@ struct Report {
 		throw std::runtime_error("No such member in Report struct!");
 	}
 
+	friend void to_json(json& j, const Report& r)
+	{
+		j = json{{"datetime", r.datetime}, {"date", r.date}, {"temperature", r.temperature},
+			{"humidity", r.humidity}, {"pressure", r.pressure}};
+	}
+	friend void from_json(const json& j, Report& r)
+	{
+		j.at("datetime").get_to(r.datetime);
+		j.at("date").get_to(r.date);
+		j.at("temperature").get_to(r.temperature);
+		j.at("humidity").get_to(r.humidity);
+		j.at("pressure").get_to(r.pressure);
+
+	}
+
 	friend void PrintTo(const Report& report, std::ostream* os)
 	{
 		*os << "  datetime = " << report.datetime << std::endl
@@ -58,6 +73,21 @@ struct Forecast {
 	std::string temperature_unit;
 	Report current_weather;
 	std::vector<Report> reports;
+
+	friend void to_json(json& j, const Forecast& f)
+	{
+		j = json{{"city", f.city}, {"coordinates", f.coordinates}, {"temperature_unit", f.temperature_unit},
+			{"current_weather", f.current_weather}, {"reports", f.reports}};
+	}
+	friend void from_json(const json& j, Forecast& f)
+	{
+		j.at("city").get_to(f.city);
+		j.at("coordinates").get_to(f.coordinates);
+		j.at("temperature_unit").get_to(f.temperature_unit);
+		j.at("current_weather").get_to(f.current_weather);
+		j.at("reports").get_to(f.reports);
+
+	}
 };
 
 struct WeatherData {
