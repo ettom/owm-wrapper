@@ -1,6 +1,6 @@
 ## Dependencies:
 
-- A compiler with C++17 support ([clang-5+](http://llvm.org/releases/download.html), [gcc-7+](https://gcc.gnu.org/releases.html))
+- A compiler with C++17 support ([clang-5+](http://llvm.org/releases/download.html), [gcc-8+](https://gcc.gnu.org/releases.html))
 - [cmake 3.11+](https://cmake.org/download/)
 - [git](https://git-scm.com/downloads)
 - [python3](https://www.python.org/downloads/)
@@ -13,8 +13,9 @@ Get the latest version of [cmake](https://apt.kitware.com/).<br>
 Run the following commands:
 
 ```
-sudo apt install git g++ cmake python3-pip
+sudo apt install git g++-8 cmake python3-pip
 sudo pip3 install conan
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 60
 ```
 
 ## Building
