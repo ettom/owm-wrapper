@@ -30,6 +30,12 @@ add_subdirectory(app)
 add_subdirectory(core)
 add_subdirectory(test)
 
+include(FetchContent)
+FetchContent_Declare(
+        restclient GIT_REPOSITORY https://github.com/mrtazz/restclient-cpp.git)
+
+FetchContent_MakeAvailable(restclient)
+
 add_custom_target(
         run_tests
         COMMAND icd0004_projectTest || (exit 0)
