@@ -1,13 +1,17 @@
 #include "weather_reporter.h"
+#include "core.h"
 
-WeatherData get_weather_data(const QueryParameters& q, WeatherGetter& getter)
+WeatherData get_weather_data(QueryParameters q, WeatherGetter& getter)
 {
 	WeatherData wd;
-	// q.url = current weather url;
+
+	q.url = "http://api.openweathermap.org/data/2.5/weather";
 	wd.current_weather_data = json::parse(getter.get_weather_data(q));
 	check_if_invalid_city(q.city, wd.current_weather_data);
-	// create new q?
-	// q.url = forecast url;
+
+
+	QueryParameters forecast_query_parameters = q;
+	q.url = "http://api.openweathermap.org/data/2.5/forecast";
 	wd.forecast_data = json::parse(getter.get_weather_data(q));
 	check_if_invalid_city(q.city, wd.forecast_data);
 
