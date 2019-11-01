@@ -26,24 +26,12 @@ struct Report {
 	double humidity;
 	double pressure;
 
-	double at(const std::string& key) const
-	{
-		if (key == "temperature") {
-			return this->temperature;
-		} else if (key == "humidity") {
-			return this->humidity;
-		} else if (key == "pressure") {
-			return this->pressure;
-		}
-
-		throw std::runtime_error("No such member in Report struct!");
-	}
-
 	friend void to_json(json& j, const Report& r)
 	{
 		j = json{{"datetime", r.datetime}, {"date", r.date}, {"temperature", r.temperature},
 			{"humidity", r.humidity}, {"pressure", r.pressure}};
 	}
+
 	friend void from_json(const json& j, Report& r)
 	{
 		j.at("datetime").get_to(r.datetime);
