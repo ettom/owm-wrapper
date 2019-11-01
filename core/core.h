@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <iomanip>
 
 #include <nlohmann/json.hpp>
 
@@ -46,11 +47,8 @@ struct Report {
 
 	friend void PrintTo(const Report& report, std::ostream* os)
 	{
-		*os << "  datetime = " << report.datetime << std::endl
-		    << "\t\tdate = " << report.date << std::endl
-		    << "\t\ttemperature = " << report.temperature << std::endl
-		    << "\t\thumidity = " << report.humidity << std::endl
-		    << "\t\tpressure = " << report.pressure << std::endl;
+		json j = report;
+		*os << std::setw(4) << j;
 	}
 };
 
