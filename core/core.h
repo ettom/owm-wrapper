@@ -28,8 +28,11 @@ struct Report {
 
 	friend void to_json(json& j, const Report& r)
 	{
-		j = json{{"datetime", r.datetime}, {"date", r.date}, {"temperature", r.temperature},
-			{"humidity", r.humidity}, {"pressure", r.pressure}};
+		j = json {{"datetime", r.datetime},
+			{"date", r.date},
+			{"temperature", r.temperature},
+			{"humidity", r.humidity},
+			{"pressure", r.pressure}};
 	}
 
 	friend void from_json(const json& j, Report& r)
@@ -39,7 +42,6 @@ struct Report {
 		j.at("temperature").get_to(r.temperature);
 		j.at("humidity").get_to(r.humidity);
 		j.at("pressure").get_to(r.pressure);
-
 	}
 
 	friend void PrintTo(const Report& report, std::ostream* os)
@@ -64,9 +66,13 @@ struct Forecast {
 
 	friend void to_json(json& j, const Forecast& f)
 	{
-		j = json{{"city", f.city}, {"coordinates", f.coordinates}, {"temperature_unit", f.temperature_unit},
-			{"current_weather", f.current_weather}, {"reports", f.reports}};
+		j = json {{"city", f.city},
+			{"coordinates", f.coordinates},
+			{"temperature_unit", f.temperature_unit},
+			{"current_weather", f.current_weather},
+			{"reports", f.reports}};
 	}
+
 	friend void from_json(const json& j, Forecast& f)
 	{
 		j.at("city").get_to(f.city);

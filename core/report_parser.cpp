@@ -1,8 +1,5 @@
-#include <cstdint>
-#include <iterator>
-
-#include "reporter_helpers.h"
-#include "core.h"
+#include "report_parser.h"
+#include <unistd.h>
 
 std::string get_city(const json& response)
 {
@@ -21,15 +18,6 @@ void check_if_invalid_city(const std::string& city, const json& response)
 	}
 }
 
-std::string unix_time_to_string(uint32_t datetime, const char* format)
-{
-	std::time_t tmp = datetime;
-	std::tm* t = std::gmtime(&tmp);
-	std::stringstream ss;
-	ss << std::put_time(t, format);
-	return ss.str();
-}
-
 std::string get_coordinates(const json& response)
 {
 	std::string result;
@@ -45,6 +33,7 @@ Forecast get_main_data(const WeatherData& wd)
 	f.city = get_city(wd.current_weather_data);
 	return f;
 }
+
 
 size_t find_report_by_date(const Reports_by_day& reports, const std::string& date)
 {
@@ -85,7 +74,7 @@ Reports_by_day group_by_date(const std::vector<Report>& reports)
 	return result;
 }
 
-std::vector<Report> parse_forecast_data(const json& response)
+Reports_by_day parse_forecast_data(const json& response)
 {
 	std::vector<Report> result;
 
@@ -99,41 +88,7 @@ std::vector<Report> parse_forecast_data(const json& response)
 		result.push_back(r);
 	}
 
-	return result;
-}
-
-double round_to_two_decimal_points(double d)
-{
-	return std::ceil(d * 100) / 100;
-}
-
-struct average_accumulate_t {
-	double sum;
-	size_t n;
-	double get_average() const
-	{
-		return round_to_two_decimal_points(sum / static_cast<double>(n));
-	}
-};
-
-auto func_accumulate_average =
-	[](average_accumulate_t acc_average, double value)
-{
-	return average_accumulate_t({
-		acc_average.sum + value,
-		acc_average.n + 1
-	});
-};
-
-std::vector<double> get_entries_by_id(const std::vector<Report>& input, const std::string& id)
-{
-	std::vector<double> result;
-	std::transform(input.begin(), input.end(), std::back_inserter(result),
-	[&](auto & report) {
-		 json j = report;
-		 return j[id].get<double>();
-	});
-	return result;
+	return group_by_date(result);
 }
 
 Report make_day_report(const std::vector<Report>& reports)
@@ -142,30 +97,12 @@ Report make_day_report(const std::vector<Report>& reports)
 	auto humidity_entries = get_entries_by_id(reports, "humidity");
 	auto pressure_entries = get_entries_by_id(reports, "pressure");
 
-	average_accumulate_t res_temperature =
-		std::accumulate(temperature_entries.begin(),
-				temperature_entries.end(),
-				average_accumulate_t({0, 0}),
-				func_accumulate_average);
-
-	average_accumulate_t res_humidity =
-		std::accumulate(humidity_entries.begin(),
-				humidity_entries.end(),
-				average_accumulate_t({0, 0}),
-				func_accumulate_average);
-
-	average_accumulate_t res_pressure =
-		std::accumulate(pressure_entries.begin(),
-				pressure_entries.end(),
-				average_accumulate_t({0, 0}),
-				func_accumulate_average);
-
 	Report r {};
 	r.datetime = reports.at(0).datetime;
 	r.date = reports.at(0).date;
-	r.humidity = res_humidity.get_average();
-	r.temperature = res_temperature.get_average();
-	r.pressure = res_pressure.get_average();
+	r.temperature = get_average(temperature_entries);
+	r.humidity = get_average(humidity_entries);
+	r.pressure = get_average(pressure_entries);
 
 	return r;
 }

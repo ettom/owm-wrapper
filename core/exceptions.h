@@ -3,6 +3,6 @@
 
 class InvalidCityException : public std::runtime_error
 {
-	public:
-		InvalidCityException(): std::runtime_error("Received city does not match the given city") {}
+public:
+	InvalidCityException(): std::runtime_error("Received city does not match the given city") {}
 };

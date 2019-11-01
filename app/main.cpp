@@ -14,4 +14,5 @@ int main()
 	Forecast f = get_forecast(q, getter);
 
 	return 0;
+	return EXIT_SUCCESS;
 }

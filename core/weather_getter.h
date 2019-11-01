@@ -1,7 +1,4 @@
 #pragma once
-#include <string>
-#include <vector>
-
 #include "restclient-cpp/restclient.h"
 
 #include "core.h"

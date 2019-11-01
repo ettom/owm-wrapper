@@ -1,5 +1,4 @@
 #include "weather_reporter.h"
-#include "core.h"
 
 WeatherData get_weather_data(QueryParameters q, WeatherGetter& getter)
 {
@@ -32,7 +31,7 @@ Report get_current_weather(const json& response)
 std::vector<Report> get_reports(const json& response, size_t days)
 {
 	std::vector<Report> day_reports;
-	Reports_by_day reports = group_by_date(parse_forecast_data(response));
+	Reports_by_day reports = parse_forecast_data(response);
 	reports = remove_partial_days(reports);
 
 	for (size_t i = 0; i <= days; i++) {
