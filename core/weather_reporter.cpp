@@ -28,11 +28,15 @@ Report get_current_weather(const json& response)
 	return r;
 }
 
-std::vector<Report> get_reports(const json& response, size_t days)
+std::vector<Report> get_reports(const json& response, const std::string& todays_date, size_t days)
 {
 	std::vector<Report> day_reports;
 	Reports_by_day reports = parse_forecast_data(response);
 	reports = remove_partial_days(reports);
+
+	if (reports.at(0).at(0).date == todays_date) {
+		reports.erase(reports.begin());
+	}
 
 	for (size_t i = 0; i < days; i++) {
 		day_reports.push_back(make_day_report(reports.at(i)));
@@ -49,7 +53,7 @@ Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
 
 	f.temperature_unit = q.temperature_unit;
 	f.current_weather = get_current_weather(wd.current_weather_data);
-	f.reports = get_reports(wd.forecast_data, q.days);
+	f.reports = get_reports(wd.forecast_data, f.current_weather.date, q.days);
 
 	return f;
 }
