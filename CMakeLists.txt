@@ -30,13 +30,6 @@ add_subdirectory(app)
 add_subdirectory(core)
 add_subdirectory(test)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
-include(FetchContent)
-FetchContent_Declare(
-        restclient GIT_REPOSITORY https://github.com/mrtazz/restclient-cpp.git)
-
-FetchContent_MakeAvailable(restclient)
-
 add_custom_target(
         run_tests
         COMMAND icd0004_projectTest || (exit 0)
