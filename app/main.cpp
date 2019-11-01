@@ -13,6 +13,8 @@ int main()
 	WeatherGetter getter;
 	Forecast f = get_forecast(q, getter);
 
-	return 0;
+	json j = f;
+	std::cout << j.dump(4) << std::endl;
+
 	return EXIT_SUCCESS;
 }
