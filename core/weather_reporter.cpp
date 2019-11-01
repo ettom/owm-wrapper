@@ -34,7 +34,7 @@ std::vector<Report> get_reports(const json& response, size_t days)
 	Reports_by_day reports = parse_forecast_data(response);
 	reports = remove_partial_days(reports);
 
-	for (size_t i = 0; i <= days; i++) {
+	for (size_t i = 0; i < days; i++) {
 		day_reports.push_back(make_day_report(reports.at(i)));
 	}
 

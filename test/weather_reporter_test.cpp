@@ -60,6 +60,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThre
 	Forecast result = get_forecast(q, getter);
 
 	// ASSERT
+	ASSERT_EQ(result.reports.size(), 3);
 	ASSERT_EQ(result.reports.at(0).date, "29.10.2019");
 	ASSERT_EQ(result.reports.at(1).date, "30.10.2019");
 	ASSERT_EQ(result.reports.at(2).date, "31.10.2019");
