@@ -112,7 +112,7 @@ struct average_accumulate_t {
 	size_t n;
 	double get_average() const
 	{
-		return round_to_two_decimal_points(sum / n);
+		return round_to_two_decimal_points(sum / static_cast<double>(n));
 	}
 };
 
