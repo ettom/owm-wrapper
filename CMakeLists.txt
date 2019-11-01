@@ -30,6 +30,7 @@ add_subdirectory(app)
 add_subdirectory(core)
 add_subdirectory(test)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 include(FetchContent)
 FetchContent_Declare(
         restclient GIT_REPOSITORY https://github.com/mrtazz/restclient-cpp.git)
