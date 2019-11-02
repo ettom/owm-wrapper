@@ -14,7 +14,7 @@ public:
 		return r.body;
 	}
 private:
-	std::string create_url(const QueryParameters q) const
+	std::string create_url(const QueryParameters& q) const
 	{
 		return q.url + "?q=" + q.city + "&lang=" + q.lang
 		       + "&APPID=" + q.api_key + "&units="
