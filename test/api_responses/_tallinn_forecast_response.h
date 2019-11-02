@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-std::string forecast_weather_response = R"(
+std::string tallinn_forecast_response = R"(
 {
   "cod": "200",
   "message": 0,

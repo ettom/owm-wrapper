@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-std::string current_weather_response = R"(
+std::string tallinn_current_weather_response = R"(
 {
   "coord": {
     "lon": 24.75,

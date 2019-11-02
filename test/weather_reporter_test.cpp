@@ -7,8 +7,10 @@
 #include "comparison.h"
 #include "exceptions.h"
 
-#include "api_responses/_current_weather_response.h"
-#include "api_responses/_forecast_weather_response.h"
+#include "api_responses/_tallinn_current_weather_response.h"
+#include "api_responses/_tallinn_forecast_response.h"
+#include "api_responses/_sydney_forecast_response.h"
+#include "api_responses/_sydney_current_weather_response.h"
 #include "api_responses/_invalid_city_response.h"
 
 class MockWeatherGetter : public WeatherGetter
@@ -31,8 +33,8 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 
 	EXPECT_CALL(getter, get_weather_data(_))
 	.Times(2)
-	.WillOnce(Return(current_weather_response))
-	.WillOnce(Return(forecast_weather_response));
+	.WillOnce(Return(tallinn_current_weather_response))
+	.WillOnce(Return(tallinn_forecast_response));
 
 	QueryParameters q { .city = "Tallinn" };
 
@@ -52,8 +54,9 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThre
 
 	EXPECT_CALL(getter, get_weather_data(_))
 	.Times(2)
-	.WillOnce(Return(current_weather_response))
-	.WillOnce(Return(forecast_weather_response));
+	.WillOnce(Return(tallinn_current_weather_response))
+	.WillOnce(Return(tallinn_forecast_response));
+
 
 	QueryParameters q { .city = "Tallinn" };
 	// ACT
@@ -73,8 +76,8 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 
 	EXPECT_CALL(getter, get_weather_data(_))
 	.Times(2)
-	.WillOnce(Return(current_weather_response))
-	.WillOnce(Return(forecast_weather_response));
+	.WillOnce(Return(tallinn_current_weather_response))
+	.WillOnce(Return(tallinn_forecast_response));
 
 	QueryParameters q { .city = "Tallinn" };
 
@@ -100,8 +103,8 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 
 	EXPECT_CALL(getter, get_weather_data(_))
 	.Times(2)
-	.WillOnce(Return(current_weather_response))
-	.WillOnce(Return(forecast_weather_response));
+	.WillOnce(Return(tallinn_current_weather_response))
+	.WillOnce(Return(tallinn_forecast_response));
 
 	QueryParameters q { .city = "Tallinn" };
 
