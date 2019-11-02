@@ -3,3 +3,4 @@ build/
 compile_commands.json
 .clangd
 .cmake-format.py
+output.json
