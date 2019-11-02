@@ -8,3 +8,5 @@ add_definitions("-std=c++17")
 
 add_executable(${SUBPRROJECT_NAME} ${SRC_LIST})
 target_link_libraries(${SUBPRROJECT_NAME} ${PROJECT_NAME}Core ${CONAN_LIBS})
+target_compile_options(
+	${PROJECT_NAME}Test PRIVATE -Wall)
