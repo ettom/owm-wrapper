@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 
 #include "core.h"
+#include "helpers.h"
 #include "weather_reporter.h"
 #include "weather_getter.h"
 #include "comparison.h"
@@ -13,6 +14,7 @@
 #include "api_responses/_sydney_current_weather_response.h"
 #include "api_responses/_invalid_city_response.h"
 
+#define GMT2_OFFSET        7200
 class MockWeatherGetter : public WeatherGetter
 {
 public:
@@ -36,7 +38,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 	.WillOnce(Return(tallinn_current_weather_response))
 	.WillOnce(Return(tallinn_forecast_response));
 
-	QueryParameters q { .city = "Tallinn" };
+	QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
 
 	// ACT
 	Forecast result = get_forecast(q, getter);
@@ -57,13 +59,13 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThre
 	.WillOnce(Return(tallinn_current_weather_response))
 	.WillOnce(Return(tallinn_forecast_response));
 
+	QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
 
-	QueryParameters q { .city = "Tallinn" };
 	// ACT
 	Forecast result = get_forecast(q, getter);
 
 	// ASSERT
-	ASSERT_EQ(result.reports.size(), 3);
+	ASSERT_EQ(result.reports.size(), std::size_t(3));
 	ASSERT_EQ(result.reports.at(0).date, "29.10.2019");
 	ASSERT_EQ(result.reports.at(1).date, "30.10.2019");
 	ASSERT_EQ(result.reports.at(2).date, "31.10.2019");
@@ -79,7 +81,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 	.WillOnce(Return(tallinn_current_weather_response))
 	.WillOnce(Return(tallinn_forecast_response));
 
-	QueryParameters q { .city = "Tallinn" };
+	QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
 
 	Report expected_current_weather {
 		.datetime = 1572269226,
@@ -106,7 +108,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	.WillOnce(Return(tallinn_current_weather_response))
 	.WillOnce(Return(tallinn_forecast_response));
 
-	QueryParameters q { .city = "Tallinn" };
+	QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
 
 	Report expected_next_day_report {
 		.datetime = 1572314400,

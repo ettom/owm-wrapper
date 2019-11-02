@@ -11,8 +11,11 @@
 using json = nlohmann::json;
 
 struct QueryParameters {
-	size_t days = 3;
 	std::string city;
+
+	time_t timezone_offset;
+	size_t days = 3;
+
 	std::string url;
 	std::string api_key = "68f5814e37a11ad9d5f9c3b98680c2df";
 	std::string lang = "en";

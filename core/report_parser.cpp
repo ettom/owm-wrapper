@@ -73,14 +73,13 @@ Reports_by_day group_by_date(const std::vector<Report>& reports)
 	return result;
 }
 
-Reports_by_day parse_forecast_data(const json& response)
+Reports_by_day parse_forecast_data(const json& response, time_t timezone_offset)
 {
 	std::vector<Report> result;
-	time_t time_zone = get_system_timezone_offset();
 
 	for (auto& [key, value] : response["list"].items()) {
 		Report r {};
-		r.datetime = value["dt"].get<time_t>() + time_zone;
+		r.datetime = value["dt"].get<time_t>() + timezone_offset;
 		r.date = unix_time_to_string(r.datetime, r.date_format);
 		r.temperature = value["main"]["temp"];
 		r.humidity = value["main"]["humidity"];
