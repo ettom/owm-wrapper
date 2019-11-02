@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdexcept>
 #include <iomanip>
+#include <cstdint>
 
 #include <nlohmann/json.hpp>
 
@@ -20,7 +21,7 @@ struct QueryParameters {
 
 struct Report {
 	const char* date_format = "%d.%m.%Y";
-	uint32_t datetime;
+	time_t datetime;
 	std::string date;
 
 	double temperature;

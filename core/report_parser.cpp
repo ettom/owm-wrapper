@@ -1,5 +1,4 @@
 #include "report_parser.h"
-#include <unistd.h>
 
 std::string get_city(const json& response)
 {
@@ -77,10 +76,11 @@ Reports_by_day group_by_date(const std::vector<Report>& reports)
 Reports_by_day parse_forecast_data(const json& response)
 {
 	std::vector<Report> result;
+	time_t time_zone = get_system_timezone_offset();
 
 	for (auto& [key, value] : response["list"].items()) {
 		Report r {};
-		r.datetime = value["dt"].get<uint32_t>();
+		r.datetime = value["dt"].get<time_t>() + time_zone;
 		r.date = unix_time_to_string(r.datetime, r.date_format);
 		r.temperature = value["main"]["temp"];
 		r.humidity = value["main"]["humidity"];

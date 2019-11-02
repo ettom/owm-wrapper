@@ -79,7 +79,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 	QueryParameters q { .city = "Tallinn" };
 
 	Report expected_current_weather {
-		.datetime = 1572262026,
+		.datetime = 1572269226,
 		.date = "28.10.2019",
 		.temperature = 4.49,
 		.humidity = 79,
@@ -106,7 +106,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	QueryParameters q { .city = "Tallinn" };
 
 	Report expected_next_day_report {
-		.datetime = 1572307200,
+		.datetime = 1572314400,
 		.date = "29.10.2019",
 		.temperature = 1.94,
 		.humidity = 68.88,
