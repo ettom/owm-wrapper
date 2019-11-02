@@ -15,6 +15,9 @@
 #include "api_responses/_invalid_city_response.h"
 
 #define GMT2_OFFSET        7200
+#define GMT_MINUS12_OFFSET -43200
+
+
 class MockWeatherGetter : public WeatherGetter
 {
 public:
@@ -125,6 +128,51 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	ASSERT_EQ(result.reports.at(0), expected_next_day_report);
 }
 
+TEST(WeatherReporter, givenCityInOtherTimeZone_callingGetForecast_mustReturnDateForCurrentWeather)
+{
+	// ARRANGE
+	MockWeatherGetter getter;
+
+	EXPECT_CALL(getter, get_weather_data(_))
+	.Times(2)
+	.WillOnce(Return(sydney_current_weather_response))
+	.WillOnce(Return(sydney_forecast_response));
+
+	QueryParameters q { .city = "Sydney", .timezone_offset = GMT_MINUS12_OFFSET };
+
+	time_t expected_datetime = 1572666855; // "02.11.2019 03:54:15"
+	std::string expected_date = "02.11.2019";
+
+	// ACT
+	Forecast result = get_forecast(q, getter);
+
+	// ASSERT
+	ASSERT_EQ(result.current_weather.datetime, expected_datetime);
+	ASSERT_EQ(result.current_weather.date, expected_date);
+}
+
+TEST(WeatherReporter, givenCityInOtherTimeZone_callingGetForecast_mustReturnCorrectDateRangesForFirstForecastDay)
+{
+	// ARRANGE
+	time_t timezone_offset = GMT_MINUS12_OFFSET;
+	std::string expected_first_day_first_report_datetime = "03.11.2019 00:00:00";
+	std::string expected_first_day_last_report_datetime = "03.11.2019 21:00:00";
+
+	// ACT
+	Reports_by_day reports = parse_forecast_data(json::parse(sydney_forecast_response), timezone_offset);
+
+	reports = remove_partial_days(reports);
+	Report first_day_first_report = reports.at(0).at(0);
+	Report first_day_last_report = reports.at(0).at(7);
+
+	std::string first_day_first_report_datetime = unix_time_to_string(first_day_first_report.datetime, "%d.%m.%Y %H:%M:%S");
+	std::string first_day_last_report_datetime = unix_time_to_string(first_day_last_report.datetime, "%d.%m.%Y %H:%M:%S");
+
+	// ASSERT
+	ASSERT_EQ(expected_first_day_first_report_datetime, first_day_first_report_datetime);
+	ASSERT_EQ(expected_first_day_last_report_datetime, first_day_last_report_datetime);
+}
+
 TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityException)
 {
 	// ARRANGE
@@ -134,7 +182,7 @@ TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityEx
 	.Times(1)
 	.WillRepeatedly(Return(invalid_city_response));
 
-	QueryParameters q { .city = "tln" };
+	QueryParameters q { .city = "tln", .timezone_offset = GMT2_OFFSET };
 
 	// ASSERT
 	ASSERT_THROW(get_forecast(q, getter), InvalidCityException);
