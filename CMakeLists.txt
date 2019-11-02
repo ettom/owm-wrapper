@@ -38,6 +38,7 @@ add_custom_target(
 
 add_custom_target(
         run
-        COMMAND icd0004_project
+        COMMAND icd0004_project ../input.txt
         DEPENDS icd0004_project
+        VERBATIM
         WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})

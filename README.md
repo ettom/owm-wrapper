@@ -31,7 +31,7 @@ make
 ```
 
 ## Running
-To run the program:
+To run the program with the example input file:
 
 `make run`
 
