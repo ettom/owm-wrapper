@@ -1,6 +1,6 @@
 #include "weather_reporter.h"
 
-WeatherData get_weather_data(QueryParameters q, WeatherGetter& getter)
+WeatherData get_weather_data(QueryParameters q, const WeatherGetter& getter)
 {
 	WeatherData wd;
 
@@ -46,7 +46,7 @@ std::vector<Report> get_reports(const json& response, const std::string& todays_
 }
 
 
-Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter)
+Forecast get_forecast(const QueryParameters& q, const WeatherGetter& getter)
 {
 	const WeatherData wd = get_weather_data(q, getter);
 	Forecast f = get_main_data(wd);

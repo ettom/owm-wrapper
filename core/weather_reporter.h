@@ -5,4 +5,4 @@
 #include "helpers.h"
 #include "report_parser.h"
 
-Forecast get_forecast(const QueryParameters& q, WeatherGetter& getter);
+Forecast get_forecast(const QueryParameters& q, const WeatherGetter& getter);
