@@ -49,7 +49,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 	// ASSERT
 	ASSERT_EQ(result.city, "Tallinn");
 	ASSERT_EQ(result.coordinates, "59.44,24.75");
-	ASSERT_EQ(result.temperature_unit, "Celsius");
+	ASSERT_EQ(result.temperature_unit, TemperatureUnit::CELSIUS);
 }
 
 TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThreeDays)

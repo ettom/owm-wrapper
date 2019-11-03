@@ -10,22 +10,26 @@
 
 using json = nlohmann::json;
 
+#include "temperature_unit.h"
+
 struct QueryParameters {
 	std::string city;
 
 	time_t timezone_offset;
-	size_t days = 3;
+	TemperatureUnit::Unit temperature_unit;
 
 	std::string url;
 	std::string api_key = "68f5814e37a11ad9d5f9c3b98680c2df";
 	std::string lang = "en";
-	std::string temperature_unit = "Celsius";
+
+	size_t days = 3;
 };
 
 struct Report {
 	const char* date_format = "%d.%m.%Y";
 	time_t datetime;
 	std::string date;
+	TemperatureUnit::Unit temperature_unit;
 
 	double temperature;
 	double humidity;
@@ -33,7 +37,8 @@ struct Report {
 
 	friend void to_json(json& j, const Report& r)
 	{
-		j = json {{"datetime", r.datetime},
+		j = json {{"temperature_unit", TemperatureUnit::for_display[r.temperature_unit]},
+			{"datetime", r.datetime},
 			{"date", r.date},
 			{"temperature", r.temperature},
 			{"humidity", r.humidity},
@@ -42,6 +47,8 @@ struct Report {
 
 	friend void from_json(const json& j, Report& r)
 	{
+		auto tmp = j.at("temperature_unit").get<std::string>();
+		r.temperature_unit = TemperatureUnit::match_display_name_to_unit(tmp);
 		j.at("datetime").get_to(r.datetime);
 		j.at("date").get_to(r.date);
 		j.at("temperature").get_to(r.temperature);
@@ -62,7 +69,7 @@ using Reports_by_day = std::vector<std::vector<Report>>;
 struct Forecast {
 	std::string city;
 	std::string coordinates;
-	std::string temperature_unit;
+	TemperatureUnit::Unit temperature_unit;
 	Report current_weather;
 	std::vector<Report> reports;
 
@@ -70,19 +77,19 @@ struct Forecast {
 	{
 		j = json {{"city", f.city},
 			{"coordinates", f.coordinates},
-			{"temperature_unit", f.temperature_unit},
+			{"temperature_unit", TemperatureUnit::for_display[f.temperature_unit]},
 			{"current_weather", f.current_weather},
 			{"reports", f.reports}};
 	}
 
 	friend void from_json(const json& j, Forecast& f)
 	{
+		auto tmp = j.at("temperature_unit").get<std::string>();
+		f.temperature_unit = TemperatureUnit::match_display_name_to_unit(tmp);
 		j.at("city").get_to(f.city);
 		j.at("coordinates").get_to(f.coordinates);
-		j.at("temperature_unit").get_to(f.temperature_unit);
 		j.at("current_weather").get_to(f.current_weather);
 		j.at("reports").get_to(f.reports);
-
 	}
 };
 

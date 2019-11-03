@@ -18,6 +18,6 @@ private:
 	{
 		return q.url + "?q=" + q.city + "&lang=" + q.lang
 		       + "&APPID=" + q.api_key + "&units="
-		       + ((q.temperature_unit == "Celsius") ? "metric" : "imperial");
+		       + TemperatureUnit::for_OWM[q.temperature_unit];
 	}
 };
