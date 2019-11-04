@@ -202,8 +202,7 @@ TEST(WeatherReporter, givenForecastAsJson_convertingToForecastAndBack_mustReturn
         "datetime": 1572826536,
         "humidity": 80.0,
         "pressure": 998.0,
-        "temperature": 4.71,
-        "temperature_unit": "Fahrenheit"
+        "temperature": 4.71
     },
     "reports": [
         {
@@ -211,24 +210,21 @@ TEST(WeatherReporter, givenForecastAsJson_convertingToForecastAndBack_mustReturn
             "datetime": 1572919200,
             "humidity": 79.5,
             "pressure": 995.88,
-            "temperature": 3.33,
-            "temperature_unit": "Fahrenheit"
+            "temperature": 3.33
         },
         {
             "date": "06.11.2019",
             "datetime": 1573005600,
             "humidity": 77.38,
             "pressure": 998.5,
-            "temperature": 2.27,
-            "temperature_unit": "Fahrenheit"
+            "temperature": 2.27
         },
         {
             "date": "07.11.2019",
             "datetime": 1573092000,
             "humidity": 85.0,
             "pressure": 1007.13,
-            "temperature": 0.45,
-            "temperature_unit": "Fahrenheit"
+            "temperature": 0.45
         }
     ],
     "temperature_unit": "Fahrenheit"

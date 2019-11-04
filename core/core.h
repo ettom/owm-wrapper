@@ -29,7 +29,6 @@ struct Report {
 	const char* date_format = "%d.%m.%Y";
 	time_t datetime;
 	std::string date;
-	TemperatureUnit::Unit temperature_unit;
 
 	double temperature;
 	double humidity;
@@ -37,8 +36,7 @@ struct Report {
 
 	friend void to_json(json& j, const Report& r)
 	{
-		j = json {{"temperature_unit", TemperatureUnit::for_display[r.temperature_unit]},
-			{"datetime", r.datetime},
+		j = json {{"datetime", r.datetime},
 			{"date", r.date},
 			{"temperature", r.temperature},
 			{"humidity", r.humidity},
@@ -47,8 +45,6 @@ struct Report {
 
 	friend void from_json(const json& j, Report& r)
 	{
-		auto tmp = j.at("temperature_unit").get<std::string>();
-		r.temperature_unit = TemperatureUnit::match_display_name_to_unit(tmp);
 		j.at("datetime").get_to(r.datetime);
 		j.at("date").get_to(r.date);
 		j.at("temperature").get_to(r.temperature);
