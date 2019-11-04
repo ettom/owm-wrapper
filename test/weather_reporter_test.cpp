@@ -8,11 +8,11 @@
 #include "comparison.h"
 #include "exceptions.h"
 
-#include "api_responses/_tallinn_current_weather_response.h"
-#include "api_responses/_tallinn_forecast_response.h"
-#include "api_responses/_sydney_forecast_response.h"
-#include "api_responses/_sydney_current_weather_response.h"
-#include "api_responses/_invalid_city_response.h"
+#include "api_responses/tallinn_current_weather_response.h"
+#include "api_responses/tallinn_forecast_response.h"
+#include "api_responses/sydney_forecast_response.h"
+#include "api_responses/sydney_current_weather_response.h"
+#include "api_responses/invalid_city_response.h"
 
 #define GMT2_OFFSET        7200
 #define GMT_MINUS12_OFFSET -43200
