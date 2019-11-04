@@ -187,3 +187,58 @@ TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityEx
 	// ASSERT
 	ASSERT_THROW(get_forecast(q, getter), InvalidCityException);
 }
+
+TEST(WeatherReporter, givenForecastAsJson_convertingToForecastAndBack_mustReturnForecastAsJson)
+{
+	// ARRANGE
+	auto input = R"(
+{
+    "city": "Tallinn",
+    "coordinates": "59.44,24.75",
+    "current_weather": {
+        "date": "04.11.2019",
+        "datetime": 1572826536,
+        "humidity": 80.0,
+        "pressure": 998.0,
+        "temperature": 4.71,
+        "temperature_unit": "Fahrenheit"
+    },
+    "reports": [
+        {
+            "date": "05.11.2019",
+            "datetime": 1572919200,
+            "humidity": 79.5,
+            "pressure": 995.88,
+            "temperature": 3.33,
+            "temperature_unit": "Fahrenheit"
+        },
+        {
+            "date": "06.11.2019",
+            "datetime": 1573005600,
+            "humidity": 77.38,
+            "pressure": 998.5,
+            "temperature": 2.27,
+            "temperature_unit": "Fahrenheit"
+        },
+        {
+            "date": "07.11.2019",
+            "datetime": 1573092000,
+            "humidity": 85.0,
+            "pressure": 1007.13,
+            "temperature": 0.45,
+            "temperature_unit": "Fahrenheit"
+        }
+    ],
+    "temperature_unit": "Fahrenheit"
+}
+)"_json;
+
+	// ACT
+	Forecast result_forecast;
+	json result_json;
+	from_json(input, result_forecast);
+	to_json(result_json, result_forecast);
+
+	// ASSERT
+	ASSERT_TRUE(result_json == input);
+}
