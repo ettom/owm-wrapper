@@ -189,6 +189,7 @@ TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityEx
 	ASSERT_THROW(get_forecast(q, getter), InvalidCityException);
 }
 
+
 TEST(WeatherReporter, givenForecastAsJson_convertingToForecastAndBack_mustReturnForecastAsJson)
 {
 	// ARRANGE
@@ -241,5 +242,5 @@ TEST(WeatherReporter, givenForecastAsJson_convertingToForecastAndBack_mustReturn
 	to_json(result_json, result_forecast);
 
 	// ASSERT
-	ASSERT_TRUE(result_json == input);
+	ASSERT_EQ(result_json, input);
 }
