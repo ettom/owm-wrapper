@@ -7,6 +7,7 @@
 #include "weather_getter.h"
 #include "comparison.h"
 #include "exceptions.h"
+#include "testing_helpers.h"
 
 #include "api_responses/tallinn_current_weather_response.h"
 #include "api_responses/tallinn_forecast_response.h"
