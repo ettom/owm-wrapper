@@ -8,8 +8,6 @@ WeatherData get_weather_data(QueryParameters q, const WeatherGetter& getter)
 	wd.current_weather_data = json::parse(getter.get_weather_data(q));
 	check_if_invalid_city(q.city, wd.current_weather_data);
 
-
-	QueryParameters forecast_query_parameters = q;
 	q.url = "http://api.openweathermap.org/data/2.5/forecast";
 	wd.forecast_data = json::parse(getter.get_weather_data(q));
 	check_if_invalid_city(q.city, wd.forecast_data);
