@@ -37,4 +37,4 @@ To run the program with the example input file:
 
 To run the tests:
 
-`make run_tests`
+`make test`

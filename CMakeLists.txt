@@ -31,14 +31,14 @@ add_subdirectory(core)
 add_subdirectory(test)
 
 add_custom_target(
-        run_tests
-        COMMAND icd0004_projectTest || (exit 0)
-        DEPENDS icd0004_projectTest
+        test
+        COMMAND ${PROJECT_NAME}Test || (exit 0)
+        DEPENDS ${PROJECT_NAME}Test ${PROJECT_NAME}
         WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
 
 add_custom_target(
         run
-        COMMAND icd0004_project ../input.txt
-        DEPENDS icd0004_project
+        COMMAND ${PROJECT_NAME} ../input.txt
+        DEPENDS ${PROJECT_NAME}
         VERBATIM
         WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
