@@ -30,7 +30,7 @@ std::vector<Report> make_day_reports(const Reports_by_day& reports, const QueryP
 {
 	std::vector<Report> day_reports;
 	for (size_t i = 0; i < q.days; i++) {
-		Report tmp = make_day_report(reports.at(i));
+		Report tmp = make_single_day_report(reports.at(i));
 		round_numeric_fields(tmp, q.decimal_points);
 		day_reports.push_back(tmp);
 	}

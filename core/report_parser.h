@@ -19,4 +19,4 @@ Reports_by_day remove_partial_days(const Reports_by_day& input);
 Reports_by_day group_by_date(const std::vector<Report>& reports);
 Reports_by_day parse_forecast_data(const json& response, time_t timezone_offset);
 
-Report make_day_report(const std::vector<Report>& reports);
+Report make_single_day_report(const std::vector<Report>& reports);

@@ -97,7 +97,7 @@ Reports_by_day parse_forecast_data(const json& response, time_t timezone_offset)
 	return group_by_date(result);
 }
 
-Report make_day_report(const std::vector<Report>& reports)
+Report make_single_day_report(const std::vector<Report>& reports)
 {
 	auto temperature_entries = get_entries_by_id(reports, "temperature");
 	auto humidity_entries = get_entries_by_id(reports, "humidity");
