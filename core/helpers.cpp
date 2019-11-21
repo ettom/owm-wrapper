@@ -27,7 +27,7 @@ std::vector<double> get_entries_by_id(const std::vector<Report>& input, const st
 {
 	std::vector<double> result;
 	std::transform(input.begin(), input.end(), std::back_inserter(result),
-	[&](auto & report) {
+	[&](auto& report) {
 		json j = report;
 		return j[id].get<double>();
 	});

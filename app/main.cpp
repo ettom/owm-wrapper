@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
 	json result = json::array();
 
-	for (auto line : lines) {
+	for (const auto& line : lines) {
 		q.city = line;
 		try {
 			Forecast f = get_forecast(q, getter);

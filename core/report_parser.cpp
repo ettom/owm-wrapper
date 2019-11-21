@@ -37,7 +37,7 @@ Forecast get_main_data(const WeatherData& wd)
 size_t find_report_by_date(const Reports_by_day& reports, const std::string& date)
 {
 	for (size_t i = 0; i < reports.size(); i++) {
-		for (auto r : reports.at(i)) {
+		for (auto& r : reports.at(i)) {
 			if (r.date == date) {
 				return i;
 			}
@@ -68,7 +68,7 @@ void remove_todays_reports(Reports_by_day& reports, const std::string& todays_da
 Reports_by_day group_by_date(const std::vector<Report>& reports)
 {
 	Reports_by_day result;
-	for (auto r : reports) {
+	for (const auto& r : reports) {
 		size_t to_insert = find_report_by_date(result, r.date);
 		if (to_insert == std::string::npos) {
 			result.push_back(std::vector<Report> {r});
@@ -84,7 +84,7 @@ Reports_by_day parse_forecast_data(const json& response, time_t timezone_offset)
 {
 	std::vector<Report> result;
 
-	for (auto& [key, value] : response["list"].items()) {
+	for (const auto& [key, value] : response["list"].items()) {
 		Report r {};
 		r.datetime = value["dt"].get<time_t>() + timezone_offset;
 		r.date = unix_time_to_string(r.datetime, r.date_format);
