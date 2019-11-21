@@ -37,7 +37,9 @@ std::vector<Report> get_reports(const json& response, const std::string& todays_
 	}
 
 	for (size_t i = 0; i < q.days; i++) {
-		day_reports.push_back(make_day_report(reports.at(i)));
+		Report tmp = make_day_report(reports.at(i));
+		round_numeric_fields(tmp, q.decimal_points);
+		day_reports.push_back(tmp);
 	}
 
 	return day_reports;

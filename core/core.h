@@ -23,6 +23,7 @@ struct QueryParameters {
 	std::string lang = "en";
 
 	size_t days = 3;
+	size_t decimal_points = 2;
 };
 
 struct Report {
