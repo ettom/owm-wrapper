@@ -58,6 +58,13 @@ Reports_by_day remove_partial_days(const Reports_by_day& input)
 	return result;
 }
 
+void remove_todays_reports(Reports_by_day& reports, const std::string& todays_date)
+{
+	if (reports.at(0).at(0).date == todays_date) {
+		reports.erase(reports.begin());
+	}
+}
+
 Reports_by_day group_by_date(const std::vector<Report>& reports)
 {
 	Reports_by_day result;

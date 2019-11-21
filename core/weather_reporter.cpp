@@ -26,23 +26,24 @@ Report get_current_weather(const json& response, const QueryParameters& q)
 	return r;
 }
 
-std::vector<Report> get_reports(const json& response, const std::string& todays_date, const QueryParameters& q)
+std::vector<Report> make_day_reports(const Reports_by_day& reports, const QueryParameters& q)
 {
 	std::vector<Report> day_reports;
-	Reports_by_day reports = parse_forecast_data(response, q.timezone_offset);
-	reports = remove_partial_days(reports);
-
-	if (reports.at(0).at(0).date == todays_date) {
-		reports.erase(reports.begin());
-	}
-
 	for (size_t i = 0; i < q.days; i++) {
 		Report tmp = make_day_report(reports.at(i));
 		round_numeric_fields(tmp, q.decimal_points);
 		day_reports.push_back(tmp);
 	}
-
 	return day_reports;
+}
+
+
+std::vector<Report> get_reports(const json& response, const std::string& todays_date, const QueryParameters& q)
+{
+	Reports_by_day reports = parse_forecast_data(response, q.timezone_offset);
+	reports = remove_partial_days(reports);
+	remove_todays_reports(reports, todays_date);
+	return make_day_reports(reports, q);
 }
 
 

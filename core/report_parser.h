@@ -12,6 +12,9 @@ std::string get_city(const json& response);
 void check_if_invalid_city(const std::string& city, const json& response);
 
 size_t find_report_by_date(const Reports_by_day& reports, const std::string& date);
+
+void remove_todays_reports(Reports_by_day& reports, const std::string& todays_date);
+
 Reports_by_day remove_partial_days(const Reports_by_day& input);
 Reports_by_day group_by_date(const std::vector<Report>& reports);
 Reports_by_day parse_forecast_data(const json& response, time_t timezone_offset);
