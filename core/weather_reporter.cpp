@@ -4,11 +4,11 @@ WeatherData get_weather_data(QueryParameters q, const WeatherGetter& getter)
 {
 	WeatherData wd;
 
-	q.url = "http://api.openweathermap.org/data/2.5/weather";
+	q.url = OWM_TODAY_BASE_URL;
 	wd.current_weather_data = json::parse(getter.get_weather_data(q));
 	check_if_invalid_city(q.city, wd.current_weather_data);
 
-	q.url = "http://api.openweathermap.org/data/2.5/forecast";
+	q.url = OWM_5_DAY_FORECAST_BASE_URL;
 	wd.forecast_data = json::parse(getter.get_weather_data(q));
 	check_if_invalid_city(q.city, wd.forecast_data);
 

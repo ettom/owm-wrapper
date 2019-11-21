@@ -12,7 +12,9 @@ using json = nlohmann::json;
 
 #include "temperature_unit.h"
 
-constexpr char OWM_INVALID_CITY_RESPONSE[] = "city not found";
+inline const std::string OWM_INVALID_CITY_RESPONSE   { "city not found" };
+inline const std::string OWM_TODAY_BASE_URL          { "http://api.openweathermap.org/data/2.5/weather" };
+inline const std::string OWM_5_DAY_FORECAST_BASE_URL { "http://api.openweathermap.org/data/2.5/forecast" };
 
 struct QueryParameters {
 	std::string city;
@@ -21,8 +23,8 @@ struct QueryParameters {
 	TemperatureUnit::Unit temperature_unit;
 
 	std::string url;
-	std::string api_key = "68f5814e37a11ad9d5f9c3b98680c2df";
-	std::string lang = "en";
+	std::string api_key { "68f5814e37a11ad9d5f9c3b98680c2df" };
+	std::string lang    { "en" };
 
 	size_t days = 3;
 	size_t decimal_points = 2;
