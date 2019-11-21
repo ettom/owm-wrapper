@@ -27,7 +27,12 @@ int main(int argc, char *argv[])
 
 	for (auto line : lines) {
 		q.city = line;
-		result.push_back(get_forecast(q, getter));
+		try {
+			Forecast f = get_forecast(q, getter);
+			result.push_back(f);
+		} catch (const InvalidCityException& e) {
+			std::cerr << e.what() << std::endl;
+		}
 	}
 
 	std::cout << result.dump(4) << std::endl;

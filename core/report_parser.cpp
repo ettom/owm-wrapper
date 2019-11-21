@@ -12,8 +12,8 @@ std::string get_city(const json& response)
 
 void check_if_invalid_city(const std::string& city, const json& response)
 {
-	if (get_city(response) != city) {
-		throw InvalidCityException();
+	if (response.count("message") && response["message"] == OWM_INVALID_CITY_RESPONSE) {
+		throw InvalidCityException("Given city " + city + " is invalid.");
 	}
 }
 

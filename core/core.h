@@ -12,6 +12,8 @@ using json = nlohmann::json;
 
 #include "temperature_unit.h"
 
+constexpr char OWM_INVALID_CITY_RESPONSE[] = "city not found";
+
 struct QueryParameters {
 	std::string city;
 
