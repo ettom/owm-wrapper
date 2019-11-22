@@ -1,3 +1,13 @@
+## Description:
+A program to generate weather reports using the
+[OpenWeatherMap](https://openweathermap.org/api) API. Reports are generated for the
+current day and the following 3 days. OWM provides forecast data for free API
+keys only in the format of 5 day / 3 hour forecasts. This program calculates the
+averages over these reports and generates daily reports from the data. The program
+takes 1 argument that must be a path to a file containing the city names for which
+reports are to be generated. Each city name must be on a separate line. Reports are
+outputted in json format. Created as a school project.
+
 ## Dependencies:
 
 - A compiler with C++17 support ([clang-5+](http://llvm.org/releases/download.html), [gcc-8+](https://gcc.gnu.org/releases.html))
