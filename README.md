@@ -23,8 +23,8 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 60
 Run the following commands:
 
 ```
-git clone https://gitlab.cs.ttu.ee/risood/icd0004_project.git
-cd icd0004_project
+git clone https://github.com/ettom/owm-wrapper.git
+cd owm-wrapper
 mkdir build && cd build
 cmake ..
 make
