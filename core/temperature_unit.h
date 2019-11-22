@@ -21,5 +21,4 @@ inline Unit match_display_name_to_unit(const std::string& display_name)
 								std::end(for_display),
 								display_name))));
 }
-
 }

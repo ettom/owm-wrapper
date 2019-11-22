@@ -15,7 +15,7 @@ WeatherData get_weather_data(QueryParameters q, const WeatherGetter& getter)
 	return wd;
 }
 
-Report get_current_weather(const json& response, const QueryParameters& q)
+Report get_current_weather(const QueryParameters& q, const json& response)
 {
 	Report r {};
 	r.temperature = response["main"]["temp"].get<double>();
@@ -26,7 +26,7 @@ Report get_current_weather(const json& response, const QueryParameters& q)
 	return r;
 }
 
-std::vector<Report> make_day_reports(const Reports_by_day& reports, const QueryParameters& q)
+std::vector<Report> make_day_reports(const QueryParameters& q, const Reports_by_day& reports)
 {
 	std::vector<Report> day_reports;
 	for (size_t i = 0; i < q.days; i++) {
@@ -38,12 +38,12 @@ std::vector<Report> make_day_reports(const Reports_by_day& reports, const QueryP
 }
 
 
-std::vector<Report> get_reports(const json& response, const std::string& todays_date, const QueryParameters& q)
+std::vector<Report> get_reports(const QueryParameters& q, const json& response, const std::string& todays_date)
 {
 	Reports_by_day reports = parse_forecast_data(response, q.timezone_offset);
 	reports = remove_partial_days(reports);
 	remove_todays_reports(reports, todays_date);
-	return make_day_reports(reports, q);
+	return make_day_reports(q, reports);
 }
 
 
@@ -53,8 +53,8 @@ Forecast get_forecast(const QueryParameters& q, const WeatherGetter& getter)
 	Forecast f = get_main_data(wd);
 
 	f.temperature_unit = q.temperature_unit;
-	f.current_weather = get_current_weather(wd.current_weather_data, q);
-	f.reports = get_reports(wd.forecast_data, f.current_weather.date, q);
+	f.current_weather = get_current_weather(q, wd.current_weather_data);
+	f.reports = get_reports(q, wd.forecast_data, f.current_weather.date);
 
 	return f;
 }

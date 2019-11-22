@@ -50,9 +50,7 @@ size_t find_report_by_date(const Reports_by_day& reports, const std::string& dat
 Reports_by_day remove_partial_days(const Reports_by_day& input)
 {
 	Reports_by_day result;
-	auto pred = [](auto & x) {
-		return x.size() == 8;
-	};
+	auto pred = [](auto & x) { return x.size() == 8; };
 
 	std::copy_if(input.begin(), input.end(), std::back_inserter(result), pred);
 	return result;
