@@ -16,9 +16,9 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	std::vector<std::string> lines = read_file(argv[1]);
+	const std::vector<std::string> lines = read_file(argv[1]);
 
-	WeatherGetter getter;
+	const WeatherGetter getter;
 	QueryParameters q;
 	q.timezone_offset = get_system_timezone_offset();
 	q.temperature_unit = TemperatureUnit::CELSIUS;

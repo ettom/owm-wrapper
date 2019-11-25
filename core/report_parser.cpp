@@ -20,7 +20,7 @@ void check_if_invalid_city(const std::string& city, const json& response)
 std::string get_coordinates(const json& response)
 {
 	std::string result;
-	json coordinates = (response["coord"].is_null()) ? response["city"]["coord"] : response["coord"];
+	const json coordinates = (response["coord"].is_null()) ? response["city"]["coord"] : response["coord"];
 	result = coordinates["lat"].dump() + "," + coordinates["lon"].dump();
 	return result;
 }
@@ -50,7 +50,7 @@ size_t find_report_by_date(const Reports_by_day& reports, const std::string& dat
 Reports_by_day remove_partial_days(const Reports_by_day& input)
 {
 	Reports_by_day result;
-	auto pred = [](auto & x) { return x.size() == 8; };
+	const auto pred = [](auto & x) { return x.size() == 8; };
 
 	std::copy_if(input.begin(), input.end(), std::back_inserter(result), pred);
 	return result;
@@ -67,7 +67,7 @@ Reports_by_day group_by_date(const std::vector<Report>& reports)
 {
 	Reports_by_day result;
 	for (const auto& r : reports) {
-		size_t to_insert = find_report_by_date(result, r.date);
+		const size_t to_insert = find_report_by_date(result, r.date);
 		if (to_insert == std::string::npos) {
 			result.push_back(std::vector<Report> {r});
 		} else {
@@ -92,14 +92,14 @@ Reports_by_day parse_forecast_data(const json& response, time_t timezone_offset)
 		result.push_back(r);
 	}
 
-	return group_by_date(result);
+	return remove_partial_days(group_by_date(result));
 }
 
 Report make_single_day_report(const std::vector<Report>& reports)
 {
-	auto temperature_entries = get_entries_by_id(reports, "temperature");
-	auto humidity_entries = get_entries_by_id(reports, "humidity");
-	auto pressure_entries = get_entries_by_id(reports, "pressure");
+	const auto temperature_entries = get_entries_by_id(reports, "temperature");
+	const auto humidity_entries = get_entries_by_id(reports, "humidity");
+	const auto pressure_entries = get_entries_by_id(reports, "pressure");
 
 	Report r {};
 	r.datetime = reports.at(0).datetime;

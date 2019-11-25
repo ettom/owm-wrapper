@@ -28,8 +28,8 @@ inline double get_average(T input)
 {
 	double avg{};
 	int count = 1;
-	for (auto it = input.begin(); it != input.end(); ++it) {
-		avg += (*it - avg) / count;
+	for (const auto& e : input ) {
+		avg += (e - avg) / count;
 		++count;
 	}
 	return avg;
