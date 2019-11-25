@@ -3,7 +3,6 @@
 
 #include "core.h"
 
-
 class WeatherGetter
 {
 public:
@@ -13,11 +12,11 @@ public:
 		const RestClient::Response r = RestClient::get(create_url(q));
 		return r.body;
 	}
+
 private:
 	std::string create_url(const QueryParameters& q) const
 	{
-		return q.url + "?q=" + q.city + "&lang=" + q.lang
-		       + "&APPID=" + q.api_key + "&units="
-		       + TemperatureUnit::for_OWM[q.temperature_unit];
+		return q.url + "?q=" + q.city + "&lang=" + q.lang + "&APPID=" + q.api_key
+		       + "&units=" + TemperatureUnit::for_OWM[q.temperature_unit];
 	}
 };

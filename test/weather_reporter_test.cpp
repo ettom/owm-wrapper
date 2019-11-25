@@ -1,23 +1,22 @@
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
-#include "core.h"
-#include "helpers.h"
-#include "weather_reporter.h"
-#include "weather_getter.h"
 #include "comparison.h"
+#include "core.h"
 #include "exceptions.h"
+#include "helpers.h"
 #include "testing_helpers.h"
+#include "weather_getter.h"
+#include "weather_reporter.h"
 
+#include "api_responses/invalid_city_response.h"
+#include "api_responses/sydney_current_weather_response.h"
+#include "api_responses/sydney_forecast_response.h"
 #include "api_responses/tallinn_current_weather_response.h"
 #include "api_responses/tallinn_forecast_response.h"
-#include "api_responses/sydney_forecast_response.h"
-#include "api_responses/sydney_current_weather_response.h"
-#include "api_responses/invalid_city_response.h"
 
-#define GMT2_OFFSET        7200
+#define GMT2_OFFSET 7200
 #define GMT_MINUS12_OFFSET -43200
-
 
 class MockWeatherGetter : public WeatherGetter
 {
@@ -25,12 +24,10 @@ public:
 	MOCK_CONST_METHOD1(get_weather_data, std::string(const QueryParameters& q));
 };
 
-
 using namespace testing;
+using ::testing::_;
 using ::testing::AtLeast;
 using ::testing::Return;
-using ::testing::_;
-
 
 TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 {
@@ -38,9 +35,9 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 	const MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	.Times(2)
-	.WillOnce(Return(tallinn_current_weather_response))
-	.WillOnce(Return(tallinn_forecast_response));
+	    .Times(2)
+	    .WillOnce(Return(tallinn_current_weather_response))
+	    .WillOnce(Return(tallinn_forecast_response));
 
 	const QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
 
@@ -59,9 +56,9 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThre
 	const MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	.Times(2)
-	.WillOnce(Return(tallinn_current_weather_response))
-	.WillOnce(Return(tallinn_forecast_response));
+	    .Times(2)
+	    .WillOnce(Return(tallinn_current_weather_response))
+	    .WillOnce(Return(tallinn_forecast_response));
 
 	const QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
 
@@ -81,9 +78,9 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 	const MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	.Times(2)
-	.WillOnce(Return(tallinn_current_weather_response))
-	.WillOnce(Return(tallinn_forecast_response));
+	    .Times(2)
+	    .WillOnce(Return(tallinn_current_weather_response))
+	    .WillOnce(Return(tallinn_forecast_response));
 
 	const QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
 
@@ -108,9 +105,9 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	const MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	.Times(2)
-	.WillOnce(Return(tallinn_current_weather_response))
-	.WillOnce(Return(tallinn_forecast_response));
+	    .Times(2)
+	    .WillOnce(Return(tallinn_current_weather_response))
+	    .WillOnce(Return(tallinn_forecast_response));
 
 	const QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
 
@@ -135,9 +132,9 @@ TEST(WeatherReporter, givenCityInOtherTimeZone_callingGetForecast_mustReturnDate
 	const MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	.Times(2)
-	.WillOnce(Return(sydney_current_weather_response))
-	.WillOnce(Return(sydney_forecast_response));
+	    .Times(2)
+	    .WillOnce(Return(sydney_current_weather_response))
+	    .WillOnce(Return(sydney_forecast_response));
 
 	const QueryParameters q { .city = "Sydney", .timezone_offset = GMT_MINUS12_OFFSET };
 
@@ -165,8 +162,10 @@ TEST(WeatherReporter, givenCityInOtherTimeZone_callingParseForecastData_mustRetu
 	const Report first_day_first_report = reports.at(0).at(0);
 	const Report first_day_last_report = reports.at(0).at(7);
 
-	const std::string first_day_first_report_datetime = unix_time_to_string(first_day_first_report.datetime, "%d.%m.%Y %H:%M:%S");
-	const std::string first_day_last_report_datetime = unix_time_to_string(first_day_last_report.datetime, "%d.%m.%Y %H:%M:%S");
+	const std::string first_day_first_report_datetime =
+	    unix_time_to_string(first_day_first_report.datetime, "%d.%m.%Y %H:%M:%S");
+	const std::string first_day_last_report_datetime =
+	    unix_time_to_string(first_day_last_report.datetime, "%d.%m.%Y %H:%M:%S");
 
 	// ASSERT
 	ASSERT_EQ(expected_first_day_first_report_datetime, first_day_first_report_datetime);
@@ -179,15 +178,14 @@ TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityEx
 	const MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	.Times(1)
-	.WillRepeatedly(Return(invalid_city_response));
+	    .Times(1)					    //
+	    .WillRepeatedly(Return(invalid_city_response)); //
 
 	const QueryParameters q { .city = "tln", .timezone_offset = GMT2_OFFSET };
 
 	// ASSERT
 	ASSERT_THROW(get_forecast(q, getter), InvalidCityException);
 }
-
 
 TEST(WeatherReporter, givenForecastAsJson_convertingToForecastAndBack_mustReturnForecastAsJson)
 {

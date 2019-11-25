@@ -1,10 +1,10 @@
 #pragma once
+#include <cstdint>
+#include <iomanip>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 #include <vector>
-#include <stdexcept>
-#include <iomanip>
-#include <cstdint>
 
 #include <nlohmann/json.hpp>
 
@@ -12,8 +12,8 @@ using json = nlohmann::json;
 
 #include "temperature_unit.h"
 
-inline const std::string OWM_INVALID_CITY_RESPONSE   { "city not found" };
-inline const std::string OWM_TODAY_BASE_URL          { "http://api.openweathermap.org/data/2.5/weather" };
+inline const std::string OWM_INVALID_CITY_RESPONSE { "city not found" };
+inline const std::string OWM_TODAY_BASE_URL { "http://api.openweathermap.org/data/2.5/weather" };
 inline const std::string OWM_5_DAY_FORECAST_BASE_URL { "http://api.openweathermap.org/data/2.5/forecast" };
 inline size_t REPORTS_PER_DAY_IN_FORECAST = 8;
 
@@ -25,7 +25,7 @@ struct QueryParameters {
 
 	std::string url;
 	std::string api_key { "68f5814e37a11ad9d5f9c3b98680c2df" };
-	std::string lang    { "en" };
+	std::string lang { "en" };
 
 	size_t days = 3;
 	size_t decimal_points = 2;
@@ -42,11 +42,11 @@ struct Report {
 
 	friend void to_json(json& j, const Report& r)
 	{
-		j = json {{"datetime", r.datetime},
-			{"date", r.date},
-			{"temperature", r.temperature},
-			{"humidity", r.humidity},
-			{"pressure", r.pressure}};
+		j = json { { "datetime", r.datetime },
+			   { "date", r.date },
+			   { "temperature", r.temperature },
+			   { "humidity", r.humidity },
+			   { "pressure", r.pressure } };
 	}
 
 	friend void from_json(const json& j, Report& r)
@@ -57,7 +57,6 @@ struct Report {
 		j.at("humidity").get_to(r.humidity);
 		j.at("pressure").get_to(r.pressure);
 	}
-
 };
 
 using Reports_by_day = std::vector<std::vector<Report>>;
@@ -71,11 +70,11 @@ struct Forecast {
 
 	friend void to_json(json& j, const Forecast& f)
 	{
-		j = json {{"city", f.city},
-			{"coordinates", f.coordinates},
-			{"temperature_unit", TemperatureUnit::for_display[f.temperature_unit]},
-			{"current_weather", f.current_weather},
-			{"reports", f.reports}};
+		j = json { { "city", f.city },
+			   { "coordinates", f.coordinates },
+			   { "temperature_unit", TemperatureUnit::for_display[f.temperature_unit] },
+			   { "current_weather", f.current_weather },
+			   { "reports", f.reports } };
 	}
 
 	friend void from_json(const json& j, Forecast& f)

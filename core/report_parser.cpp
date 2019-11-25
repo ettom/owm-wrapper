@@ -33,7 +33,6 @@ Forecast get_main_data(const WeatherData& wd)
 	return f;
 }
 
-
 size_t find_report_by_date(const Reports_by_day& reports, const std::string& date)
 {
 	for (size_t i = 0; i < reports.size(); i++) {
@@ -50,7 +49,7 @@ size_t find_report_by_date(const Reports_by_day& reports, const std::string& dat
 Reports_by_day remove_partial_days(const Reports_by_day& input)
 {
 	Reports_by_day result;
-	const auto pred = [](auto & x) { return x.size() == REPORTS_PER_DAY_IN_FORECAST; };
+	const auto pred = [](auto& x) { return x.size() == REPORTS_PER_DAY_IN_FORECAST; };
 
 	std::copy_if(input.begin(), input.end(), std::back_inserter(result), pred);
 	return result;
@@ -69,7 +68,7 @@ Reports_by_day group_by_date(const std::vector<Report>& reports)
 	for (const auto& r : reports) {
 		const size_t to_insert = find_report_by_date(result, r.date);
 		if (to_insert == std::string::npos) {
-			result.push_back(std::vector<Report> {r});
+			result.push_back(std::vector<Report> { r });
 		} else {
 			result.at(to_insert).push_back(r);
 		}

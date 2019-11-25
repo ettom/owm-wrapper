@@ -1,6 +1,6 @@
 #pragma once
-#include <iomanip>
 #include <algorithm>
+#include <iomanip>
 #include <sstream>
 
 #include "core.h"
@@ -26,9 +26,9 @@ inline void round_numeric_fields(Report& r, size_t decimal_points)
 template <class T>
 inline double get_average(T input)
 {
-	double avg{};
+	double avg {};
 	int count = 1;
-	for (const auto& e : input ) {
+	for (const auto& e : input) {
 		avg += (e - avg) / count;
 		++count;
 	}

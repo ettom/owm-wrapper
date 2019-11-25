@@ -37,7 +37,6 @@ std::vector<Report> make_day_reports(const QueryParameters& q, const Reports_by_
 	return day_reports;
 }
 
-
 std::vector<Report> get_reports(const QueryParameters& q, const json& response, const std::string& todays_date)
 {
 	Reports_by_day reports = parse_forecast_data(response, q.timezone_offset);
@@ -45,7 +44,6 @@ std::vector<Report> get_reports(const QueryParameters& q, const json& response, 
 	remove_todays_reports(reports, todays_date);
 	return make_day_reports(q, reports);
 }
-
 
 Forecast get_forecast(const QueryParameters& q, const WeatherGetter& getter)
 {
