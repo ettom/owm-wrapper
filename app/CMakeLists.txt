@@ -5,6 +5,8 @@ conan_basic_setup()
 
 add_definitions("-std=c++17")
 
+file(DOWNLOAD https://github.com/CLIUtils/CLI11/releases/download/v1.8.0/CLI11.hpp ../app/CLI11.hpp)
+
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}Core ${CONAN_LIBS})
 
