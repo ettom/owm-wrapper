@@ -1,12 +1,34 @@
 ## Description:
 A program to generate weather reports using the
 [OpenWeatherMap](https://openweathermap.org/api) API. Reports are generated for the
-current day and the following 3 days. OWM provides forecast data for free API
-keys only in the format of 5 day / 3 hour forecasts. This program calculates the
-averages over these reports and generates daily reports from the data. The program
-takes 1 argument that must be a path to a file containing the city names for which
-reports are to be generated. Each city name must be on a separate line. Reports are
-outputted in json format. Created as a school project.
+current day and the following 3 days. OWM provides forecast data for free API keys
+only in the format of 5 day / 3 hour forecasts. This program calculates the averages
+over these reports and generates daily reports from the data. Created as a school
+project.
+
+## Usage
+```
+Usage: ./owm-wrapper [OPTIONS]
+
+Options:
+  -h,--help                   Print this help message and exit
+  -o,--output TEXT            Where to write the weather reports
+                              If no output path is provided, result will be written to stdout
+  -u,--unit ENUM:value in {Celsius->0,Fahrenheit->1,Kelvin->2} OR {0,1,2}
+                              Temperature unit, defaults to celsius
+[Option Group: input]
+  Cities to generate reports for
+  [Exactly 1 of the following options is required]
+  Options:
+    -i,--input TEXT:FILE        Path to a file containing the city names for which reports are to be generated
+                                Each city name must be on a separate line
+    -c,--city TEXT ...          List of city names
+
+```
+
+For example: to generate reports for London in fahrenheit and store the result in
+`output.json`, you could do `owm-wrapper -c London -u fahrenheit -o output.json`.
+
 
 ## Dependencies:
 
@@ -38,9 +60,9 @@ cd owm-wrapper
 mkdir build && cd build
 cmake ..
 make
+sudo make install
 ```
 
-## Running
 To run the program with the example input file:
 
 `make run`

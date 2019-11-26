@@ -11,37 +11,44 @@
 #include "weather_getter.h"
 #include "weather_reporter.h"
 
+using namespace TemperatureUnit;
+
 int main(int argc, char* argv[])
 {
 	CLI::App app { "Generate daily weather reports using the OpenWeatherMap API." };
+
 	std::string input_filename;
 	std::string output_filename;
-	TemperatureUnit::Unit unit = TemperatureUnit::CELSIUS;
-	app.add_option("-i,--input", input_filename,
-		       "Path to the input file containing the city names for "
-		       "which reports are to be generated")
-	    ->required()
+	TemperatureUnit::Unit unit;
+	std::vector<std::string> cities;
+
+	auto input = app.add_option_group("input", "Cities to generate reports for");
+
+	input
+	    ->add_option("-i, --input", input_filename,
+			 "Path to a file containing the city names for "
+			 "which reports are to be generated\n"
+			 "Each city name must be on a separate line")
 	    ->check(CLI::ExistingFile);
 
+	input->add_option("-c, --city", cities, "List of city names");
+	input->require_option(1);
+
 	app.add_option("-o,--output", output_filename,
-		       "Where to write the weather reports. If no output path "
-		       "is provided, result will be written to stdout");
+		       "Where to write the weather reports\n"
+		       "If no output path is provided, result will be written to stdout");
 
-	using namespace TemperatureUnit;
-	std::array<std::pair<Unit, const char*>, SIZE_OF_ENUM> arr = TemperatureUnit::make_unit_displayname_pairs();
-	std::vector<std::pair<Unit, const char*>> v(std::begin(arr), std::end(arr));
+	std::array<std::pair<const char*, Unit>, SIZE_OF_ENUM> arr = TemperatureUnit::make_unit_displayname_pairs();
 
-	for (auto i : v) {
-		std::cout << i.first << std::endl;
-		std::cout << i.second << std::endl;
-	}
-
-	app.add_option("-u,--unit", unit, "Temperature unit")->transform(CLI::Transformer(v));
+	app.add_option("-u,--unit", unit, "Temperature unit, defaults to celsius")
+	    ->transform(CLI::CheckedTransformer(
+		std::vector<std::pair<const char*, Unit>>(std::begin(arr), std::end(arr)), CLI::ignore_case));
 
 	CLI11_PARSE(app, argc, argv);
-	std::cout << unit << std::endl;
 
-	const std::vector<std::string> lines = read_file(input_filename);
+	if (!input_filename.empty()) {
+		cities = read_file(input_filename);
+	}
 
 	const WeatherGetter getter;
 	QueryParameters q;
@@ -50,8 +57,8 @@ int main(int argc, char* argv[])
 
 	json result = json::array();
 
-	for (const auto& line : lines) {
-		q.city = line;
+	for (const auto& city : cities) {
+		q.city = city;
 		try {
 			Forecast f = get_forecast(q, getter);
 			result.push_back(f);

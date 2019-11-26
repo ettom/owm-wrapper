@@ -19,11 +19,11 @@ inline Unit match_display_name_to_unit(const std::string& display_name)
 	    std::begin(for_display), std::find(std::begin(for_display), std::end(for_display), display_name))));
 }
 
-constexpr std::array<std::pair<Unit, const char*>, SIZE_OF_ENUM> make_unit_displayname_pairs()
+constexpr std::array<std::pair<const char*, Unit>, SIZE_OF_ENUM> make_unit_displayname_pairs()
 {
-	std::array<std::pair<Unit, const char*>, SIZE_OF_ENUM> result;
+	std::array<std::pair<const char*, Unit>, SIZE_OF_ENUM> result {};
 	for (size_t i = 0; i < SIZE_OF_ENUM; ++i) {
-		result[i] = std::make_pair(static_cast<Unit>(i), for_display[i]);
+		result[i] = std::make_pair(for_display[i], static_cast<Unit>(i));
 	}
 
 	return result;

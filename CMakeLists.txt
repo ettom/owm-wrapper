@@ -38,7 +38,7 @@ add_custom_target(
 
 add_custom_target(
     run
-    COMMAND ${PROJECT_NAME} ../input.txt
+    COMMAND ${PROJECT_NAME} -i ../input.txt -o output.json
     DEPENDS ${PROJECT_NAME}
     VERBATIM
     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
