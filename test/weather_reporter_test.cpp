@@ -38,7 +38,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 	    .WillOnce(Return(tallinn_current_weather_response))
 	    .WillOnce(Return(tallinn_forecast_response));
 
-	const QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
+	const QueryParameters q {.city = "Tallinn", .timezone_offset = GMT2_OFFSET};
 
 	// ACT
 	const Forecast result = get_forecast(q, getter);
@@ -59,7 +59,7 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextThre
 	    .WillOnce(Return(tallinn_current_weather_response))
 	    .WillOnce(Return(tallinn_forecast_response));
 
-	const QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
+	const QueryParameters q {.city = "Tallinn", .timezone_offset = GMT2_OFFSET};
 
 	// ACT
 	const Forecast result = get_forecast(q, getter);
@@ -81,14 +81,14 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnCurrentWeatherRepor
 	    .WillOnce(Return(tallinn_current_weather_response))
 	    .WillOnce(Return(tallinn_forecast_response));
 
-	const QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
+	const QueryParameters q {.city = "Tallinn", .timezone_offset = GMT2_OFFSET};
 
 	const Report expected_current_weather {
-		.datetime = 1572269226,
-		.date = "28.10.2019",
-		.temperature = 4.49,
-		.humidity = 79,
-		.pressure = 1009,
+	    .datetime = 1572269226,
+	    .date = "28.10.2019",
+	    .temperature = 4.49,
+	    .humidity = 79,
+	    .pressure = 1009,
 	};
 
 	// ACT
@@ -108,14 +108,14 @@ TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastForNextDay)
 	    .WillOnce(Return(tallinn_current_weather_response))
 	    .WillOnce(Return(tallinn_forecast_response));
 
-	const QueryParameters q { .city = "Tallinn", .timezone_offset = GMT2_OFFSET };
+	const QueryParameters q {.city = "Tallinn", .timezone_offset = GMT2_OFFSET};
 
 	const Report expected_next_day_report {
-		.datetime = 1572314400,
-		.date = "29.10.2019",
-		.temperature = 1.94,
-		.humidity = 68.88,
-		.pressure = 1015.88,
+	    .datetime = 1572314400,
+	    .date = "29.10.2019",
+	    .temperature = 1.94,
+	    .humidity = 68.88,
+	    .pressure = 1015.88,
 	};
 
 	// ACT
@@ -135,7 +135,7 @@ TEST(WeatherReporter, givenCityInOtherTimeZone_callingGetForecast_mustReturnDate
 	    .WillOnce(Return(sydney_current_weather_response))
 	    .WillOnce(Return(sydney_forecast_response));
 
-	const QueryParameters q { .city = "Sydney", .timezone_offset = GMT_MINUS12_OFFSET };
+	const QueryParameters q {.city = "Sydney", .timezone_offset = GMT_MINUS12_OFFSET};
 
 	const time_t expected_datetime = 1572666855; // "02.11.2019 03:54:15"
 	const std::string expected_date = "02.11.2019";
@@ -156,7 +156,7 @@ TEST(WeatherReporter, givenCityInOtherTimeZone_callingParseForecastData_mustRetu
 	const std::string expected_first_day_last_report_datetime = "03.11.2019 21:00:00";
 
 	// ACT
-	const Reports_by_day reports = parse_forecast_data(json::parse(sydney_forecast_response), timezone_offset);
+	const reports_by_day reports = parse_forecast_data(json::parse(sydney_forecast_response), timezone_offset);
 
 	const Report first_day_first_report = reports.at(0).at(0);
 	const Report first_day_last_report = reports.at(0).at(7);
@@ -180,7 +180,7 @@ TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityEx
 	    .Times(1)					    //
 	    .WillRepeatedly(Return(invalid_city_response)); //
 
-	const QueryParameters q { .city = "tln", .timezone_offset = GMT2_OFFSET };
+	const QueryParameters q {.city = "tln", .timezone_offset = GMT2_OFFSET};
 
 	// ASSERT
 	ASSERT_THROW(get_forecast(q, getter), InvalidCityException);

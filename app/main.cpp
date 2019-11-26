@@ -13,7 +13,7 @@
 
 int main(int argc, char* argv[])
 {
-	CLI::App app { "Generate daily weather reports using the OpenWeatherMap API." };
+	CLI::App app {"Generate daily weather reports using the OpenWeatherMap API."};
 
 	std::string input_filename;
 	std::string output_filename;

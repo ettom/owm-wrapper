@@ -7,8 +7,8 @@
 namespace TemperatureUnit
 {
 enum Unit { CELSIUS, FAHRENHEIT, KELVIN, SIZE_OF_ENUM };
-static const char* for_display[] { "Celsius", "Fahrenheit", "Kelvin" };
-static const char* for_OWM[] { "metric", "imperial", "default" };
+static const char* for_display[] {"Celsius", "Fahrenheit", "Kelvin"};
+static const char* for_OWM[] {"metric", "imperial", "default"};
 
 static_assert(sizeof(for_display) / sizeof(char*) == SIZE_OF_ENUM, "Sizes don't match");
 static_assert(sizeof(for_OWM) / sizeof(char*) == SIZE_OF_ENUM, "Sizes don't match");

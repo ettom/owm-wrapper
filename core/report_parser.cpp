@@ -33,7 +33,7 @@ Forecast get_main_data(const WeatherData& wd)
 	return f;
 }
 
-size_t find_report_by_date(const Reports_by_day& reports, const std::string& date)
+size_t find_report_by_date(const reports_by_day& reports, const std::string& date)
 {
 	for (size_t i = 0; i < reports.size(); i++) {
 		for (auto& r : reports.at(i)) {
@@ -46,29 +46,29 @@ size_t find_report_by_date(const Reports_by_day& reports, const std::string& dat
 	return std::string::npos;
 }
 
-Reports_by_day remove_partial_days(const Reports_by_day& input)
+reports_by_day remove_partial_days(const reports_by_day& input)
 {
-	Reports_by_day result;
+	reports_by_day result;
 	const auto pred = [](auto& x) { return x.size() == REPORTS_PER_DAY_IN_FORECAST; };
 
 	std::copy_if(input.begin(), input.end(), std::back_inserter(result), pred);
 	return result;
 }
 
-void remove_todays_reports(Reports_by_day& reports, const std::string& todays_date)
+void remove_todays_reports(reports_by_day& reports, const std::string& todays_date)
 {
 	if (reports.at(0).at(0).date == todays_date) {
 		reports.erase(reports.begin());
 	}
 }
 
-Reports_by_day group_by_date(const std::vector<Report>& reports)
+reports_by_day group_by_date(const std::vector<Report>& reports)
 {
-	Reports_by_day result;
+	reports_by_day result;
 	for (const auto& r : reports) {
 		const size_t to_insert = find_report_by_date(result, r.date);
 		if (to_insert == std::string::npos) {
-			result.push_back(std::vector<Report> { r });
+			result.push_back(std::vector<Report> {r});
 		} else {
 			result.at(to_insert).push_back(r);
 		}
@@ -77,7 +77,7 @@ Reports_by_day group_by_date(const std::vector<Report>& reports)
 	return result;
 }
 
-Reports_by_day parse_forecast_data(const json& response, time_t timezone_offset)
+reports_by_day parse_forecast_data(const json& response, time_t timezone_offset)
 {
 	std::vector<Report> result;
 
@@ -96,16 +96,12 @@ Reports_by_day parse_forecast_data(const json& response, time_t timezone_offset)
 
 Report make_single_day_report(const std::vector<Report>& reports)
 {
-	const auto temperature_entries = get_entries_by_id(reports, "temperature");
-	const auto humidity_entries = get_entries_by_id(reports, "humidity");
-	const auto pressure_entries = get_entries_by_id(reports, "pressure");
-
 	Report r {};
 	r.datetime = reports.at(0).datetime;
 	r.date = reports.at(0).date;
-	r.temperature = get_average(temperature_entries);
-	r.humidity = get_average(humidity_entries);
-	r.pressure = get_average(pressure_entries);
+	r.temperature = get_average(get_entries_by_id(reports, "temperature"));
+	r.humidity = get_average(get_entries_by_id(reports, "humidity"));
+	r.pressure = get_average(get_entries_by_id(reports, "pressure"));
 
 	return r;
 }
