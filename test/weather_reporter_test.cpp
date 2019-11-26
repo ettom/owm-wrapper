@@ -1,7 +1,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "comparison.h"
 #include "core.h"
 #include "exceptions.h"
 #include "helpers.h"

@@ -57,6 +57,13 @@ struct Report {
 		j.at("humidity").get_to(r.humidity);
 		j.at("pressure").get_to(r.pressure);
 	}
+
+	friend bool operator==(const Report& report1, const Report& report2)
+	{
+		json j1 = report1;
+		json j2 = report2;
+		return j1 == j2;
+	}
 };
 
 using Reports_by_day = std::vector<std::vector<Report>>;
@@ -85,6 +92,13 @@ struct Forecast {
 		j.at("coordinates").get_to(f.coordinates);
 		j.at("current_weather").get_to(f.current_weather);
 		j.at("reports").get_to(f.reports);
+	}
+
+	friend bool operator==(const Forecast& forecast1, const Forecast& forecast2)
+	{
+		json j1 = forecast1;
+		json j2 = forecast2;
+		return j1 == j2;
 	}
 };
 
