@@ -15,7 +15,7 @@ using json = nlohmann::json;
 inline const std::string OWM_INVALID_CITY_RESPONSE { "city not found" };
 inline const std::string OWM_TODAY_BASE_URL { "http://api.openweathermap.org/data/2.5/weather" };
 inline const std::string OWM_5_DAY_FORECAST_BASE_URL { "http://api.openweathermap.org/data/2.5/forecast" };
-inline size_t REPORTS_PER_DAY_IN_FORECAST = 8;
+inline const size_t REPORTS_PER_DAY_IN_FORECAST = 8;
 
 struct QueryParameters {
 	std::string city;
