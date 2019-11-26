@@ -4,4 +4,3 @@ compile_commands.json
 .clangd
 .cmake-format.py
 output.json
-app/CLI11.hpp
