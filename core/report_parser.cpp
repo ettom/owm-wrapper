@@ -105,3 +105,14 @@ Report make_single_day_report(const std::vector<Report>& reports)
 
 	return r;
 }
+
+std::vector<Report> make_day_reports(const QueryParameters& q, const reports_by_day& reports)
+{
+	std::vector<Report> day_reports;
+	for (size_t i = 0; i < q.days; i++) {
+		Report tmp = make_single_day_report(reports.at(i));
+		round_numeric_fields(tmp, q.decimal_points);
+		day_reports.push_back(tmp);
+	}
+	return day_reports;
+}

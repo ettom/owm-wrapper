@@ -4,6 +4,7 @@
 #include "core.h"
 #include "exceptions.h"
 #include "helpers.h"
+#include "reader_writer.h"
 #include "testing_helpers.h"
 #include "weather_getter.h"
 #include "weather_reporter.h"
@@ -23,10 +24,106 @@ public:
 	MOCK_CONST_METHOD1(get_weather_data, std::string(const QueryParameters& q));
 };
 
+class MockReaderWriter : public ReaderWriter
+{
+public:
+	MOCK_CONST_METHOD0(read_file, std::vector<std::string>());
+	MOCK_CONST_METHOD1(write_json_to_file, void(const json& json));
+};
+
 using namespace testing;
 using ::testing::_;
 using ::testing::AtLeast;
+using ::testing::Eq;
 using ::testing::Return;
+
+void read_cities_write_forecasts(const QueryParameters& q, const WeatherGetter& getter, const ReaderWriter& rw)
+{
+	const std::vector<std::string> cities = rw.read_file();
+	const json result = make_forecasts(q, getter, cities);
+	rw.write_json_to_file(result);
+}
+
+TEST(WeatherReporter, givenCityName_callingReadCitiesWriteForecasts_mustCallWriteToFileWithForecastJson)
+{
+	// ARRANGE
+	MockReaderWriter rw;
+	EXPECT_CALL(rw, read_file)
+	    .Times(1) //
+	    .WillOnce(Return(std::vector<std::string> {"Tallinn"}));
+
+	const QueryParameters q {.timezone_offset = GMT2_OFFSET};
+
+	const auto expected_json = R"(
+[
+{
+    "city": "Tallinn",
+    "coordinates": "59.44,24.75",
+    "current_weather": {
+        "date": "28.10.2019",
+        "datetime": 1572269226,
+        "humidity": 79.0,
+        "pressure": 1009.0,
+        "temperature": 4.49
+    },
+    "reports": [
+        {
+            "date": "29.10.2019",
+            "datetime": 1572314400,
+            "humidity": 68.88,
+            "pressure": 1015.88,
+            "temperature": 1.94
+        },
+        {
+            "date": "30.10.2019",
+            "datetime": 1572400800,
+            "humidity": 70.38,
+            "pressure": 1023.0,
+            "temperature": 1.77
+        },
+        {
+            "date": "31.10.2019",
+            "datetime": 1572487200,
+            "humidity": 79.0,
+            "pressure": 1014.63,
+            "temperature": 4.8
+        }
+    ],
+    "temperature_unit": "Celsius"
+}
+]
+)"_json;
+
+	const MockWeatherGetter getter;
+	EXPECT_CALL(getter, get_weather_data(_))
+	    .Times(2)
+	    .WillOnce(Return(tallinn_current_weather_response))
+	    .WillOnce(Return(tallinn_forecast_response));
+
+	// ASSERT
+	EXPECT_CALL(rw, write_json_to_file(Eq(expected_json))).Times(1);
+	read_cities_write_forecasts(q, getter, rw);
+}
+
+TEST(WeatherReporter, givenInvalidCityName_callingReadCitiesWriteForecasts_mustNotCallWriteToFile)
+{
+	// ARRANGE
+	MockReaderWriter rw;
+	EXPECT_CALL(rw, read_file)
+	    .Times(1) //
+	    .WillOnce(Return(std::vector<std::string> {"tln"}));
+
+	const QueryParameters q {.timezone_offset = GMT2_OFFSET};
+
+	const MockWeatherGetter getter;
+	EXPECT_CALL(getter, get_weather_data(_))
+	    .Times(1) //
+	    .WillOnce(Return(invalid_city_response));
+
+	// ASSERT
+	EXPECT_CALL(rw, write_json_to_file(_)).Times(0);
+	ASSERT_THROW(read_cities_write_forecasts(q, getter, rw), InvalidCityException);
+}
 
 TEST(WeatherReporter, givenCity_callingGetForecast_mustReturnForecastData)
 {

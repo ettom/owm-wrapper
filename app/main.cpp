@@ -5,7 +5,6 @@
 #include "CLI11.hpp"
 
 #include "core.h"
-#include "filesystem.h"
 #include "helpers.h"
 #include "temperature_unit.h"
 #include "weather_getter.h"
@@ -40,30 +39,30 @@ int main(int argc, char* argv[])
 
 	CLI11_PARSE(app, argc, argv);
 
-	if (!input_filename.empty()) {
-		cities = read_file(input_filename);
-	}
 
 	const WeatherGetter getter;
 	QueryParameters q;
 	q.timezone_offset = get_system_timezone_offset();
 	q.temperature_unit = unit;
 
-	json result = json::array();
+	ReaderWriter rw {};
+	rw.input_filename = input_filename;
+	rw.output_filename = output_filename;
 
-	for (const auto& city : cities) {
-		q.city = city;
-		try {
-			Forecast f = get_forecast(q, getter);
-			result.push_back(f);
-		} catch (const InvalidCityException& e) {
-			std::cerr << e.what() << std::endl;
-		}
+	if (!input_filename.empty()) {
+		cities = rw.read_file();
 	}
 
-	std::cout << result.dump(4) << std::endl;
-	if (!output_filename.empty()) {
-		write_json_to_file(output_filename, result);
+	try {
+		const json result = make_forecasts(q, getter, cities);
+		if (!output_filename.empty()) {
+			rw.write_json_to_file(result);
+		} else {
+			std::cout << result.dump(4) << std::endl;
+		}
+	} catch (const InvalidCityException& e) {
+		std::cout << e.what() << std::endl;
+		return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;
