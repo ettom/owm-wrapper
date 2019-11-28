@@ -1,3 +1,6 @@
+#include <algorithm>
+
+#include "helpers.h"
 #include "report_parser.h"
 
 std::string get_city(const json& response)

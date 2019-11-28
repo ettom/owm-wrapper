@@ -5,6 +5,7 @@
 #include "exceptions.h"
 #include "helpers.h"
 #include "reader_writer.h"
+#include "report_parser.h"
 #include "testing_helpers.h"
 #include "weather_getter.h"
 #include "weather_reporter.h"
@@ -274,8 +275,8 @@ TEST(WeatherReporter, givenInvalidCity_callingGetForecast_mustThrowInvalidCityEx
 	const MockWeatherGetter getter;
 
 	EXPECT_CALL(getter, get_weather_data(_))
-	    .Times(1)					    //
-	    .WillRepeatedly(Return(invalid_city_response)); //
+	    .Times(1) //
+	    .WillRepeatedly(Return(invalid_city_response));
 
 	const QueryParameters q {.city = "tln", .timezone_offset = GMT2_OFFSET};
 

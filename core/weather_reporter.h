@@ -1,8 +1,6 @@
 #pragma once
 #include "core.h"
 #include "exceptions.h"
-#include "helpers.h"
-#include "report_parser.h"
 #include "weather_getter.h"
 #include "reader_writer.h"
 

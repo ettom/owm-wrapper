@@ -1,3 +1,11 @@
+#include <string>
+#include <vector>
+
+#include <nlohmann/json.hpp>
+
+#include "core.h"
+#include "helpers.h"
+#include "report_parser.h"
 #include "weather_reporter.h"
 
 WeatherData get_weather_data(QueryParameters q, const WeatherGetter& getter)
