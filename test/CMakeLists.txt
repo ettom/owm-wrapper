@@ -4,7 +4,7 @@ file(GLOB_RECURSE SRC_LIST *.cpp *.h)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-add_definitions("-std=c++17")
+add_definitions("-std=c++2a")
 
 add_executable(${SUBPROJECT_NAME} ${SRC_LIST})
 target_link_libraries(${SUBPROJECT_NAME} PRIVATE ${PROJECT_NAME}Core

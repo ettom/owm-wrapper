@@ -4,7 +4,7 @@ add_library(${SUBPROJECT_NAME} ${SRC_LIST})
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
-add_definitions("-std=c++17")
+add_definitions("-std=c++2a")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 

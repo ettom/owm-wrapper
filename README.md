@@ -32,7 +32,7 @@ For example: to generate reports for London in fahrenheit and store the result i
 
 ## Dependencies:
 
-- A compiler with C++17 support ([clang-5+](http://llvm.org/releases/download.html), [gcc-8+](https://gcc.gnu.org/releases.html))
+- A compiler with experimental C++2a support ([clang-9+](http://llvm.org/releases/download.html), [gcc-9+](https://gcc.gnu.org/releases.html))
 - [cmake 3.11+](https://cmake.org/download/)
 - [git](https://git-scm.com/downloads)
 - [python3](https://www.python.org/downloads/)
@@ -43,12 +43,26 @@ For example: to generate reports for London in fahrenheit and store the result i
 
 ##### Installing the dependencies for Ubuntu 18.04
 Get the latest version of [cmake](https://apt.kitware.com/).<br>
+
+Install `g++-9`:
+
+```
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt update
+sudo apt install g++-9
+```
+
+Set `g++-9` as the default C++ compiler:
+
+```
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 60
+```
+
 Run the following commands:
 
 ```
-sudo apt install git g++-8 cmake python3-pip libcurl4-gnutls-dev
+sudo apt install git cmake python3-pip libcurl4-gnutls-dev
 sudo pip3 install conan
-sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 60
 ```
 
 ## Building
@@ -60,7 +74,12 @@ cd owm-wrapper
 mkdir build && cd build
 cmake ..
 make
+```
+
+To install:
+```
 sudo make install
+sudo ldconfig
 ```
 
 To run the program with the example input file:
