@@ -63,7 +63,7 @@ struct Report {
 	}
 };
 
-using reports_by_day = std::vector<std::vector<Report>>;
+using ReportsByDay = std::vector<std::vector<Report>>;
 
 struct Forecast {
 	std::string city;

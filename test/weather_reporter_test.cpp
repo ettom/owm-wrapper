@@ -254,7 +254,7 @@ TEST(WeatherReporter, givenCityInOtherTimeZone_callingParseForecastData_mustRetu
 	const std::string expected_first_day_last_report_datetime = "03.11.2019 21:00:00";
 
 	// ACT
-	const reports_by_day reports = parse_forecast_data(json::parse(sydney_forecast_response), timezone_offset);
+	const ReportsByDay reports = parse_forecast_data(json::parse(sydney_forecast_response), timezone_offset);
 
 	const Report first_day_first_report = reports.at(0).at(0);
 	const Report first_day_last_report = reports.at(0).at(7);
