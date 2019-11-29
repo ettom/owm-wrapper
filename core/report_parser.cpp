@@ -9,8 +9,9 @@ std::string get_city(const json& response)
 		return response["name"].get<std::string>();
 	} else if (response.count("city")) {
 		return response["city"]["name"].get<std::string>();
+	} else {
+		throw InvalidCityException("Could not extract city from API response!");
 	}
-	return "";
 }
 
 void check_if_invalid_city(const std::string& city, const json& response)
