@@ -37,6 +37,7 @@ struct Report {
 	double humidity;
 	double pressure;
 
+	// these behave like free functions due to ADL
 	friend void to_json(json& j, const Report& r)
 	{
 		j = json {{"datetime", r.datetime},
