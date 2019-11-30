@@ -14,6 +14,8 @@ inline const std::string OWM_TODAY_BASE_URL {"http://api.openweathermap.org/data
 inline const std::string OWM_5_DAY_FORECAST_BASE_URL {"http://api.openweathermap.org/data/2.5/forecast"};
 inline const size_t REPORTS_PER_DAY_IN_FORECAST {8};
 
+inline const std::string LOG_FILENAME {"owm-wrapper.log"};
+
 struct QueryParameters {
 	std::string city;
 

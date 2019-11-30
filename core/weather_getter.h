@@ -48,7 +48,7 @@ private:
 		};
 
 		ReaderWriter rw;
-		rw.output_filename = "owm-wrapper.log";
+		rw.output_filename = LOG_FILENAME;
 		rw.write_json_to_file(j, true);
 	}
 };
