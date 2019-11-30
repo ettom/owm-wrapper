@@ -29,7 +29,7 @@ class MockReaderWriter : public ReaderWriter
 {
 public:
 	MOCK_CONST_METHOD0(read_file, std::vector<std::string>());
-	MOCK_CONST_METHOD1(write_json_to_file, void(const json& json));
+	MOCK_CONST_METHOD2(write_json_to_file, void(const json& json, bool append));
 };
 
 using namespace testing;
@@ -102,7 +102,9 @@ TEST(WeatherReporter, givenCityName_callingReadCitiesWriteForecasts_mustCallWrit
 	    .WillOnce(Return(tallinn_forecast_response));
 
 	// ASSERT
-	EXPECT_CALL(rw, write_json_to_file(Eq(expected_json))).Times(1);
+	EXPECT_CALL(rw, write_json_to_file(Eq(expected_json), _)) //
+	    .Times(1);
+
 	read_cities_write_forecasts(q, getter, rw);
 }
 
@@ -122,7 +124,7 @@ TEST(WeatherReporter, givenInvalidCityName_callingReadCitiesWriteForecasts_mustN
 	    .WillOnce(Return(invalid_city_response));
 
 	// ASSERT
-	EXPECT_CALL(rw, write_json_to_file(_)).Times(0);
+	EXPECT_CALL(rw, write_json_to_file(_, _)).Times(0);
 	ASSERT_THROW(read_cities_write_forecasts(q, getter, rw), InvalidCityException);
 }
 
