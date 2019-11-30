@@ -13,8 +13,7 @@ public:
 		return r.body;
 	}
 
-private:
-	std::string create_url(const QueryParameters& q) const
+	static std::string create_url(const QueryParameters& q)
 	{
 		return q.url + "?q=" + q.city + "&lang=" + q.lang + "&APPID=" + q.api_key
 		       + "&units=" + TemperatureUnit::for_OWM[q.temperature_unit];
