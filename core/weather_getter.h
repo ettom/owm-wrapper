@@ -9,7 +9,7 @@ public:
 	virtual ~WeatherGetter() {};
 	virtual std::string get_weather_data(const QueryParameters& q) const
 	{
-		const RestClient::Response r = RestClient::get(create_url(q));
+		const RestClient::Response r {RestClient::get(create_url(q))};
 		return r.body;
 	}
 

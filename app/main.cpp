@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 
 	std::string input_filename;
 	std::string output_filename;
-	TemperatureUnit::Unit unit = TemperatureUnit::CELSIUS;
+	TemperatureUnit::Unit unit {TemperatureUnit::CELSIUS};
 	std::vector<std::string> cities;
 
 	auto input = app.add_option_group("input", "Cities to generate reports for");
@@ -41,13 +41,12 @@ int main(int argc, char* argv[])
 
 	CLI11_PARSE(app, argc, argv);
 
-
 	const WeatherGetter getter;
 	QueryParameters q;
 	q.timezone_offset = get_system_timezone_offset();
 	q.temperature_unit = unit;
 
-	ReaderWriter rw {};
+	ReaderWriter rw;
 	rw.input_filename = input_filename;
 	rw.output_filename = output_filename;
 

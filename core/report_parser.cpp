@@ -68,7 +68,7 @@ ReportsByDay group_by_date(const std::vector<Report>& reports)
 {
 	ReportsByDay result;
 	for (const auto& r : reports) {
-		const size_t to_insert = find_report_by_date(result, r.date);
+		const size_t to_insert {find_report_by_date(result, r.date)};
 		if (to_insert == std::string::npos) {
 			result.push_back(std::vector<Report> {r});
 		} else {

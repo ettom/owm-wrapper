@@ -23,10 +23,10 @@ long get_system_timezone_offset()
 	const auto tm = *std::localtime(&when);
 	std::ostringstream os;
 	os << std::put_time(&tm, "%z");
-	const std::string s = os.str();
+	const std::string s {os.str()};
 	// s is in ISO 8601 format: "±HHMM"
-	const int h = std::stoi(s.substr(0, 3), nullptr, 10);
-	const int m = std::stoi(s[0] + s.substr(3), nullptr, 10);
+	const int h {std::stoi(s.substr(0, 3), nullptr, 10)};
+	const int m {std::stoi(s[0] + s.substr(3), nullptr, 10)};
 
 	return h * 3600 + m * 60;
 }
@@ -43,7 +43,7 @@ std::vector<double> get_entries_by_id(const std::vector<Report>& input, const st
 
 double round_to_decimal_points(double input, size_t decimal_points)
 {
-	const double multiplier = std::pow(10.0, decimal_points);
+	const double multiplier {std::pow(10.0, decimal_points)};
 	return std::ceil(input * multiplier) / multiplier;
 }
 
