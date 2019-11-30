@@ -23,10 +23,8 @@ void check_if_invalid_city(const std::string& city, const json& response)
 
 std::string get_coordinates(const json& response)
 {
-	std::string result;
-	const json coordinates = (response["coord"].is_null()) ? response["city"]["coord"] : response["coord"];
-	result = coordinates["lat"].dump() + "," + coordinates["lon"].dump();
-	return result;
+	const json coordinates {(response["coord"].is_null()) ? response["city"]["coord"] : response["coord"]};
+	return coordinates["lat"].dump() + "," + coordinates["lon"].dump();
 }
 
 Forecast get_main_data(const WeatherData& wd)
