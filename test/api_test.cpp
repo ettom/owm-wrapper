@@ -8,10 +8,12 @@ using json = nlohmann::json;
 #include "restclient-cpp/restclient.h"
 #include "weather_getter.h"
 
+const bool LOGGING_ON = false;
+
 RestClient::Response get_response(const QueryParameters& q)
 {
-	const std::string url = WeatherGetter::create_url(q);
-	return RestClient::get(url);
+	WeatherGetter getter {LOGGING_ON};
+	return getter.get_api_response(q);
 }
 
 TEST(API, askingCurrentWeatherForValidCity_mustReturnHTTP200)
@@ -91,7 +93,7 @@ TEST(API, askingWeatherForecastForValidCity_mustReturnResponseContainingWeatherD
 	const json response_body = json::parse(r.body);
 
 	// ASSERT
-	ASSERT_NO_THROW(response_body.at("list")[0].at("main").at("temp").get<double>());
-	ASSERT_NO_THROW(response_body.at("list")[0].at("main").at("pressure").get<double>());
-	ASSERT_NO_THROW(response_body.at("list")[0].at("main").at("humidity").get<double>());
+	ASSERT_NO_THROW(response_body.at("list").at(0).at("main").at("temp").get<double>());
+	ASSERT_NO_THROW(response_body.at("list").at(0).at("main").at("pressure").get<double>());
+	ASSERT_NO_THROW(response_body.at("list").at(0).at("main").at("humidity").get<double>());
 }

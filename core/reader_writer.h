@@ -31,9 +31,10 @@ public:
 		return result;
 	}
 
-	virtual void write_json_to_file(const json& j, bool append = false) const
+	virtual void write_json_to_file(const json& j, const bool append = false) const
 	{
 		std::ofstream ofs;
+
 		if (append) {
 			ofs.open(output_filename, std::ios_base::app);
 		} else {

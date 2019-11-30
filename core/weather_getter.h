@@ -12,14 +12,29 @@
 class WeatherGetter
 {
 public:
+	WeatherGetter() {}
+
+	WeatherGetter(bool logging_on)
+	{
+		this->logging_on = logging_on;
+	}
+
 	virtual ~WeatherGetter() {};
-	virtual std::string get_weather_data(const QueryParameters& q) const
+
+	virtual RestClient::Response get_api_response(const QueryParameters& q) const
 	{
 		const RestClient::Response r {RestClient::get(create_url(q))};
+
 		if (logging_on) {
 			log_response(q, r);
 		}
-		return r.body;
+
+		return r;
+	}
+
+	virtual std::string get_weather_data(const QueryParameters& q) const
+	{
+		return get_api_response(q).body;
 	}
 
 	static std::string create_url(const QueryParameters& q)
@@ -28,9 +43,8 @@ public:
 		       + "&units=" + TemperatureUnit::for_OWM[q.temperature_unit];
 	}
 
-	bool logging_on = false;
-
 private:
+	bool logging_on = false;
 	static void log_response(const QueryParameters& q, const RestClient::Response& r)
 	{
 		json j {

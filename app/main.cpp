@@ -44,8 +44,7 @@ int main(int argc, char* argv[])
 
 	CLI11_PARSE(app, argc, argv);
 
-	WeatherGetter getter;
-	getter.logging_on = logging_on;
+	WeatherGetter getter {logging_on};
 
 	QueryParameters q;
 	q.timezone_offset = get_system_timezone_offset();
