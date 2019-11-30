@@ -14,9 +14,9 @@ class WeatherGetter
 public:
 	WeatherGetter() {}
 
-	WeatherGetter(bool logging_on)
+	WeatherGetter(bool logging)
 	{
-		this->logging_on = logging_on;
+		this->logging_on = logging;
 	}
 
 	virtual ~WeatherGetter() {};
