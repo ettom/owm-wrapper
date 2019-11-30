@@ -16,6 +16,7 @@ Options:
                               If no output path is provided, result will be written to stdout
   -u,--unit ENUM:value in {Celsius->0,Fahrenheit->1,Kelvin->2} OR {0,1,2}
                               Temperature unit, defaults to celsius
+  -l,--log                    Write API responses to owm-wrapper.log
 [Option Group: input]
   Cities to generate reports for
   [Exactly 1 of the following options is required]
