@@ -35,19 +35,6 @@ Forecast get_main_data(const WeatherData& wd)
 	return f;
 }
 
-size_t find_report_by_date(const ReportsByDay& reports, const std::string& date)
-{
-	for (size_t i = 0; i < reports.size(); i++) {
-		for (auto& r : reports.at(i)) {
-			if (r.date == date) {
-				return i;
-			}
-		}
-	}
-
-	return std::string::npos;
-}
-
 ReportsByDay remove_partial_days(const ReportsByDay& input)
 {
 	ReportsByDay result;
@@ -62,6 +49,19 @@ void remove_todays_reports(ReportsByDay& reports, const std::string& todays_date
 	if (reports.at(0).at(0).date == todays_date) {
 		reports.erase(reports.begin());
 	}
+}
+
+size_t find_report_by_date(const ReportsByDay& reports, const std::string& date)
+{
+	for (size_t i = 0; i < reports.size(); i++) {
+		for (const auto& r : reports.at(i)) {
+			if (r.date == date) {
+				return i;
+			}
+		}
+	}
+
+	return std::string::npos;
 }
 
 ReportsByDay group_by_date(const std::vector<Report>& reports)
