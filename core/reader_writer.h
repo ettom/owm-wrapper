@@ -31,9 +31,14 @@ public:
 		return result;
 	}
 
-	virtual void write_json_to_file(const json& j) const
+	virtual void write_json_to_file(const json& j, bool append = false) const
 	{
-		std::ofstream ofs(output_filename);
+		std::ofstream ofs;
+		if (append) {
+			ofs.open(output_filename, std::ios_base::app);
+		} else {
+			ofs.open(output_filename, std::ios_base::trunc);
+		}
 
 		if (!ofs.is_open()) {
 			throw std::runtime_error("Couldn't open file at " + output_filename + " for writing!");

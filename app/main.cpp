@@ -20,6 +20,7 @@ int main(int argc, char* argv[])
 	std::string output_filename;
 	TemperatureUnit::Unit unit {TemperatureUnit::CELSIUS};
 	std::vector<std::string> cities;
+	bool logging_on = false;
 
 	auto input = app.add_option_group("input", "Cities to generate reports for");
 
@@ -39,9 +40,13 @@ int main(int argc, char* argv[])
 	app.add_option("-u,--unit", unit, "Temperature unit, defaults to celsius")
 	    ->transform(CLI::CheckedTransformer(TemperatureUnit::make_unit_displayname_pairs(), CLI::ignore_case));
 
+	app.add_flag("-l,--log", logging_on, "Write API responses to owm-wrapper.log");
+
 	CLI11_PARSE(app, argc, argv);
 
-	const WeatherGetter getter;
+	WeatherGetter getter;
+	getter.logging_on = logging_on;
+
 	QueryParameters q;
 	q.timezone_offset = get_system_timezone_offset();
 	q.temperature_unit = unit;

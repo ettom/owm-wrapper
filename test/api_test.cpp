@@ -14,7 +14,7 @@ RestClient::Response get_response(const QueryParameters& q)
 	return RestClient::get(url);
 }
 
-TEST(API, askingCurrentWeatherWithValidCity_mustReturnHTTP200)
+TEST(API, askingCurrentWeatherForValidCity_mustReturnHTTP200)
 {
 	// ARRANGE
 	const QueryParameters q {.city = "Tallinn", .url = OWM_TODAY_BASE_URL};
@@ -26,7 +26,7 @@ TEST(API, askingCurrentWeatherWithValidCity_mustReturnHTTP200)
 	ASSERT_EQ(r.code, 200);
 }
 
-TEST(API, askingWeatherForecastWithValidCity_mustReturnHTTP200)
+TEST(API, askingWeatherForecastForValidCity_mustReturnHTTP200)
 {
 	// ARRANGE
 	const QueryParameters q {.city = "Tallinn", .url = OWM_5_DAY_FORECAST_BASE_URL};
@@ -38,7 +38,7 @@ TEST(API, askingWeatherForecastWithValidCity_mustReturnHTTP200)
 	ASSERT_EQ(r.code, 200);
 }
 
-TEST(API, askingCurrentWeatherWithInvalidCity_mustReturnInvalidCityResponse)
+TEST(API, askingCurrentWeatherForInvalidCity_mustReturnInvalidCityResponse)
 {
 	// ARRANGE
 	const QueryParameters q {.city = "tln", .url = OWM_TODAY_BASE_URL};
@@ -52,7 +52,7 @@ TEST(API, askingCurrentWeatherWithInvalidCity_mustReturnInvalidCityResponse)
 	ASSERT_EQ(response_body.at("message"), OWM_INVALID_CITY_RESPONSE);
 }
 
-TEST(API, askingWeatherForecastWithInvalidCity_mustReturnInvalidCityResponse)
+TEST(API, askingWeatherForecastForInvalidCity_mustReturnInvalidCityResponse)
 {
 	// ARRANGE
 	const QueryParameters q {.city = "tln", .url = OWM_5_DAY_FORECAST_BASE_URL};
@@ -66,7 +66,7 @@ TEST(API, askingWeatherForecastWithInvalidCity_mustReturnInvalidCityResponse)
 	ASSERT_EQ(response_body.at("message"), OWM_INVALID_CITY_RESPONSE);
 }
 
-TEST(API, askingCurrentWeatherWithValidCity_mustReturnResponseContainingWeatherData)
+TEST(API, askingCurrentWeatherForValidCity_mustReturnResponseContainingWeatherData)
 {
 	// ARRANGE
 	const QueryParameters q {.city = "Tallinn", .url = OWM_TODAY_BASE_URL};
@@ -81,7 +81,7 @@ TEST(API, askingCurrentWeatherWithValidCity_mustReturnResponseContainingWeatherD
 	ASSERT_NO_THROW(response_body.at("main").at("pressure").get<double>());
 }
 
-TEST(API, askingWeatherForecastWithValidCity_mustReturnResponseContainingWeatherData)
+TEST(API, askingWeatherForecastForValidCity_mustReturnResponseContainingWeatherData)
 {
 	// ARRANGE
 	const QueryParameters q {.city = "Tallinn", .url = OWM_5_DAY_FORECAST_BASE_URL};
