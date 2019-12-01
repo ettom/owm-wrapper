@@ -19,7 +19,7 @@ inline const std::string LOG_FILENAME {"owm-wrapper.log"};
 struct QueryParameters {
 	std::string city;
 
-	time_t timezone_offset;
+	long timezone_offset;
 	TemperatureUnit::Unit temperature_unit;
 
 	std::string url;

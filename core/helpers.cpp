@@ -17,7 +17,7 @@ std::string unix_time_to_string(time_t datetime, const char* format)
 	return ss.str();
 }
 
-time_t get_system_timezone_offset()
+long get_system_timezone_offset()
 {
 	const auto when = std::time(nullptr);
 	const auto tm = *std::localtime(&when);

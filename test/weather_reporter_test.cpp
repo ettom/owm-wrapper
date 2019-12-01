@@ -16,8 +16,8 @@
 #include "api_responses/tallinn_current_weather_response.h"
 #include "api_responses/tallinn_forecast_response.h"
 
-const time_t GMT2_OFFSET {7200};
-const time_t GMT_MINUS12_OFFSET {-43200};
+const long GMT2_OFFSET {7200};
+const long GMT_MINUS12_OFFSET {-43200};
 
 class MockWeatherGetter : public WeatherGetter
 {

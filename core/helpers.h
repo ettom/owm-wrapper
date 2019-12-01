@@ -5,7 +5,7 @@
 #include "core.h"
 
 std::vector<double> get_entries_by_id(const std::vector<Report>& input, const std::string& id);
-time_t get_system_timezone_offset();
+long get_system_timezone_offset();
 time_t get_system_local_time();
 std::string unix_time_to_string(time_t datetime, const char* format);
 

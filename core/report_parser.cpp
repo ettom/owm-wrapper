@@ -79,7 +79,7 @@ ReportsByDay group_by_date(const std::vector<Report>& reports)
 	return result;
 }
 
-ReportsByDay parse_forecast_data(const json& response, time_t timezone_offset)
+ReportsByDay parse_forecast_data(const json& response, long timezone_offset)
 {
 	std::vector<Report> result;
 
