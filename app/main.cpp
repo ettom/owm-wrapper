@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 
 	std::string input_filename;
 	std::string output_filename;
-	TemperatureUnit::Unit unit {TemperatureUnit::CELSIUS};
+	TemperatureUnit::Unit unit {TemperatureUnit::celsius};
 	std::vector<std::string> cities;
 	bool logging_on = false;
 
