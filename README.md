@@ -3,8 +3,8 @@ A program to generate weather reports using the
 [OpenWeatherMap](https://openweathermap.org/api) API. Reports are generated for the
 current day and the following 3 days. OWM provides forecast data for free API keys
 only in the format of 5 day / 3 hour forecasts. This program calculates the averages
-over these reports and generates daily reports from the data. Created as a school
-project.
+over these reports and generates daily reports from the data. Forecasts are displayed
+in accordance with the local timezone of the system. Created as a school project.
 
 ## Usage
 ```
@@ -24,7 +24,6 @@ Options:
     -i,--input TEXT:FILE        Path to a file containing the city names for which reports are to be generated
                                 Each city name must be on a separate line
     -c,--city TEXT ...          List of city names
-
 ```
 
 For example: to generate reports for London in fahrenheit and store the result in
