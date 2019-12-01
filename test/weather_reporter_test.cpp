@@ -22,14 +22,14 @@ const time_t GMT_MINUS12_OFFSET {-43200};
 class MockWeatherGetter : public WeatherGetter
 {
 public:
-	MOCK_CONST_METHOD1(get_weather_data, std::string(const QueryParameters& q));
+	MOCK_CONST_METHOD1(get_weather_data, std::string(const QueryParameters&));
 };
 
 class MockReaderWriter : public ReaderWriter
 {
 public:
 	MOCK_CONST_METHOD0(read_file, std::vector<std::string>());
-	MOCK_CONST_METHOD2(write_json_to_file, void(const json& json, bool append));
+	MOCK_CONST_METHOD2(write_json_to_file, void(const json&, bool));
 };
 
 using namespace testing;
