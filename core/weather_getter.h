@@ -37,18 +37,19 @@ public:
 		return get_api_response(q).body;
 	}
 
+private:
+	bool logging_on = false;
+
 	static std::string create_url(const QueryParameters& q)
 	{
 		return q.url + "?q=" + q.city + "&lang=" + q.lang + "&APPID=" + q.api_key
 		       + "&units=" + TemperatureUnit::for_OWM[q.temperature_unit];
 	}
 
-private:
-	bool logging_on = false;
 	static void log_response(const QueryParameters& q, const RestClient::Response& r)
 	{
 		json j {
-		    {"datetime", unix_time_to_string(std::time(nullptr), "%d.%m.%Y %H:%M:%S")},
+		    {"datetime", unix_time_to_string(get_system_local_time(), "%d.%m.%Y %H:%M:%S")},
 		    {"HTTP_response_code", r.code},
 		    {"query_parameters",
 		     {

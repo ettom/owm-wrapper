@@ -31,6 +31,11 @@ time_t get_system_timezone_offset()
 	return h * 3600 + m * 60;
 }
 
+time_t get_system_local_time()
+{
+	return std::time(nullptr) + get_system_timezone_offset();
+}
+
 std::vector<double> get_entries_by_id(const std::vector<Report>& input, const std::string& id)
 {
 	std::vector<double> result;
