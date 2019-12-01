@@ -35,11 +35,8 @@ public:
 	{
 		std::ofstream ofs;
 
-		if (append) {
-			ofs.open(output_filename, std::ios_base::app);
-		} else {
-			ofs.open(output_filename, std::ios_base::trunc);
-		}
+		append ? ofs.open(output_filename, std::ios_base::app)
+		       : ofs.open(output_filename, std::ios_base::trunc);
 
 		if (!ofs.is_open()) {
 			throw std::runtime_error("Couldn't open file at " + output_filename + " for writing!");
