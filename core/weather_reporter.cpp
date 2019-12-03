@@ -2,6 +2,7 @@
 #include <vector>
 
 #include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 #include "core.h"
 #include "helpers.h"

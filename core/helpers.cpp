@@ -40,7 +40,7 @@ std::vector<double> get_entries_by_id(const std::vector<Report>& input, const st
 {
 	std::vector<double> result;
 	std::transform(input.begin(), input.end(), std::back_inserter(result), [&](const auto& report) {
-		json j = report;
+		nlohmann::json j = report;
 		return j[id].get<double>();
 	});
 	return result;

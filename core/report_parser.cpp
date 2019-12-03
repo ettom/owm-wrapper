@@ -3,6 +3,8 @@
 #include "helpers.h"
 #include "report_parser.h"
 
+using json = nlohmann::json;
+
 std::string get_city(const json& response)
 {
 	if (response.count("name")) {

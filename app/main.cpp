@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 	}
 
 	try {
-		const json result = make_forecasts(q, getter, cities);
+		const nlohmann::json result = make_forecasts(q, getter, cities);
 		if (!output_filename.empty()) {
 			rw.write_json_to_file(result);
 		} else {

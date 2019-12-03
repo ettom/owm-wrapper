@@ -5,8 +5,6 @@
 
 #include <nlohmann/json.hpp>
 
-using json = nlohmann::json;
-
 #include "temperature_unit.h"
 
 inline const std::string OWM_INVALID_CITY_RESPONSE {"city not found"};
@@ -40,16 +38,16 @@ struct Report {
 	double pressure;
 
 	// these behave like free functions due to ADL
-	friend void to_json(json& j, const Report& r)
+	friend void to_json(nlohmann::json& j, const Report& r)
 	{
-		j = json {{"datetime", r.datetime},
-			  {"date", r.date},
-			  {"temperature", r.temperature},
-			  {"humidity", r.humidity},
-			  {"pressure", r.pressure}};
+		j = nlohmann::json {{"datetime", r.datetime},
+				    {"date", r.date},
+				    {"temperature", r.temperature},
+				    {"humidity", r.humidity},
+				    {"pressure", r.pressure}};
 	}
 
-	friend void from_json(const json& j, Report& r)
+	friend void from_json(const nlohmann::json& j, Report& r)
 	{
 		j.at("datetime").get_to(r.datetime);
 		j.at("date").get_to(r.date);
@@ -60,8 +58,8 @@ struct Report {
 
 	friend bool operator==(const Report& report1, const Report& report2)
 	{
-		json j1 = report1;
-		json j2 = report2;
+		nlohmann::json j1 = report1;
+		nlohmann::json j2 = report2;
 		return j1 == j2;
 	}
 };
@@ -75,16 +73,16 @@ struct Forecast {
 	Report current_weather;
 	std::vector<Report> reports;
 
-	friend void to_json(json& j, const Forecast& f)
+	friend void to_json(nlohmann::json& j, const Forecast& f)
 	{
-		j = json {{"city", f.city},
-			  {"coordinates", f.coordinates},
-			  {"temperature_unit", TemperatureUnit::for_display[f.temperature_unit]},
-			  {"current_weather", f.current_weather},
-			  {"reports", f.reports}};
+		j = nlohmann::json {{"city", f.city},
+				    {"coordinates", f.coordinates},
+				    {"temperature_unit", TemperatureUnit::for_display[f.temperature_unit]},
+				    {"current_weather", f.current_weather},
+				    {"reports", f.reports}};
 	}
 
-	friend void from_json(const json& j, Forecast& f)
+	friend void from_json(const nlohmann::json& j, Forecast& f)
 	{
 		auto tmp = j.at("temperature_unit").get<std::string>();
 		f.temperature_unit = TemperatureUnit::match_display_name_to_unit(tmp);
@@ -96,13 +94,13 @@ struct Forecast {
 
 	friend bool operator==(const Forecast& forecast1, const Forecast& forecast2)
 	{
-		json j1 = forecast1;
-		json j2 = forecast2;
+		nlohmann::json j1 = forecast1;
+		nlohmann::json j2 = forecast2;
 		return j1 == j2;
 	}
 };
 
 struct WeatherData {
-	json current_weather_data;
-	json forecast_data;
+	nlohmann::json current_weather_data;
+	nlohmann::json forecast_data;
 };

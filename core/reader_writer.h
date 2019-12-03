@@ -31,7 +31,7 @@ public:
 		return result;
 	}
 
-	virtual void write_json_to_file(const json& j, const bool append = false) const
+	virtual void write_json_to_file(const nlohmann::json& j, const bool append = false) const
 	{
 		std::ofstream ofs;
 

@@ -1,6 +1,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 #include "core.h"
 #include "exceptions.h"
 #include "helpers.h"
