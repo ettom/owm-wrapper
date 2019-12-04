@@ -23,7 +23,7 @@ constexpr std::array<std::pair<const char*, Unit>, size_of_enum> make_unit_displ
 {
 	std::array<std::pair<const char*, Unit>, size_of_enum> result {};
 	for (size_t i = 0; i < size_of_enum; ++i) {
-		result[i] = std::make_pair(for_display[i], static_cast<Unit>(i));
+		result[i] = {for_display[i], static_cast<Unit>(i)};
 	}
 
 	return result;
