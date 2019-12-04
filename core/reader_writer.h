@@ -13,6 +13,13 @@ class ReaderWriter
 {
 public:
 	virtual ~ReaderWriter() {};
+
+	ReaderWriter() = default;
+	ReaderWriter(const ReaderWriter& copy_from) = default;
+	ReaderWriter& operator=(const ReaderWriter& copy_from) = default;
+	ReaderWriter(ReaderWriter&&) = default;
+	ReaderWriter& operator=(ReaderWriter&&) = default;
+
 	virtual std::vector<std::string> read_file() const
 	{
 		std::ifstream infile(input_filename);

@@ -12,14 +12,18 @@
 class WeatherGetter
 {
 public:
-	WeatherGetter() {}
+	virtual ~WeatherGetter() {};
+
+	WeatherGetter() = default;
+	WeatherGetter(const WeatherGetter& copy_from) = default;
+	WeatherGetter& operator=(const WeatherGetter& copy_from) = default;
+	WeatherGetter(WeatherGetter&&) = default;
+	WeatherGetter& operator=(WeatherGetter&&) = default;
 
 	WeatherGetter(bool logging)
 	{
 		this->logging_on = logging;
 	}
-
-	virtual ~WeatherGetter() {};
 
 	virtual RestClient::Response get_api_response(const QueryParameters& q) const
 	{
