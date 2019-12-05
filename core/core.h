@@ -24,8 +24,8 @@ struct QueryParameters {
 	std::string api_key {"68f5814e37a11ad9d5f9c3b98680c2df"};
 	std::string lang {"en"};
 
-	size_t days = 3;
-	size_t decimal_points = 2;
+	size_t days {3};
+	size_t decimal_points {2};
 };
 
 struct Report {
@@ -86,6 +86,7 @@ struct Forecast {
 	{
 		auto tmp = j.at("temperature_unit").get<std::string>();
 		f.temperature_unit = TemperatureUnit::match_display_name_to_unit(tmp);
+
 		j.at("city").get_to(f.city);
 		j.at("coordinates").get_to(f.coordinates);
 		j.at("current_weather").get_to(f.current_weather);

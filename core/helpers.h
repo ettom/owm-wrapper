@@ -16,7 +16,7 @@ template <class T>
 double get_average(T input)
 {
 	double avg {};
-	int count = 1;
+	int count {1};
 	for (const auto& e : input) {
 		avg += (e - avg) / count;
 		++count;

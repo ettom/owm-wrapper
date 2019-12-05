@@ -10,8 +10,8 @@
 
 std::string unix_time_to_string(time_t datetime, const char* format)
 {
-	const std::time_t tmp = datetime;
-	const std::tm* t = std::gmtime(&tmp);
+	const time_t tmp {datetime};
+	const std::tm* t {std::gmtime(&tmp)};
 	std::stringstream ss;
 	ss << std::put_time(t, format);
 	return ss.str();
@@ -19,8 +19,8 @@ std::string unix_time_to_string(time_t datetime, const char* format)
 
 long get_system_timezone_offset()
 {
-	const auto when = std::time(nullptr);
-	const auto tm = *std::localtime(&when);
+	const time_t when {std::time(nullptr)};
+	const std::tm tm {*std::localtime(&when)};
 	std::ostringstream os;
 	os << std::put_time(&tm, "%z");
 	const std::string s {os.str()};
