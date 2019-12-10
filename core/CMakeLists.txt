@@ -12,13 +12,21 @@ include(FetchContent)
 FetchContent_Declare(
     restclient-cpp GIT_REPOSITORY https://github.com/mrtazz/restclient-cpp.git)
 
-FetchContent_MakeAvailable(restclient-cpp)
+FetchContent_GetProperties(restclient-cpp)
+if(NOT restclient-cpp_POPULATED)
+    FetchContent_Populate(restclient-cpp)
+    set(jsoncpp_FOUND OFF CACHE BOOL "" FORCE)
+    add_subdirectory(${restclient-cpp_SOURCE_DIR} ${restclient-cpp_BINARY_DIR})
+endif()
 
 target_link_libraries(${SUBPROJECT_NAME} restclient-cpp)
-
-target_include_directories(${SUBPROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CONAN_LIBS} ${restclient-cpp_SOURCE_DIR}/include ${restclient-cpp_BINARY_DIR}/include)
+target_include_directories(
+    ${SUBPROJECT_NAME}
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CONAN_LIBS}
+    ${restclient-cpp_SOURCE_DIR}/include
+    ${restclient-cpp_BINARY_DIR}/include)
 
 target_compile_options(
-    ${SUBPROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Wconversion
+    ${SUBPROJECT_NAME}
+    PRIVATE -Wall -Wextra -pedantic -Wconversion
     -Wsign-conversion -Wshadow)

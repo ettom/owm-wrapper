@@ -10,8 +10,8 @@ set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(
         STATUS
-            "Setting build type to '${default_build_type}' as none was specified."
-    )
+        "Setting build type to '${default_build_type}' as none was specified."
+        )
     set(CMAKE_BUILD_TYPE
         "${default_build_type}"
         CACHE STRING "Choose the type of build." FORCE)
@@ -23,8 +23,8 @@ endif()
 if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
     message(
         STATUS
-            "Downloading conan.cmake from https://github.com/conan-io/cmake-conan"
-    )
+        "Downloading conan.cmake from https://github.com/conan-io/cmake-conan"
+        )
     file(
         DOWNLOAD
         "https://raw.githubusercontent.com/conan-io/cmake-conan/master/conan.cmake"
@@ -33,6 +33,8 @@ endif()
 
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 
+# treat conan includes as system libraries to silence compiler warnings for them
+set(CONAN_SYSTEM_INCLUDES ON)
 conan_cmake_run(
     CONANFILE conanfile.txt
     BUILD_TYPE "None"
