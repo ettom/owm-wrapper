@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include <CLI/CLI.hpp>
+#include "CLI11.hpp"
 
 #include "core.h"
 #include "helpers.h"
