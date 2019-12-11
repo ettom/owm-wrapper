@@ -3,7 +3,7 @@
 
 inline void PrintTo(const Report& report, std::ostream* os)
 {
-	json j = report;
+	nlohmann::json j = report;
 	*os << j.dump(4);
 }
 
@@ -15,8 +15,8 @@ inline void PrintTo(const WeatherData& wd, std::ostream* os)
 
 namespace nlohmann
 {
-inline void PrintTo(json const& json, std::ostream* os)
+inline void PrintTo(json const& j, std::ostream* os)
 {
-	*os << json.dump(4);
+	*os << j.dump(4);
 }
 } // namespace nlohmann
