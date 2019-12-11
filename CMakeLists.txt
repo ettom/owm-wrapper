@@ -16,6 +16,19 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
         STRING "Choose the type of build." FORCE)
 endif()
 
+# gtest isnt needed when build type is release
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(debug_libs "gtest")
+    set(pmm_debug "DEBUG")
+endif()
+
+include(pmm.cmake)
+pmm(
+    VCPKG
+    REVISION 7a14422290e7583c68ee290f7dbb5d61872a7a99
+    REQUIRES nlohmann-json ${debug_libs}
+    ${pmm_debug}
+    )
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -ggdb \
@@ -24,50 +37,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     -fno-limit-debug-info")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
-endif()
-
-# initialize conan
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-    message(
-        STATUS
-        "Downloading conan.cmake from https://github.com/conan-io/cmake-conan"
-        )
-    file(
-        DOWNLOAD
-        "https://raw.githubusercontent.com/conan-io/cmake-conan/master/conan.cmake"
-        "${CMAKE_BINARY_DIR}/conan.cmake")
-endif()
-
-include(${CMAKE_BINARY_DIR}/conan.cmake)
-
-# treat conan includes as system libraries to silence compiler warnings for them
-set(CONAN_SYSTEM_INCLUDES ON)
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    conan_cmake_run(
-        BUILD_TYPE "Debug"
-        REQUIRES
-        gtest/1.8.1@bincrafters/stable
-        jsonformoderncpp/3.7.0@vthiery/stable
-        BASIC_SETUP
-        BUILD missing)
-
-    add_subdirectory(test)
-    add_custom_target(
-        test
-        COMMAND ${PROJECT_NAME}Test || (exit 0)
-        DEPENDS ${PROJECT_NAME}Test ${PROJECT_NAME}
-        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
-endif()
-
-# no need to build gtest for release
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    conan_cmake_run(
-        BUILD_TYPE "Release"
-        REQUIRES
-        jsonformoderncpp/3.7.0@vthiery/stable
-        BASIC_SETUP
-        BUILD missing)
 endif()
 
 add_subdirectory(core)
@@ -79,3 +48,13 @@ add_custom_target(
     DEPENDS ${PROJECT_NAME}
     VERBATIM
     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_subdirectory(test)
+    add_custom_target(
+        test
+        COMMAND ${PROJECT_NAME}Test || (exit 0)
+        DEPENDS ${PROJECT_NAME}Test ${PROJECT_NAME}
+        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
+endif()
+

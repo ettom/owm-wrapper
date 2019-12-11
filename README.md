@@ -35,11 +35,11 @@ For example: to generate reports for London in fahrenheit and store the result i
 - A compiler with experimental C++2a support ([clang-9+](http://llvm.org/releases/download.html), [gcc-9+](https://gcc.gnu.org/releases.html))
 - [cmake 3.11+](https://cmake.org/download/)
 - [git](https://git-scm.com/downloads)
-- [python3](https://www.python.org/downloads/)
-- [pip3](https://pypi.org/project/pip/)
+- [curl](https://curl.haxx.se/)
 - [libcurl](https://curl.haxx.se/libcurl/)
 
-[conan](https://github.com/conan-io/conan) is used for dependency management.
+[pmm](https://github.com/vector-of-bool/pmm) and
+[vcpkg](https://github.com/microsoft/vcpkg) are used for dependency management.
 
 ##### Installing the dependencies for Ubuntu 18.04
 Get the latest version of [cmake](https://apt.kitware.com/).<br>
@@ -58,11 +58,10 @@ Set `g++-9` as the default C++ compiler:
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 60
 ```
 
-Run the following commands:
+Run the following command:
 
 ```
-sudo apt install git cmake python3-pip libcurl4-gnutls-dev
-sudo pip3 install conan
+sudo apt install git cmake curl libcurl4-gnutls-dev
 ```
 
 ## Building

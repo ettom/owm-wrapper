@@ -17,12 +17,15 @@ if(NOT restclient-cpp_POPULATED)
     add_subdirectory(${restclient-cpp_SOURCE_DIR} ${restclient-cpp_BINARY_DIR})
 endif()
 
-target_link_libraries(${SUBPROJECT_NAME} restclient-cpp)
+target_link_libraries(${SUBPROJECT_NAME} PRIVATE restclient-cpp)
 target_include_directories(
     ${SUBPROJECT_NAME}
-    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CONAN_LIBS}
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
     ${restclient-cpp_SOURCE_DIR}/include
     ${restclient-cpp_BINARY_DIR}/include)
+
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(${SUBPROJECT_NAME} PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
 
 target_compile_options(
     ${SUBPROJECT_NAME}
