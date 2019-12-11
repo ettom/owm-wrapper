@@ -86,6 +86,9 @@ To run the program with the example input file:
 
 `make run`
 
-To run the tests:
+To build and run the tests:
 
-`make test`
+```
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+make test
+```
