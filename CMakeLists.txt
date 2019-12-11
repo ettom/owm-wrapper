@@ -49,9 +49,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         REQUIRES
         gtest/1.8.1@bincrafters/stable
         jsonformoderncpp/3.7.0@vthiery/stable
-        BASIC_SETUP CMAKE_TARGETS
-        BUILD missing
-        SETTINGS compiler.libcxx=libstdc++11)
+        BASIC_SETUP
+        BUILD missing)
 
     add_subdirectory(test)
     add_custom_target(
@@ -67,9 +66,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
         BUILD_TYPE "Release"
         REQUIRES
         jsonformoderncpp/3.7.0@vthiery/stable
-        BASIC_SETUP CMAKE_TARGETS
-        BUILD missing
-        SETTINGS compiler.libcxx=libstdc++11)
+        BASIC_SETUP
+        BUILD missing)
 endif()
 
 add_subdirectory(core)

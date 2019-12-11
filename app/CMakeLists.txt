@@ -1,8 +1,5 @@
 file(GLOB_RECURSE SRC_LIST *.cpp *.h)
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
 add_definitions("-std=c++2a")
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
