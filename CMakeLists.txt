@@ -34,9 +34,33 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -ggdb \
     -fno-limit-debug-info -fsanitize=undefined \
     -fsanitize=implicit-conversion -fsanitize=integer \
-    -fno-limit-debug-info")
+    -fno-limit-debug-info -fprofile-arcs -ftest-coverage")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -fprofile-arcs -ftest-coverage")
+endif()
+
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    # test coverage
+    set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+    include(CodeCoverage)
+    SETUP_TARGET_FOR_COVERAGE_LCOV(
+        NAME ${PROJECT_NAME}_coverage
+        EXECUTABLE ${PROJECT_NAME}Test
+        DEPENDENCIES ${PROJECT_NAME}Test
+        LCOV_ARGS --base-directory ${PROJECT_SOURCE_DIR} --no-external
+        --exclude "${PROJECT_SOURCE_DIR}/test/\\*"
+        --exclude "${PROJECT_SOURCE_DIR}/build/\\*"
+        --exclude "${PROJECT_SOURCE_DIR}/app/\\*"
+        )
+
+    add_subdirectory(test)
+    add_custom_target(
+        test
+        COMMAND ${PROJECT_NAME}Test || (exit 0)
+        DEPENDS ${PROJECT_NAME}Core
+        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
+
 endif()
 
 add_subdirectory(core)
@@ -48,13 +72,3 @@ add_custom_target(
     DEPENDS ${PROJECT_NAME}
     VERBATIM
     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_subdirectory(test)
-    add_custom_target(
-        test
-        COMMAND ${PROJECT_NAME}Test || (exit 0)
-        DEPENDS ${PROJECT_NAME}Test ${PROJECT_NAME}
-        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
-endif()
-
