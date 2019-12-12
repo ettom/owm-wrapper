@@ -22,7 +22,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(pmm_debug "DEBUG")
 endif()
 
-include(pmm.cmake)
+include(cmake/pmm.cmake)
 pmm(
     VCPKG
     REVISION 7a14422290e7583c68ee290f7dbb5d61872a7a99
@@ -58,6 +58,12 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_custom_target(
         test
         COMMAND ${PROJECT_NAME}Test || (exit 0)
+        DEPENDS ${PROJECT_NAME}Core
+        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
+
+    add_custom_target(
+        test_xml
+        COMMAND ${PROJECT_NAME}Test --gtest_output=xml:gtestresults.xml || (exit 0)
         DEPENDS ${PROJECT_NAME}Core
         WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
 

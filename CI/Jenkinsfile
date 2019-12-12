@@ -1,0 +1,73 @@
+// BUILD_PLAN_PATH: /job/owm-wrapper-pipeline
+pipeline {
+
+    options {
+        /* unbuffer is used to deceive isatty() - required for colored output from cmake etc. */
+        ansiColor('xterm')
+    }
+
+    agent {
+        dockerfile {
+            filename 'Dockerfile'
+                dir 'owm-wrapper/CI'
+        }
+    }
+
+    environment {
+        HOME = "$WORKSPACE"
+            TERM = "xterm"
+    }
+
+    stages {
+        stage ('Clean') {
+            steps {
+                sh 'cd owm-wrapper && git clean -xffd'
+            }
+        }
+
+        stage ('Build') {
+            steps {
+                dir("owm-wrapper") {
+                    sh 'mkdir build && cd build \
+                        && unbuffer cmake .. -DCMAKE_BUILD_TYPE=Debug \
+                        -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
+                        -DCMAKE_CXX_FLAGS=-fdiagnostics-color=never \
+                        && unbuffer cmake --build . -- -j 7'
+                }
+            }
+        }
+
+        stage ('Test') {
+            steps {
+                dir("owm-wrapper/build") {
+                    sh 'unbuffer make test_xml'
+                }
+            }
+        }
+
+        stage ('Coverage') {
+            steps {
+                dir("owm-wrapper/build") {
+                    sh 'unbuffer make owm-wrapper_coverage \
+                        && wget https://raw.github.com/eriwen/lcov-to-cobertura-xml/master/lcov_cobertura/lcov_cobertura.py \
+                        && python lcov_cobertura.py owm-wrapper_coverage.info'
+                }
+            }
+        }
+
+        stage ('Other') {
+            steps {
+                sh 'cppcheck owm-wrapper --enable=all -i build/ -i app/ \
+                    --inconclusive --suppress=missingInclude --xml --xml-version=2 2> cppcheck.xml'
+            }
+        }
+    }
+    post {
+        always {
+            cobertura coberturaReportFile: 'owm-wrapper/build/coverage.xml'
+                junit 'owm-wrapper/build/gtestresults.xml'
+
+                recordIssues enabledForFailure: true, tools: [gcc(), cppCheck(pattern: 'cppcheck.xml')]
+        }
+    }
+}
