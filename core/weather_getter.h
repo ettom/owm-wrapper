@@ -20,7 +20,7 @@ public:
 	WeatherGetter(WeatherGetter&&) = default;
 	WeatherGetter& operator=(WeatherGetter&&) = default;
 
-	WeatherGetter(bool logging) : logging_on {logging} {}
+	explicit WeatherGetter(bool logging) : logging_on {logging} {}
 
 	virtual RestClient::Response get_api_response(const QueryParameters& q) const
 	{
