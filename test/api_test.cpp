@@ -8,7 +8,7 @@ using json = nlohmann::json;
 #include "restclient-cpp/restclient.h"
 #include "weather_getter.h"
 
-const bool LOGGING_ON = false;
+const bool LOGGING_ON = true;
 
 RestClient::Response get_response(const QueryParameters& q)
 {
