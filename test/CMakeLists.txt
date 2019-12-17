@@ -6,6 +6,7 @@ add_definitions("-std=c++2a")
 enable_testing()
 
 add_executable(${SUBPROJECT_NAME} ${SRC_LIST})
+add_dependencies(${SUBPROJECT_NAME} clean_gcda)
 
 find_package(GTest CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)

@@ -57,15 +57,20 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_subdirectory(test)
     add_custom_target(
         test
-        COMMAND ${PROJECT_NAME}Test || (exit 0)
+        COMMAND ${PROJECT_NAME}Test || :
         DEPENDS ${PROJECT_NAME}Core
         WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
 
     add_custom_target(
         test_xml
-        COMMAND ${PROJECT_NAME}Test --gtest_output=xml:gtestresults.xml || (exit 0)
+        COMMAND ${PROJECT_NAME}Test --gtest_output=xml:gtestresults.xml || :
         DEPENDS ${PROJECT_NAME}Core
         WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
+
+    add_custom_target(
+        clean_gcda
+        COMMAND find ${CMAKE_PROJECT_DIR} -name '*.gcda' | xargs rm 2>/dev/null || :
+        COMMENT "Cleaning old .gcda files")
 
 endif()
 
