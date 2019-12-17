@@ -56,10 +56,9 @@ void remove_todays_reports(ReportsByDay& reports, const std::string& todays_date
 size_t find_report_by_date(const ReportsByDay& reports, const std::string& date)
 {
 	for (size_t i = 0; i < reports.size(); i++) {
-		for (const auto& r : reports.at(i)) {
-			if (r.date == date) {
-				return i;
-			}
+		const auto day = reports.at(i);
+		if (std::any_of(day.begin(), day.end(), [&](auto r) { return r.date == date; })) {
+			return i;
 		}
 	}
 
