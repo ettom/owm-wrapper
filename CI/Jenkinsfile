@@ -19,6 +19,18 @@ pipeline {
     }
 
     stages {
+        stage('Check network connection') {
+            steps {
+                script {
+                    result = sh (script: 'ping -q -c 1 1.1.1.1 > /dev/null', returnStatus: true)
+                        if (result != 0) {
+                            currentBuild.result = 'ABORTED'
+                                error('Stopping early…')
+                        }
+                }
+            }
+        }
+
         stage ('Clean') {
             steps {
                 sh 'cd owm-wrapper && git clean -xffd'

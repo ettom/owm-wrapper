@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
 	cpanminus \
 	gzip \
 	expect \
-	unzip
+	unzip \
+	iputils-ping
 
 # kitware repo for latest cmake
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add -
