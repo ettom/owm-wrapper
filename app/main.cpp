@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "CLI11.hpp"
-
 #include "core.h"
 #include "helpers.h"
 #include "reader_writer.h"
@@ -25,10 +24,10 @@ int main(int argc, char* argv[])
 	auto input = app.add_option_group("input", "Cities to generate reports for");
 
 	input->add_option("-i, --input", input_filename,
-			 "Path to a file containing the city names for "
-			 "which reports are to be generated\n"
-			 "Each city name must be on a separate line")
-	    ->check(CLI::ExistingFile);
+			  "Path to a file containing the city names for "
+			  "which reports are to be generated\n"
+			  "Each city name must be on a separate line")
+		->check(CLI::ExistingFile);
 
 	input->add_option("-c, --city", cities, "List of city names");
 	input->require_option(1);
@@ -38,7 +37,7 @@ int main(int argc, char* argv[])
 		       "If no output path is provided, result will be written to stdout");
 
 	app.add_option("-u,--unit", unit, "Temperature unit, defaults to celsius")
-	    ->transform(CLI::CheckedTransformer(TemperatureUnit::make_unit_displayname_pairs(), CLI::ignore_case));
+		->transform(CLI::CheckedTransformer(TemperatureUnit::make_unit_displayname_pairs(), CLI::ignore_case));
 
 	app.add_flag("-l,--log", logging_on, "Write API responses to owm-wrapper.log");
 

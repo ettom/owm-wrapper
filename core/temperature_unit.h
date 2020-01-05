@@ -16,7 +16,7 @@ static_assert(sizeof(for_OWM) / sizeof(char*) == size_of_enum, "Sizes don't matc
 inline Unit match_display_name_to_unit(const std::string& display_name)
 {
 	return static_cast<Unit>((std::distance(
-	    std::begin(for_display), std::find(std::begin(for_display), std::end(for_display), display_name))));
+		std::begin(for_display), std::find(std::begin(for_display), std::end(for_display), display_name))));
 }
 
 constexpr std::array<std::pair<const char*, Unit>, size_of_enum> make_unit_displayname_pairs()

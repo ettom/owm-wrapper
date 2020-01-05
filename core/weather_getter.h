@@ -50,17 +50,17 @@ private:
 	static void log_response(const QueryParameters& q, const RestClient::Response& r)
 	{
 		nlohmann::json j {
-		    {"datetime", unix_time_to_string(get_system_local_time(), "%d.%m.%Y %H:%M:%S")},
-		    {"HTTP_response_code", r.code},
-		    {"query_parameters",
-		     {
-			 {"url", create_url(q)},
-			 {"city", q.city},
-			 {"lang", q.lang},
-			 {"api_key", q.api_key},
-			 {"temperature_unit", TemperatureUnit::for_OWM[q.temperature_unit]},
-		     }},
-		    {"response_body", nlohmann::json::parse(r.body)},
+			{"datetime", unix_time_to_string(get_system_local_time(), "%d.%m.%Y %H:%M:%S")},
+			{"HTTP_response_code", r.code},
+			{"query_parameters",
+			 {
+				 {"url", create_url(q)},
+				 {"city", q.city},
+				 {"lang", q.lang},
+				 {"api_key", q.api_key},
+				 {"temperature_unit", TemperatureUnit::for_OWM[q.temperature_unit]},
+			 }},
+			{"response_body", nlohmann::json::parse(r.body)},
 		};
 
 		ReaderWriter rw;
