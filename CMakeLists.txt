@@ -25,7 +25,7 @@ endif()
 include(cmake/pmm.cmake)
 pmm(
     VCPKG
-    REVISION 7a14422290e7583c68ee290f7dbb5d61872a7a99
+    REVISION 8c77506c4fc47c3ea4790d30fc78c45265b3e41a
     REQUIRES nlohmann-json ${debug_libs}
     ${pmm_debug}
     )

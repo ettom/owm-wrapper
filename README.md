@@ -77,6 +77,7 @@ make
 
 To install:
 ```
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=/usr/lib
 sudo make install
 sudo ldconfig
 ```
