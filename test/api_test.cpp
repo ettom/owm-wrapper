@@ -43,7 +43,7 @@ TEST(API, askingWeatherForecastForValidCity_mustReturnHTTP200)
 TEST(API, askingCurrentWeatherForInvalidCity_mustReturnInvalidCityResponse)
 {
 	// ARRANGE
-	const QueryParameters q {.city = "tln", .url = OWM_TODAY_BASE_URL};
+	const QueryParameters q {.city = "invalidcity", .url = OWM_TODAY_BASE_URL};
 
 	// ACT
 	const auto r = get_response(q);
@@ -57,7 +57,7 @@ TEST(API, askingCurrentWeatherForInvalidCity_mustReturnInvalidCityResponse)
 TEST(API, askingWeatherForecastForInvalidCity_mustReturnInvalidCityResponse)
 {
 	// ARRANGE
-	const QueryParameters q {.city = "tln", .url = OWM_5_DAY_FORECAST_BASE_URL};
+	const QueryParameters q {.city = "invalidcity", .url = OWM_5_DAY_FORECAST_BASE_URL};
 
 	// ACT
 	const auto r = get_response(q);
