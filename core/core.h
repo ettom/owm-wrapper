@@ -1,11 +1,11 @@
 #pragma once
-#include <ctime>
-#include <string>
-#include <vector>
+#include "temperature_unit.h"
 
 #include <nlohmann/json.hpp>
 
-#include "temperature_unit.h"
+#include <ctime>
+#include <string>
+#include <vector>
 
 inline const std::string OWM_INVALID_CITY_RESPONSE {"city not found"};
 inline const std::string OWM_TODAY_BASE_URL {"http://api.openweathermap.org/data/2.5/weather"};
@@ -32,6 +32,7 @@ struct Report {
 	const char* date_format = "%d.%m.%Y";
 	time_t datetime;
 	std::string date;
+	std::string icon;
 
 	double temperature;
 	double humidity;

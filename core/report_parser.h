@@ -1,11 +1,11 @@
 #pragma once
-#include <string>
-#include <vector>
+#include "core.h"
+#include "exceptions.h"
 
 #include <nlohmann/json.hpp>
 
-#include "core.h"
-#include "exceptions.h"
+#include <string>
+#include <vector>
 
 Forecast get_main_data(const WeatherData& wd);
 std::string get_city(const nlohmann::json& response);

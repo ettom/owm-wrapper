@@ -1,13 +1,13 @@
 #pragma once
-
-#include "restclient-cpp/restclient.h"
-#include <ctime>
-#include <iostream>
-
 #include "core.h"
 #include "helpers.h"
 #include "reader_writer.h"
 #include "temperature_unit.h"
+
+#include "restclient-cpp/restclient.h"
+
+#include <ctime>
+#include <iostream>
 
 class WeatherGetter
 {

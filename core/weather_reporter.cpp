@@ -1,13 +1,13 @@
-#include <string>
-#include <vector>
-
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
-
 #include "core.h"
 #include "helpers.h"
 #include "report_parser.h"
 #include "weather_reporter.h"
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
+#include <string>
+#include <vector>
 
 WeatherData get_weather_data(QueryParameters q, const WeatherGetter& getter)
 {

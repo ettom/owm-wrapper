@@ -1,13 +1,13 @@
 #pragma once
+#include "core.h"
+
+#include <nlohmann/json.hpp>
+
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
-
-#include <nlohmann/json.hpp>
-
-#include "core.h"
 
 class ReaderWriter
 {

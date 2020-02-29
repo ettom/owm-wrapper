@@ -1,15 +1,16 @@
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
-
-#include "CLI11.hpp"
 #include "core.h"
 #include "helpers.h"
 #include "reader_writer.h"
 #include "temperature_unit.h"
 #include "weather_getter.h"
 #include "weather_reporter.h"
+
+#include "CLI11.hpp"
+
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 int main(int argc, char* argv[])
 {

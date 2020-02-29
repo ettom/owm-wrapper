@@ -1,9 +1,3 @@
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
-
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
-
 #include "core.h"
 #include "exceptions.h"
 #include "helpers.h"
@@ -18,6 +12,12 @@ using json = nlohmann::json;
 #include "api_responses/sydney_forecast_response.h"
 #include "api_responses/tallinn_current_weather_response.h"
 #include "api_responses/tallinn_forecast_response.h"
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 const long GMT2_OFFSET {7200};
 const long GMT_MINUS12_OFFSET {-43200};

@@ -1,12 +1,12 @@
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
+#include "core.h"
+#include "restclient-cpp/restclient.h"
+#include "weather_getter.h"
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-#include "core.h"
-#include "restclient-cpp/restclient.h"
-#include "weather_getter.h"
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 const bool LOGGING_ON = true;
 

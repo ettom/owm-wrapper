@@ -1,12 +1,12 @@
+#include "helpers.h"
+
+#include <nlohmann/json.hpp>
+
 #include <algorithm>
 #include <cmath>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
-
-#include <nlohmann/json.hpp>
-
-#include "helpers.h"
 
 std::string unix_time_to_string(time_t datetime, const char* format)
 {

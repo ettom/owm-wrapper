@@ -1,7 +1,7 @@
-#include <algorithm>
-
 #include "helpers.h"
 #include "report_parser.h"
+
+#include <algorithm>
 
 using json = nlohmann::json;
 

@@ -1,8 +1,8 @@
 #pragma once
+#include "core.h"
+
 #include <string>
 #include <vector>
-
-#include "core.h"
 
 std::vector<double> get_entries_by_id(const std::vector<Report>& input, const std::string& id);
 long get_system_timezone_offset();
