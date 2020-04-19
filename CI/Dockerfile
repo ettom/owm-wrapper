@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # get the basic stuff
 RUN apt-get update && apt-get install -y \
 	build-essential \
+	clang-tidy-9 \
 	git \
 	autoconf \
 	libtool \

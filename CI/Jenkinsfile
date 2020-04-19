@@ -9,13 +9,13 @@ pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
-                dir 'owm-wrapper/CI'
+            dir 'owm-wrapper/CI'
         }
     }
 
     environment {
         HOME = "$WORKSPACE"
-            TERM = "xterm"
+        TERM = "xterm"
     }
 
     stages {
@@ -23,10 +23,10 @@ pipeline {
             steps {
                 script {
                     result = sh (script: 'ping -q -c 1 1.1.1.1 > /dev/null', returnStatus: true)
-                        if (result != 0) {
-                            currentBuild.result = 'ABORTED'
-                                error('Stopping early…')
-                        }
+                    if (result != 0) {
+                        currentBuild.result = 'ABORTED'
+                        error('Stopping early…')
+                    }
                 }
             }
         }
@@ -71,15 +71,16 @@ pipeline {
             steps {
                 sh 'cppcheck owm-wrapper --enable=all -i build/ -i app/ \
                     --inconclusive --suppress=missingInclude --xml --xml-version=2 2> cppcheck.xml'
+                sh 'cd owm-wrapper && run-clang-tidy-9 -p build/'
             }
         }
     }
     post {
         always {
             cobertura coberturaReportFile: 'owm-wrapper/build/coverage.xml'
-                junit 'owm-wrapper/build/gtestresults.xml'
+            junit 'owm-wrapper/build/gtestresults.xml'
 
-                recordIssues enabledForFailure: true, tools: [gcc(), cppCheck(pattern: 'cppcheck.xml')]
+            recordIssues enabledForFailure: true, tools: [gcc(), cppCheck(pattern: 'cppcheck.xml'), clangTidy()]
         }
     }
 }
